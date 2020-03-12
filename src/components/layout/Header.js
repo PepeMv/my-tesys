@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
-import Box from '@material-ui/core/Box';
+import Box from "@material-ui/core/Box";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -14,7 +14,8 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(3),
+    marginLeft: theme.spacing(5)
   },
   title: {
     flexGrow: 1
@@ -41,23 +42,28 @@ function Header() {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
-            onClick={()=>handleAbrirMenu()}
+            onClick={() => handleAbrirMenu()}
           >
-            <MenuIcon fontSize="large"/>
+            <MenuIcon fontSize="large" />
           </IconButton>
-          <Typography variant="h5" className={classes.title} >
-          <Box fontWeight="fontWeightBold" m={1} fontSize={16} >
-            Re - TomaOs
-          </Box>
-            </Typography>
-          <Button color="inherit">
-            <Typography variant="h5" className={classes.title}>
-             Iniciar sesión          
-            </Typography>
-          </Button>          
+          <Typography variant="h5" className={classes.title}>
+            <Box fontWeight="fontWeightBold" m={1} fontSize={16}>
+              Re - TomaOs
+            </Box>
+          </Typography>
+          <Button variant="outlined" color="inherit">
+            <Typography variant="h5">Registrarse</Typography>
+          </Button>
+          <Button
+            variant="outlined"
+            color="inherit"
+            className={classes.menuButton}
+          >
+            <Typography variant="h5">Iniciar sesión</Typography>
+          </Button>
         </Toolbar>
       </AppBar>
-      <MenuLateral abrirmenu={abrirmenu} handleCerrarMenu={handleCerrarMenu}/>
+      <MenuLateral abrirmenu={abrirmenu} handleCerrarMenu={handleCerrarMenu} />
     </div>
   );
 }
