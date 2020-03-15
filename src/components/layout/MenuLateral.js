@@ -7,13 +7,8 @@ import CloseTwoTone from "@material-ui/icons/CloseTwoTone";
 import MenuLateralLogeado from "./MenuLateralLogeado";
 import MenuLateralNoLogeado from "./MenuLateralNoLogeado";
 
+
 const useStyles = makeStyles(theme => ({
-  list: {
-    width: 250
-  },
-  fullList: {
-    width: "auto"
-  },
   drawerHeader: {    
     display: "flex",
     alignItems: "center",
@@ -22,13 +17,18 @@ const useStyles = makeStyles(theme => ({
     justifyContent: "space-between",
     boxShadow: 3
   },
-  
+  drawerPaper: {
+    width: "auto",
+    [theme.breakpoints.up('sm')]: {
+      width: 250,
+    },
+  }, 
 }));
 
 function MenuLateral({ abrirmenu, handleCerrarMenu }) {
   const classes = useStyles();
 
-  const [logedo, setLogeado]=useState(false);
+  const [logedo, setLogeado]=useState(true);
 
   const toggleDrawer = () => event => {
     if (
@@ -43,8 +43,10 @@ function MenuLateral({ abrirmenu, handleCerrarMenu }) {
 
 
   return (
-    <div>
-      <SwipeableDrawer open={abrirmenu} onClose={toggleDrawer()}>      
+    <div >
+      <SwipeableDrawer open={abrirmenu ? abrirmenu : false } onClose={toggleDrawer()} onOpen={toggleDrawer()} classes={{
+              paper: classes.drawerPaper,
+            }}>      
         <div className={classes.drawerHeader}>        
           <div>
             Logo
