@@ -10,6 +10,7 @@ import Hidden from "@material-ui/core/Hidden";
 import MenuLateral from "./MenuLateral";
 import AvatarPersonalizado from "./AvatarPersonalizado";
 import { Menu, MenuItem } from "@material-ui/core";
+import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,25 +45,30 @@ function Header() {
   };
 
   const handleMenuClose = () => {
-    setAnchorEl(null);    
+    setAnchorEl(null);
   };
 
-  const menuId = 'primary-search-account-menu';
+  const menuId = "primary-search-account-menu";
   const renderMenuPerfil = (
     <Menu
       anchorEl={anchorEl}
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: "top", horizontal: "right" }}
       id={menuId}
       keepMounted
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      transformOrigin={{ vertical: "top", horizontal: "right" }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}> <Typography variant="h6">Mi Perfil</Typography> </MenuItem>
-      <MenuItem onClick={handleMenuClose}> <Typography variant="h6">Cerrar Sesión</Typography> </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        {" "}
+        <Typography variant="h6">Mi Perfil</Typography>{" "}
+      </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        {" "}
+        <Typography variant="h6">Cerrar Sesión</Typography>{" "}
+      </MenuItem>
     </Menu>
   );
-
 
   return (
     <div className={classes.root}>
@@ -78,19 +84,21 @@ function Header() {
             <MenuIcon fontSize="large" />
           </IconButton>
           <Typography variant="h5" className={classes.title}>
+            <Link to={'/'} >
             RE - TomaOs
+            </Link>            
           </Typography>
-          {logedo === true ? (         
+          {logedo === true ? (
             <IconButton
-            edge="end"
-            aria-label="account of current user"
-            aria-controls={menuId}
-            aria-haspopup="true"
-            onClick={handleProfileMenuOpen}
-            color="inherit"
-          >
-             <AvatarPersonalizado nombreAvatar="Pp" size="small" />
-          </IconButton>
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AvatarPersonalizado nombreAvatar="Pp" size="small" />
+            </IconButton>
           ) : (
             <Hidden xsDown>
               <Button color="primary" variant="contained">

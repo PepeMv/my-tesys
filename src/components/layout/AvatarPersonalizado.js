@@ -26,7 +26,8 @@ const useStyles = makeStyles(theme => ({
   },
   orangeS: {
     color: theme.palette.getContrastText(deepOrange[500]),
-    backgroundColor: deepOrange[500],width: theme.spacing(4),
+    backgroundColor: deepOrange[500],
+    width: theme.spacing(4),
     height: theme.spacing(4)
   }
 }));
@@ -38,11 +39,11 @@ function AvatarPersonalizado({ nombreAvatar, size }) {
     <div className={classes.root}>
       {nombreAvatar ? (
         size === "large" ? (
-          <Avatar className={(classes.orangeL)}>
+          <Avatar className={classes.orangeL}>
             <Typography variant="h3">{nombreAvatar}</Typography>
           </Avatar>
         ) : (
-          <Avatar className={(classes.orangeS )}>
+          <Avatar className={classes.orangeS}>
             <Typography variant="h6">{nombreAvatar}</Typography>
           </Avatar>
         )

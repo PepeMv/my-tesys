@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import Divider from "@material-ui/core/Divider";
 import { makeStyles } from "@material-ui/core/styles";
@@ -7,28 +7,28 @@ import CloseTwoTone from "@material-ui/icons/CloseTwoTone";
 import MenuLateralLogeado from "./MenuLateralLogeado";
 import MenuLateralNoLogeado from "./MenuLateralNoLogeado";
 
-
 const useStyles = makeStyles(theme => ({
-  drawerHeader: {    
+  drawerHeader: {
     display: "flex",
     alignItems: "center",
     padding: theme.spacing(0, 2),
     ...theme.mixins.toolbar,
     justifyContent: "space-between",
-    boxShadow: 3
+    boxShadow: 3,
   },
   drawerPaper: {
     width: "auto",
-    [theme.breakpoints.up('sm')]: {
-      width: 250,
-    },
-  }, 
+    position: 'relative',
+    [theme.breakpoints.up("sm")]: {
+      width: 250
+    }
+  }
 }));
 
 function MenuLateral({ abrirmenu, handleCerrarMenu }) {
   const classes = useStyles();
 
-  const [logedo, setLogeado]=useState(true);
+  const [logedo, setLogeado] = useState(true);
 
   const toggleDrawer = () => event => {
     if (
@@ -41,24 +41,25 @@ function MenuLateral({ abrirmenu, handleCerrarMenu }) {
     handleCerrarMenu();
   };
 
-
   return (
-    <div >
-      <SwipeableDrawer open={abrirmenu ? abrirmenu : false } onClose={toggleDrawer()} onOpen={toggleDrawer()} classes={{
-              paper: classes.drawerPaper,
-            }}>      
-        <div className={classes.drawerHeader}>        
-          <div>
-            Logo
-          </div>
-          <IconButton                     
-            onClick={() => handleCerrarMenu()}>
+    <div>
+      <SwipeableDrawer
+        open={abrirmenu ? abrirmenu : false}
+        onClose={toggleDrawer()}
+        onOpen={toggleDrawer()}
+        classes={{
+          paper: classes.drawerPaper
+        }}
+      >
+        <div className={classes.drawerHeader}>
+          <div>Logo</div>
+          <IconButton onClick={() => handleCerrarMenu()}>
             <CloseTwoTone />
-          </IconButton>          
+          </IconButton>
         </div>
         <Divider />
-        {logedo  ? <MenuLateralLogeado />  : <MenuLateralNoLogeado />}
-      </SwipeableDrawer>
+        {logedo ? <MenuLateralLogeado /> : <MenuLateralNoLogeado />}        
+      </SwipeableDrawer>      
     </div>
   );
 }
