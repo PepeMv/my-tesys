@@ -3,7 +3,7 @@ import MaterialTable from "material-table";
 import AddBox from "@material-ui/icons/AddBox";
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 import Edit from "@material-ui/icons/Edit";
-import { makeStyles, IconButton } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 
 const useStyles = makeStyles(theme => ({

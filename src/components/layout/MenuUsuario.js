@@ -1,6 +1,7 @@
 import React from 'react'
 import { List, ListItem, ListItemIcon, ListItemText, Typography, Divider } from '@material-ui/core'
 import uuid from "react-uuid";
+
 import PlayCircleOutlineTwoToneIcon from '@material-ui/icons/PlayCircleOutlineTwoTone';
 import FindInPageTwoToneIcon from '@material-ui/icons/FindInPageTwoTone';
 import BallotTwoToneIcon from '@material-ui/icons/BallotTwoTone';
@@ -10,6 +11,7 @@ import SupervisorAccountTwoToneIcon from '@material-ui/icons/SupervisorAccountTw
 import ExitToAppTwoToneIcon from "@material-ui/icons/ExitToAppTwoTone";
 import AssignmentTwoToneIcon from '@material-ui/icons/AssignmentTwoTone';
 import StoreMallDirectoryTwoToneIcon from '@material-ui/icons/StoreMallDirectoryTwoTone';
+import { Link } from 'react-router-dom';
 
 function MenuUsuario() {
     return (
@@ -19,7 +21,7 @@ function MenuUsuario() {
               <StoreMallDirectoryTwoToneIcon />
             </ListItemIcon>
             <ListItemText
-              primary={<Typography variant="h6">Restaurante</Typography>}
+              primary={<Typography variant="h6"> <Link to={'/restaurante'}> Restaurante </Link> </Typography>}
             />
           </ListItem>
           <Divider />
@@ -28,7 +30,7 @@ function MenuUsuario() {
               <PlayCircleOutlineTwoToneIcon />
             </ListItemIcon>
             <ListItemText
-              primary={<Typography variant="h6">Pedidos on live </Typography>}
+              primary={ <Typography variant="h6"> <Link to ={'/'} > Pedidos on live </Link> </Typography>}
             />
           </ListItem>
           <Divider />
@@ -56,7 +58,7 @@ function MenuUsuario() {
             </ListItemIcon>
             <ListItemText
               primary={
-                <Typography variant="h6">Productos</Typography>
+                <Typography variant="h6"> <Link to={'/productos'}> Productos </Link> </Typography>
               }
             />
           </ListItem>

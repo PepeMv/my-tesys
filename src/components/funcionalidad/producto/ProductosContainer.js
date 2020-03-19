@@ -1,13 +1,8 @@
 import React, { Fragment } from "react";
 import AppFrame from "../../layout/AppFrame";
-import { Grid,   makeStyles,  } from "@material-ui/core";
+import { Grid  } from "@material-ui/core";
 import Tabla from "../../layout/Tabla";
 
-const useStyles = makeStyles(theme => ({
-  paper: {
-    marginLeft: theme.spacing(5)
-  }
-}));
 
 function ProductosContainer() {
   const columns = [    

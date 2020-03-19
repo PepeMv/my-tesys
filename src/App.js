@@ -1,16 +1,20 @@
 import React from "react";
 import Header from "./components/layout/Header";
-import AppFrame from "./components/layout/AppFrame";
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import ProductosContainer from './components/funcionalidad/producto/ProductosContainer';
-import Tabla from "./components/layout/Tabla";
+import Restaurante from "./components/funcionalidad/restaurante/Restaurante";
+import ProductosContainer from "./components/funcionalidad/producto/ProductosContainer";
+
+
 
 function App() {
   return (
     <Router>
       <Header />
       <Switch>
-        <Route exact path="/"component = {ProductosContainer} />
+        <Route exact path="/"component = {Restaurante} />
+        {/* productos */}
+        <Route exact path="/productos"component = {ProductosContainer} />
+        <Route exact path="/restaurante"component = {Restaurante} />
       </Switch>      
     </Router>
   );
