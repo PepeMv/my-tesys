@@ -11,17 +11,18 @@ import SupervisorAccountTwoToneIcon from '@material-ui/icons/SupervisorAccountTw
 import ExitToAppTwoToneIcon from "@material-ui/icons/ExitToAppTwoTone";
 import AssignmentTwoToneIcon from '@material-ui/icons/AssignmentTwoTone';
 import StoreMallDirectoryTwoToneIcon from '@material-ui/icons/StoreMallDirectoryTwoTone';
-import { Link } from 'react-router-dom';
+import {  useHistory } from 'react-router-dom';
 
 function MenuUsuario() {
+  const history = useHistory();
     return (
         <List>
-          <ListItem button key={uuid()}>
+          <ListItem button key={uuid()} onClick={()=>history.push('/restaurante')} >
             <ListItemIcon>
               <StoreMallDirectoryTwoToneIcon />
             </ListItemIcon>
             <ListItemText
-              primary={<Typography variant="h6"> <Link to={'/restaurante'}> Restaurante </Link> </Typography>}
+              primary={<Typography variant="h6"> Restaurante </Typography>}
             />
           </ListItem>
           <Divider />
@@ -30,7 +31,7 @@ function MenuUsuario() {
               <PlayCircleOutlineTwoToneIcon />
             </ListItemIcon>
             <ListItemText
-              primary={ <Typography variant="h6"> <Link to ={'/'} > Pedidos on live </Link> </Typography>}
+              primary={ <Typography variant="h6">  Pedidos on live </Typography>}
             />
           </ListItem>
           <Divider />
@@ -52,13 +53,13 @@ function MenuUsuario() {
             />
           </ListItem>
           <Divider />
-          <ListItem button key={uuid()}>
+          <ListItem button key={uuid()}  onClick={()=>history.push('/productos')} >
             <ListItemIcon>
               <FastfoodTwoToneIcon />
             </ListItemIcon>
             <ListItemText
               primary={
-                <Typography variant="h6"> <Link to={'/productos'}> Productos </Link> </Typography>
+                <Typography variant="h6">  Productos  </Typography>
               }
             />
           </ListItem>

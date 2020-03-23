@@ -8,7 +8,7 @@ import { Box } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(2),
     margin: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary
@@ -34,7 +34,7 @@ function AppFrame({ titulo, body }) {
                 </Box>
               </Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} >
                 {body}
             </Grid>
           </Grid>

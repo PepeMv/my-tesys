@@ -16,9 +16,7 @@ import uuid from "react-uuid";
 import BotonSelectFile from "../FileUploader/BotonSelectFile";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1
-  },
+  
   resize: {
     fontSize: 12
   },
@@ -61,23 +59,26 @@ function Restaurante() {
   };
 
   const actualizarRestauranteImgs = e => {
-    setRestaurante({
-      ...restaurante,
-      [e.target.name]: Array.from(e.target.files)      
-    });
-    //console.log((e.target.files[0]));
-    //console.log(e.target.files[0]);
-    if (e.target.name === "logo") {
-      setUrlLogo(URL.createObjectURL(e.target.files[0]));
-    } else if (e.target.name === "img1") {
-      setUrlImg1(URL.createObjectURL(e.target.files[0]));
-    }else if (e.target.name === "img2") {
-      setUrlImg2(URL.createObjectURL(e.target.files[0]));
-    }else if (e.target.name === "img3") {
-      setUrlImg3(URL.createObjectURL(e.target.files[0]));
-    }else if (e.target.name === "img4") {
-      setUrlImg4(URL.createObjectURL(e.target.files[0]));
+    if(e.target.files[0]){
+      setRestaurante({
+        ...restaurante,
+        [e.target.name]: Array.from(e.target.files)      
+      });
+      //console.log((e.target.files[0]));
+      //console.log(e.target.files[0]);
+      if (e.target.name === "logo") {
+        setUrlLogo(URL.createObjectURL(e.target.files[0]));
+      } else if (e.target.name === "img1") {
+        setUrlImg1(URL.createObjectURL(e.target.files[0]));
+      }else if (e.target.name === "img2") {
+        setUrlImg2(URL.createObjectURL(e.target.files[0]));
+      }else if (e.target.name === "img3") {
+        setUrlImg3(URL.createObjectURL(e.target.files[0]));
+      }else if (e.target.name === "img4") {
+        setUrlImg4(URL.createObjectURL(e.target.files[0]));
+      }
     }
+    
     /* console.log(producto); */
   };
 
