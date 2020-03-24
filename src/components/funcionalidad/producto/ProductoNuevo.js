@@ -1,12 +1,19 @@
-import React, { Fragment, useState } from "react";
-import {
-  Formulario  
-} from "./../../layout/Formulario";
+import React, {  useState } from "react";
+import { Formulario } from "./../../layout/Formulario";
 import AppFrame from "../../layout/AppFrame";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import uuid from "react-uuid";
-import { Grid, Typography, MenuItem, Button } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  MenuItem,
+  Button,
+  Icon,
+  Avatar,
+  Paper
+} from "@material-ui/core";
+import BotonSelectFile from "../FileUploader/BotonSelectFile";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,6 +21,13 @@ const useStyles = makeStyles(theme => ({
   },
   resize: {
     fontSize: 12
+  },
+  paper: {
+    alignContent:'center',
+    maxWidth: 400,
+    margin: `auto`,
+    padding: theme.spacing(0.2),
+    backgroundColor: "#cfe8fc"
   }
 }));
 
@@ -23,7 +37,7 @@ function ProductoNuevo() {
       ...producto,
       [e.target.name]: e.target.value
     });
-    console.log(producto);
+    //console.log(producto);
   };
 
   const [producto, setProducto] = useState({
@@ -34,6 +48,8 @@ function ProductoNuevo() {
     aplica_iva: "",
     id_categoria: ""
   });
+  const [imgurl, setImgUrl] = useState('');
+
   const {
     nombre,
     descripcion,
@@ -63,12 +79,28 @@ function ProductoNuevo() {
       label: "¥"
     }
   ];
+
+  const actualizarProductoImgs = e => {
+    if(e.target.files[0]){
+      setProducto({
+        ...producto,
+        [e.target.name]: Array.from(e.target.files)      
+      });
+      //console.log((e.target.files[0]));
+      //console.log(e.target.files[0]);
+      
+        setImgUrl(URL.createObjectURL(e.target.files[0]));
+      
+    }
+    
+    /* console.log(producto); */
+  };
   const renderBody = () => (
     <Formulario>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
-          helperText="* "
+            helperText="* "
             id="nombre"
             name="nombre"
             value={nombre}
@@ -90,7 +122,7 @@ function ProductoNuevo() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
-          helperText="* "
+            helperText="* "
             id="precio"
             name="precio"
             value={precio}
@@ -140,7 +172,7 @@ function ProductoNuevo() {
           </TextField>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField            
+          <TextField
             select
             id="aplica_iva"
             name="aplica_iva"
@@ -170,21 +202,31 @@ function ProductoNuevo() {
           </TextField>
         </Grid>
         {/* tercera fila  */}
-        <Grid item xs={12} sm={6}>
-          <TextField
-            id="imagen"
-            name="imagen"
-            value={imagen}
-            onChange={actualizarProducto}
-            label={<Typography variant="h4"> Elige una imagen </Typography>}
-            style={{ margin: 10 }}
-            type="file"
-            accept="image/*"
-            fullWidth
-            InputLabelProps={{
-              shrink: true
-            }}
-          />
+        <Grid item xs={12} sm={6}  >
+        <Paper elevation={2} className={classes.paper} >
+          <Typography variant="h5" align='left'> Imagen  </Typography>
+            <Grid container wrap="nowrap" spacing={1}  alignItems='center' justify= 'space-evenly'>
+              <Grid item >
+                {imgurl ? <Avatar src={imgurl} /> : <Avatar>SF</Avatar>}
+              </Grid>
+              <Grid item  >
+              
+                <BotonSelectFile
+                  id="imagen"
+                  name="imagen"
+                  value={imagen}
+                  multiple={false}                  
+                  onChange={actualizarProductoImgs}
+                  button={
+                    <Button variant="outlined" color="default">
+                      Subir Imagen
+                      <Icon style={{ marginLeft: 7 }}>cloud_upload</Icon>
+                    </Button>
+                  }
+                />                
+              </Grid>
+            </Grid>
+          </Paper>
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -195,6 +237,7 @@ function ProductoNuevo() {
             label={<Typography variant="h4"> Descripción </Typography>}
             style={{ margin: 10 }}
             fullWidth
+            multiline
             InputLabelProps={{
               shrink: true
             }}
@@ -203,12 +246,12 @@ function ProductoNuevo() {
         {/* botones  */}
         <Grid item xs={12} sm={6}>
           <Button variant="contained" color="primary" fullWidth>
-          <Typography variant="h5"> Guardar </Typography>
-          </Button>         
+            <Typography variant="h5"> Guardar </Typography>
+          </Button>
         </Grid>
         <Grid item xs={12} sm={6}>
-        <Button variant="outlined" color="primary" fullWidth>
-        <Typography variant="h5"> Cancelar </Typography>
+          <Button variant="outlined" color="primary" fullWidth>
+            <Typography variant="h5"> Cancelar </Typography>
           </Button>
         </Grid>
       </Grid>

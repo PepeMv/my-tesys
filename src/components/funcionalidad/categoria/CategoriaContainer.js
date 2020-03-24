@@ -17,7 +17,7 @@ const columns = [
     <Fragment>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Tabla titulo="Categorias" columnas={columns} datos={data} activable={false} ancho='50%' />
+          <Tabla titulo="categorias" columnas={columns} datos={data} activable={false} ancho='50%' />
         </Grid>
       </Grid>
     </Fragment>

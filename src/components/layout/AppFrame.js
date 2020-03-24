@@ -21,7 +21,7 @@ function AppFrame({ titulo, body }) {
   return (
     <Fragment>
       <CssBaseline />
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         <Typography
           component="div"
           style={{ backgroundColor: "#cfe8fc", height: "100%" }}

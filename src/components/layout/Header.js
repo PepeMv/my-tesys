@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, fade } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -21,7 +21,8 @@ const useStyles = makeStyles(theme => ({
   },
   title: {
     flexGrow: 1
-  }
+  },
+  
 }));
 
 function Header() {
@@ -87,7 +88,8 @@ function Header() {
             <Link to={'/'} >
             RE - TomaOs
             </Link>            
-          </Typography>
+          </Typography>         
+
           {logedo === true ? (
             <IconButton
               edge="end"

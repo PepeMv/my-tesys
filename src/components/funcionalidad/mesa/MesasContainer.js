@@ -73,11 +73,12 @@ const MesasContainer = () => {
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Tabla
-            titulo="Categorias"
+            titulo="mesas"
             columnas={columns}
             datos={data}
             activable={false}
             ancho="60%"
+
           />
         </Grid>
       </Grid>

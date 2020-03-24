@@ -6,7 +6,7 @@ import Tabla from "../../layout/Tabla";
 
 function ProductosContainer() {
   const columns = [    
-    { title: 'Avatar', field: "img", render: rowData => <img alt='avatar' src={rowData.img} style={{width: 50, borderRadius: '30%'}}/> },
+    { title: 'Avatar', field: "img", render: rowData => <img alt='avatar' src={rowData.img} style={{width: 50, borderRadius: '30%'}}/> , filtering: false},
     { title: "id", field: "id" },
     { title: "nombre", field: "nombre" },
     { title: "precio", field: "precio", type: "numeric" },
@@ -24,7 +24,7 @@ function ProductosContainer() {
     <Fragment>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Tabla titulo="Productos" columnas={columns} datos={data} activable={true} ancho='90%'/>
+          <Tabla titulo="productos" columnas={columns} datos={data} activable={true} ancho='90%'/>
         </Grid>
       </Grid>
     </Fragment>

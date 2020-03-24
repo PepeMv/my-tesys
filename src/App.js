@@ -7,6 +7,9 @@ import CategoriaContainer from "./components/funcionalidad/categoria/CategoriaCo
 import NuevaCategoria from "./components/funcionalidad/categoria/NuevaCategoria";
 import MesasContainer from "./components/funcionalidad/mesa/MesasContainer";
 import MesaNueva from "./components/funcionalidad/mesa/MesaNueva";
+import ProductoNuevo from "./components/funcionalidad/producto/ProductoNuevo";
+import UsuariosContainer from "./components/funcionalidad/usuario/UsuariosContainer";
+import UsuarioNuevo from "./components/funcionalidad/usuario/UsuarioNuevo";
 
 
 
@@ -15,10 +18,21 @@ function App() {
     <Router>
       <Header />
       <Switch>
-        <Route exact path="/"component = {MesaNueva} />
+        <Route exact path="/"component = {UsuarioNuevo} />
         {/* productos */}
         <Route exact path="/productos"component = {ProductosContainer} />
+        <Route exact path="/productos/nuevo"component = {ProductoNuevo} />
+        {/* Restaurante */}
         <Route exact path="/restaurante"component = {Restaurante} />
+        {/* categorias */}
+        <Route exact path="/categorias" component ={ CategoriaContainer} />
+        <Route exact path="/categorias/nuevo" component ={ NuevaCategoria} />
+        {/* mesas */}
+        <Route exact path="/mesas" component ={ MesasContainer} />
+        <Route exact path="/mesas/nuevo" component ={ MesaNueva} />
+        {/* usuarios */}
+        <Route exact path="/usuarios" component ={ UsuariosContainer} />
+        <Route exact path="/usuarios/nuevo" component ={ UsuarioNuevo} />        
       </Switch>      
     </Router>
   );

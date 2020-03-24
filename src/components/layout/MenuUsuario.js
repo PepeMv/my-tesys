@@ -44,7 +44,7 @@ function MenuUsuario() {
             />
           </ListItem>
           <Divider />          
-          <ListItem button key={uuid()}>
+          <ListItem button key={uuid()} onClick={()=>history.push('/categorias')}>
             <ListItemIcon>
               <BallotTwoToneIcon />
             </ListItemIcon>
@@ -64,7 +64,7 @@ function MenuUsuario() {
             />
           </ListItem>
           <Divider />         
-          <ListItem button key={uuid()}>
+          <ListItem button key={uuid()} onClick={()=>history.push('/mesas')}>
             <ListItemIcon>
               <HowToVoteTwoToneIcon />
             </ListItemIcon>
@@ -73,7 +73,7 @@ function MenuUsuario() {
             />
           </ListItem>
           <Divider />
-          <ListItem button key={uuid()}>
+          <ListItem button key={uuid()} onClick={()=>history.push('/usuarios')}>
             <ListItemIcon>
               <SupervisorAccountTwoToneIcon />
             </ListItemIcon>

@@ -7,6 +7,8 @@ import { makeStyles } from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
+import {  useHistory } from 'react-router-dom';
+
 const useStyles = makeStyles(theme => ({
   paper: {
     padding: theme.spacing(1),
@@ -23,14 +25,14 @@ const useStyles = makeStyles(theme => ({
 
 
 function Tabla({ titulo, columnas, datos, activable, ancho }) {
- 
+  const history = useHistory();
   const classes = useStyles();
   const [columnastabla, setColumnasTabla] = useState([]);
   const [datostabla, setDatosTabla] = useState([]);
 
   let w = '';
   if (useMediaQuery(theme => theme.breakpoints.down('sm'))){
-     w = '90%';
+     w = '95%';
   }else{
      w = ancho;
   }
@@ -65,7 +67,15 @@ function Tabla({ titulo, columnas, datos, activable, ancho }) {
         ]} */
         localization={{
           pagination: {
-            labelRowsSelect: "Filas"
+            firstAriaLabel: "Filas",
+            labelRowsSelect: "Filas",
+            firstTooltip:"Primera Página",
+            previousAriaLabel:"Página Anterior",
+            previousTooltip:"Página Anterior",
+            nextAriaLabel:"Página Siguiente",
+            nextTooltip:"Página Siguiente",
+            lastAriaLabel:"Ultima Página",
+            lastTooltip:"Ultima Página"
           },
           toolbar: {
             searchTooltip: "Buscar ",
@@ -112,7 +122,7 @@ function Tabla({ titulo, columnas, datos, activable, ancho }) {
             icon: () => <AddBox fontSize="large" color='primary'/> ,
             tooltip: "Agregar nuevo",
             isFreeAction: true,
-            onClick: event => alert("You want to add a new row")
+            onClick:()=>history.push(`/${titulo}/nuevo`)
           },          
         ]}
         options={{
