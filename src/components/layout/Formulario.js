@@ -6,8 +6,8 @@ export const Formulario = styled.div`
     margin: 0.5rem auto 0 auto;
     border: 2px solid #ff5722;
     border-radius: 10px;
-    font-size: 1.2rem;
-    padding: 4rem;    
+    font-size: 1.5rem;
+    padding: 2rem;    
     text-align: center;
 `;
 

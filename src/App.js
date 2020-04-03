@@ -10,6 +10,8 @@ import MesaNueva from "./components/funcionalidad/mesa/MesaNueva";
 import ProductoNuevo from "./components/funcionalidad/producto/ProductoNuevo";
 import UsuariosContainer from "./components/funcionalidad/usuario/UsuariosContainer";
 import UsuarioNuevo from "./components/funcionalidad/usuario/UsuarioNuevo";
+import Home from "./components/funcionalidad/home/Home";
+import ReaderQr from "./components/funcionalidad/home/ReaderQr";
 
 
 
@@ -18,7 +20,7 @@ function App() {
     <Router>
       <Header />
       <Switch>
-        <Route exact path="/"component = {UsuarioNuevo} />
+        <Route exact path="/"component = {Home} />
         {/* productos */}
         <Route exact path="/productos"component = {ProductosContainer} />
         <Route exact path="/productos/nuevo"component = {ProductoNuevo} />

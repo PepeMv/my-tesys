@@ -78,7 +78,6 @@ const MesasContainer = () => {
             datos={data}
             activable={false}
             ancho="60%"
-
           />
         </Grid>
       </Grid>
