@@ -4,7 +4,7 @@ import uuid from "react-uuid";
 import RestaurantTwoToneIcon from "@material-ui/icons/RestaurantTwoTone";
 import ExitToAppTwoToneIcon from "@material-ui/icons/ExitToAppTwoTone";
 import ContactsTwoToneIcon from "@material-ui/icons/ContactsTwoTone";
-
+import StorageTwoToneIcon from '@material-ui/icons/StorageTwoTone';
 
 function MenuCliente() {
     return (
@@ -15,6 +15,15 @@ function MenuCliente() {
             </ListItemIcon>
             <ListItemText
               primary={<Typography variant="h6">Mi Perfil</Typography>}
+            />
+          </ListItem>
+          <Divider />
+          <ListItem button key={uuid()}>
+            <ListItemIcon>
+              <StorageTwoToneIcon />
+            </ListItemIcon>
+            <ListItemText
+              primary={<Typography variant="h6">Mis Datos de Facturación</Typography>}
             />
           </ListItem>
           <Divider />

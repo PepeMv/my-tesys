@@ -12,6 +12,8 @@ import UsuariosContainer from "./components/funcionalidad/usuario/UsuariosContai
 import UsuarioNuevo from "./components/funcionalidad/usuario/UsuarioNuevo";
 import Home from "./components/funcionalidad/home/Home";
 import ReaderQr from "./components/funcionalidad/home/ReaderQr";
+import DatosDeFacturacion from "./components/funcionalidad/usuario/DatosDeFacturacion";
+import DatosFacturacionContainer from "./components/funcionalidad/usuario/DatosFacturacionContainer";
 
 
 
@@ -34,7 +36,10 @@ function App() {
         <Route exact path="/mesas/nuevo" component ={ MesaNueva} />
         {/* usuarios */}
         <Route exact path="/usuarios" component ={ UsuariosContainer} />
-        <Route exact path="/usuarios/nuevo" component ={ UsuarioNuevo} />        
+        <Route exact path="/usuarios/nuevo" component ={ UsuarioNuevo} />
+        {/* datos factiracion */}        
+        <Route exact path="/datosFacturacion" component ={ DatosFacturacionContainer} />
+        <Route exact path="/datosFacturacion/nuevo" component ={ DatosDeFacturacion} />
       </Switch>      
     </Router>
   );

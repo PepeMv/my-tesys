@@ -1,65 +1,50 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import AppFrame from "../../layout/AppFrame";
 import { Formulario } from "../../layout/Formulario";
-import {
-  Grid,
-  TextField,
-  Typography,
-  makeStyles,
-  Input,
-  InputAdornment,
-  IconButton,
-  MenuItem,
-  Button
-} from "@material-ui/core";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { Grid, TextField, Typography, makeStyles, MenuItem, Button } from "@material-ui/core";
 import uuid from "react-uuid";
 
 const useStyles = makeStyles(theme => ({
-  resize: {
-    fontSize: 12
-  }
+   
+    resize: {
+      fontSize: 12,      
+    },
 }));
 
-const UsuarioNuevo = () => {
-  const [usuario, setUsuario] = useState({
-    id: "",
-    nombre: "",
-    apellido: "",
-    cedula: "",
-    password: "",
-    email: "",
-    direccion: "",
-    telefono: "",
-    tipo: "",
-    tipo_ducumento:''
-  });
+const DatosDeFacturacion = () => {
 
-  const {
-    id,
-    nombre,
-    apellido,
-    cedula,
-    password,
-    email,
-    direccion,
-    telefono,
-    tipo,
-    tipo_ducumento
-  } = usuario;
-  const actualizarUsuario = e => {
-    setUsuario({
-      ...usuario,
-      [e.target.name]: e.target.value
-    });
-    //console.log(producto);
-  };
-  const handleMouseDownPassword = event => {
-    event.preventDefault();
-  };
-  const classes = useStyles();
-  const [showPassword, setShowPassword] = useState(false);
+    const [datosfacturacion, setDatosFacturacion] = useState({
+        id: "",
+        nombre: "",
+        apellido: "",
+        tipo_ducumento:'',
+        cedula: "",        
+        email: "",
+        direccion: "",
+        id_cliente   :''             
+      });
+    
+      const {
+        id,
+        nombre,
+        apellido,
+        tipo_ducumento,
+        cedula,        
+        email,
+        direccion,
+        id_cliente
+        
+      } = datosfacturacion;
+
+      const actualizarUsuario = e => {
+        setDatosFacturacion({
+          ...datosfacturacion,
+          [e.target.name]: e.target.value
+        });
+        //console.log(producto);
+      };
+
+    const classes = useStyles();
   const renderBody = () => (
     <Formulario>
       <Grid container spacing={3}>
@@ -110,7 +95,7 @@ const UsuarioNuevo = () => {
         <Grid item xs={12} sm={6}>
           <TextField
             select
-            helperText="* "
+            helperText="* Seleciona "
             id="tipo_ducumento"
             name="tipo_ducumento"
             value={tipo_ducumento}
@@ -184,37 +169,8 @@ const UsuarioNuevo = () => {
             }}
           />
         </Grid>
+        
         <Grid item xs={12} sm={6}>
-          <Typography
-            htmlFor="password"
-            variant="h5"
-            color="textSecondary"
-            aling="left"
-          >
-            Password
-          </Typography>
-          <Input
-            fullWidth
-            id="password"
-            name="password"
-            style={{ margin: 3 }}
-            type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={actualizarUsuario}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={() => setShowPassword(!showPassword)}
-                  onMouseDown={handleMouseDownPassword}
-                >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </Grid>
-        <Grid item xs={12}>
           <TextField
             helperText="* "
             id="direccion"
@@ -235,58 +191,7 @@ const UsuarioNuevo = () => {
               shrink: true
             }}
           />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            helperText="* "
-            id="telefono"
-            name="telefono"
-            value={telefono}
-            onChange={actualizarUsuario}
-            label={<Typography variant="h4"> Telefono </Typography>}
-            style={{ margin: 3 }}
-            placeholder="Ej. 0999999999"
-            fullWidth
-            margin="normal"
-            InputProps={{
-              classes: {
-                input: classes.resize
-              }
-            }}
-            InputLabelProps={{
-              shrink: true
-            }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            select
-            id="tipo"
-            name="tipo"
-            value={tipo}
-            onChange={actualizarUsuario}
-            label={<Typography variant="h4"> Tipo </Typography>}
-            style={{ margin: 3 }}
-            helperText="* Seleciona.."
-            fullWidth
-            margin="normal"
-            InputProps={{
-              classes: {
-                input: classes.resize
-              }
-            }}
-            InputLabelProps={{
-              shrink: true
-            }}
-          >
-            <MenuItem key={uuid()} value="usuario">
-              Usuario
-            </MenuItem>
-            <MenuItem key={uuid()} value="cliente">
-              Cliente
-            </MenuItem>
-          </TextField>
-        </Grid>
+        </Grid>       
         <Grid item xs={12} sm={6}>
           <Button variant="contained" color="primary" fullWidth>
             <Typography variant="h5"> Guardar </Typography>
@@ -299,9 +204,9 @@ const UsuarioNuevo = () => {
         </Grid>
       </Grid>
     </Formulario>
-  );
+      );
 
-  return <AppFrame titulo="Nuevo Usuario" body={renderBody()} />;
+  return <AppFrame titulo="Nuevos datos de facturación" body={renderBody()} />;
 };
 
-export default UsuarioNuevo;
+export default DatosDeFacturacion;
