@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formulario } from "./../../layout/Formulario";
 import AppFrame from "../../layout/AppFrame";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,7 +17,7 @@ import {
 import BotonSelectFile from "../FileUploader/BotonSelectFile";
 import { alerta } from "./../../layout/AlertaCRUD";
 //reux actions
-import { insertarProductoAction } from "./../../../actions/productosActions";
+import { editarProductoAction, } from "./../../../actions/productosActions";
 import { useHistory } from "react-router-dom";
 import Spinner from "../../layout/Spinner";
 const useStyles = makeStyles((theme) => ({
@@ -36,18 +36,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProductoNuevo() {
+function EditarProducto() {
   const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
   const loading = useSelector((state) => state.productos.loading);
   const cate = useSelector((state) => state.categorias.listadoCategorias);
-
+  const productoEditar = useSelector((state) => state.productos.productoEditar);
+  const imagenEditar = useSelector((state)=> state.productos.imagenes.find(item => item.id === productoEditar.id));
   const actualizarProducto = (e) => {
     setProducto({
       ...producto,
       [e.target.name]: e.target.value,
     });
+    
   };
 
   const [producto, setProducto] = useState({
@@ -56,12 +58,18 @@ function ProductoNuevo() {
     precio: "",
     imagen: "",
     aplica_iva: 1,
-    id_categoria: "",
+    idCategoria: "",
+    activo:1
   });
+
+  useEffect(() => {
+    setProducto(productoEditar);
+    setImgUrl(imagenEditar.url);
+  }, [productoEditar, imagenEditar]);
 
   const [imgurl, setImgUrl] = useState("");
 
-  const { nombre, descripcion, precio, imagen, id_categoria } = producto;
+  const { nombre, descripcion, precio, imagen, idCategoria } = producto;
 
   const actualizarProductoImgs = (e) => {
     if (e.target.files[0]) {
@@ -93,7 +101,7 @@ function ProductoNuevo() {
     texto: "*",
   });
 
-  const submitInsertarProducto = () => {
+  const submitEditarProducto = () => {
     if (nombre.trim() === "") {
       setErrorNombre({
         error: true,
@@ -104,7 +112,7 @@ function ProductoNuevo() {
         error: true,
         texto: "El precio es requerido",
       });
-    } else if (id_categoria.toString().trim() === "") {
+    } else if (idCategoria.toString().trim() === "") {
       setErrorCategoria({
         error: true,
         texto: "La categoria es requerida",
@@ -134,7 +142,7 @@ function ProductoNuevo() {
         texto: "*",
       });
       //distpach
-      dispatch(insertarProductoAction(producto));
+      dispatch(editarProductoAction(producto));
       history.goBack();
     }    
   };
@@ -193,11 +201,12 @@ function ProductoNuevo() {
         <Grid item xs={12} sm={6}>
           <TextField
             select
+            
             helperText={errorcategoria.texto}
             error={errorcategoria.error}
-            id="id_categoria"
-            name="id_categoria"
-            value={id_categoria}
+            id="idCategoria"
+            name="idCategoria"
+            value={idCategoria}
             onChange={actualizarProducto}
             label={<Typography variant="h4"> Categoria </Typography>}
             style={{ margin: 10 }}
@@ -276,7 +285,7 @@ function ProductoNuevo() {
             variant="contained"
             color="primary"
             fullWidth
-            onClick={() => submitInsertarProducto()}
+            onClick={() => submitEditarProducto()}
           >
             <Typography variant="h5"> Guardar </Typography>
           </Button>
@@ -295,7 +304,7 @@ function ProductoNuevo() {
     </Formulario>
   );
 
-  return <AppFrame titulo="Nuevo Producto" body={renderBody()} />;
+  return <AppFrame titulo="Editar Producto" body={renderBody()} />;
 }
 
-export default ProductoNuevo;
+export default EditarProducto;

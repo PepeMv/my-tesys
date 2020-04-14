@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import uuid from "react-uuid";
+import { useDispatch, useSelector } from "react-redux";
 import {
   List,
   ListSubheader,
@@ -11,99 +12,93 @@ import {
   Divider,
   Hidden,
   Collapse,
-  useMediaQuery
+  useMediaQuery,
 } from "@material-ui/core";
 import KeyboardArrowRightSharpIcon from "@material-ui/icons/KeyboardArrowRightSharp";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import ListaProductos from "./ListaProductos";
+import { obtenerCategoriasAction } from "../../../actions/categoriasActions";
+import { Alert, Skeleton } from "@material-ui/lab";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.background.paper,
   },
   nested: {
-    paddingLeft: theme.spacing(4)
+    paddingLeft: theme.spacing(4),
   },
   encabezadoMenu: {
-    backgroundColor: "#ff5722",
+    backgroundColor: "#1976D2",
     padding: theme.spacing(1.5),
-    color: "#D1D1D1"
+    color: "#D1D1D1",
   },
   menuContenido: {
     color: "#000",
     paddingLeft: theme.spacing(5),
-    padding: theme.spacing(2)
-  }
+    padding: theme.spacing(2),
+  },
 }));
 
-const ListaMenu = ({ setIdCategoriaSeleccionada,  handleOpen,  setProductoSelecionado }) => {
+const ListaMenu = ({
+  setIdCategoriaSeleccionada,
+  handleOpen,
+  setProductoSelecionado,
+}) => {
+  const cate = useSelector((state) =>
+    state.categorias.listadoCategorias.filter(
+      (categoria) => categoria.activo !== 0
+    )
+  );
+
   const classes = useStyles();
   const [categoriaSelecionada, setCategoriaSeleccionada] = useState({
     id: "",
-    nombre: ""
+    nombre: "",
   });
 
   useEffect(() => {
-    // Actualiza el título del documento usando la API del navegador
-    setIdCategoriaSeleccionada({
-      id: cate[0].id,
-      nombre: cate[0].nombre
-    });
-    setCategoriaSeleccionada({
-      id: cate[0].id,
-      nombre: cate[0].nombre
-    });   
-    
+
   }, []);
 
 
-  const [settings, setSettings ]= useState([
-   /*  { id: "1", abierto: false },
-    { id: "3", abierto: false },
-    { id: "4", abierto: false },
-    { id: "5", abierto: false },
-    { id: "2", abierto: false }, */
-  ]);
-  const [cate, setCate] = useState([
-    { id: "1", nombre: "Bebidas" },
-    { id: "2", nombre: "Almuerzos" },
-    { id: "3", nombre: "Promociones" },
-    { id: "4", nombre: "Mariscos" },
-    { id: "5", nombre: "Especiales" }
+  const [settings, setSettings] = useState([   
   ]);
 
   const cambiarIdCategoriaSelecionada = (id, nombre) => {
     setIdCategoriaSeleccionada({
       id,
-      nombre
+      nombre,
     });
     setCategoriaSeleccionada({
       id,
-      nombre
+      nombre,
     });
     if (mdSize) {
       handleClick(id);
     }
   };
 
-  const addSettings = (idCategoria) =>{
-    setSettings([
-      ...settings, 
-      {id: idCategoria, abierto:false}
-    ]);
-  }
+  const addSettings = (idCategoria) => {
+    setSettings([...settings, { id: idCategoria, abierto: false }]);
+  };
   const handleClick = (id) => {
-    setSettings(settings.map(item => item.id === id ? {...item, abierto: !item.abierto } : {...item, abierto: false} ));
+    setSettings(
+      settings.map((item) =>
+        item.id === id
+          ? { ...item, abierto: !item.abierto }
+          : { ...item, abierto: false }
+      )
+    );
     //console.log(arrayConf);
-    //console.log((configuracionesOpen.find(item => item.id === id )).abierto);    
+    //console.log((configuracionesOpen.find(item => item.id === id )).abierto);
   };
 
-  const getOpenValue=(id)=>((settings.find(item => item.id === id )).abierto);
+  const getOpenValue = (id) => settings.find((item) => item.id === id).abierto;
 
   let mdSize = null;
-  if (useMediaQuery(theme => theme.breakpoints.down("md"))) {
+  if (useMediaQuery((theme) => theme.breakpoints.down("md"))) {
     mdSize = true;
   } else {
     mdSize = false;
@@ -122,7 +117,6 @@ const ListaMenu = ({ setIdCategoriaSeleccionada,  handleOpen,  setProductoSeleci
           color="primary"
           className={classes.encabezadoMenu}
         >
-          
           <Typography variant="h4">
             <Box fontWeight="fontWeightBold" m={1}>
               Menú
@@ -133,56 +127,104 @@ const ListaMenu = ({ setIdCategoriaSeleccionada,  handleOpen,  setProductoSeleci
       }
       className={classes.root}
     >
-      {cate.map(categoria => (
-        <div key={uuid()}>
-           {
-              settings.find(item => item.id === categoria.id) === undefined ? ( addSettings(categoria.id), indicador=false  ):( indicador=getOpenValue(categoria.id))
-            } 
+      {cate.length !== 0 ? (
+        cate.map((categoria) => (
+          <div key={uuid()}>
+            {settings.find((item) => item.id === categoria.id) === undefined
+              ? (addSettings(categoria.id), (indicador = false))
+              : (indicador = getOpenValue(categoria.id))}
             <Divider />
-          <ListItem
-            button
-            className={classes.menuContenido}
-            onClick={() => {
-              cambiarIdCategoriaSelecionada(categoria.id, categoria.nombre);
-            }}
-          >
-                     
-            <ListItemText
-              primary={
-                <Typography variant="h5">                  
-                  <Box fontWeight="fontWeightBold">                    
-                    {categoria.nombre}
-                  </Box>
-                </Typography>
-              }
-            />
-            <Hidden smDown>
-              <KeyboardArrowRightSharpIcon fontSize="large" />
-            </Hidden>
-            
+            <ListItem
+              button
+              className={classes.menuContenido}
+              onClick={() => {
+                cambiarIdCategoriaSelecionada(categoria.id, categoria.nombre);
+              }}
+            >
+              <ListItemText
+                primary={
+                  <Typography variant="h5">
+                    <Box fontWeight="fontWeightBold">{categoria.nombre}</Box>
+                  </Typography>
+                }
+              />
+              <Hidden smDown>
+                <KeyboardArrowRightSharpIcon fontSize="large" />
+              </Hidden>
+
+              <Hidden mdUp>
+                {indicador ? (
+                  <ExpandLess fontSize="large" />
+                ) : (
+                  <ExpandMore fontSize="large" />
+                )}
+              </Hidden>
+            </ListItem>
+            <Divider />
             <Hidden mdUp>
-             
-              {indicador ? 
-              (
-                <ExpandLess fontSize="large" />
-              ) : (
-                <ExpandMore fontSize="large" />
-              )}
+              {mdSize ? (
+                categoria.id === categoriaSelecionada.id ? (
+                  <Collapse
+                    in={getOpenValue(categoria.id)}
+                    timeout="auto"
+                    unmountOnExit
+                  >
+                    <ListaProductos
+                      idcategoriaselecionada={categoriaSelecionada}
+                      mostrarEncabezado={false}
+                      handleOpen={handleOpen}
+                      setProductoSelecionado={setProductoSelecionado}
+                    />
+                  </Collapse>
+                ) : null
+              ) : null}
             </Hidden>
-          </ListItem>
-          <Divider />
-          <Hidden mdUp>
-          {mdSize ? (
-            categoria.id === categoriaSelecionada.id ? (
-              <Collapse in={getOpenValue(categoria.id)} timeout="auto" unmountOnExit>                
-                  <ListaProductos idcategoriaselecionada={categoriaSelecionada} mostrarEncabezado={false} handleOpen={handleOpen} setProductoSelecionado={setProductoSelecionado}/>                 
-              </Collapse>
-            ) : null
-          ) : null}
-          </Hidden>
-          
+          </div>
+        ))
+      ) : (
+        <div>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="130px"
+            />
+          </Box>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="130px"
+            />
+          </Box>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="130px"
+            />
+          </Box>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="130px"
+            />
+          </Box>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="130px"
+            />
+          </Box>
         </div>
-      ))}
+      )}
     </List>
   );
 };

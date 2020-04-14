@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppFrame from "../../layout/AppFrame";
 import { Formulario } from "../../layout/Formulario";
 import { useHistory } from "react-router-dom";
@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 //redux
-import { insertarCategoriaAction } from "./../../../actions/categoriasActions";
+import { editarCategoriaAction } from "./../../../actions/categoriasActions";
 import Spinner from "../../layout/Spinner";
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -19,15 +19,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NuevaCategoria = () => {
+const EditarCategoria = () => {
+  //tomo la cetgoria a editar
   const loading = useSelector((state) => state.categorias.loading);
+  const categoriaEditar = useSelector(
+    (state) => state.categorias.categoriaEditar
+  );
   const history = useHistory();
   const distpach = useDispatch();
   const classes = useStyles();
   const [categoria, setCategoria] = useState({
-    id: "",
     nombre: "",
+    id: "",
+    activo: "",
   });
+
+  useEffect(() => {
+    setCategoria(categoriaEditar);
+  }, [categoriaEditar]);
 
   const { nombre } = categoria;
   const [errornombre, setErrorNombre] = useState({
@@ -42,7 +51,7 @@ const NuevaCategoria = () => {
     });
   };
 
-  const enviarCategoriaInsert = () => {
+  const enviarEditarCategoria = () => {
     if (nombre.trim() === "") {
       setErrorNombre({
         error: true,
@@ -53,7 +62,7 @@ const NuevaCategoria = () => {
         error: false,
         texto: "*",
       });
-      distpach(insertarCategoriaAction(categoria));
+      distpach(editarCategoriaAction(categoria));
       history.goBack();
     }
   };
@@ -89,7 +98,7 @@ const NuevaCategoria = () => {
             variant="contained"
             color="primary"
             fullWidth
-            onClick={() => enviarCategoriaInsert()}
+            onClick={() => enviarEditarCategoria()}
           >
             <Typography variant="h5"> Guardar </Typography>
           </Button>
@@ -108,7 +117,7 @@ const NuevaCategoria = () => {
     </Formulario>
   );
 
-  return <AppFrame titulo="Nueva Categoria" body={renderBody()} />;
+  return <AppFrame titulo="Editar Categoria" body={renderBody()} />;
 };
 
-export default NuevaCategoria;
+export default EditarCategoria;

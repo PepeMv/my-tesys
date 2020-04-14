@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function MenuLateralLogeado() {
+function MenuLateralLogeado({handleCerrarMenu}) {
   const classes = useStyles();
   const [tipousuario, setTipoUsuario] = useState('usuario');
   return (
@@ -32,9 +32,9 @@ function MenuLateralLogeado() {
       </div>
       {
         tipousuario === 'usuario'?
-        ( <MenuUsuario /> )
+        ( <MenuUsuario handleCerrarMenu={handleCerrarMenu}/> )
         :
-        ( <MenuCliente /> )
+        ( <MenuCliente handleCerrarMenu={handleCerrarMenu}/> )
       }
     </Fragment>
   );

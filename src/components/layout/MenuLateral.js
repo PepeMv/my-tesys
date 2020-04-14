@@ -6,8 +6,10 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseTwoTone from "@material-ui/icons/CloseTwoTone";
 import MenuLateralLogeado from "./MenuLateralLogeado";
 import MenuLateralNoLogeado from "./MenuLateralNoLogeado";
+import { Avatar } from "@material-ui/core";
+import { useSelector } from "react-redux";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   drawerHeader: {
     display: "flex",
     alignItems: "center",
@@ -18,19 +20,27 @@ const useStyles = makeStyles(theme => ({
   },
   drawerPaper: {
     width: "auto",
-    position: 'relative',
+    position: "relative",
     [theme.breakpoints.up("sm")]: {
-      width: 250
-    }
-  }
+      width: 250,
+    },
+  },
+  large: {
+    width: theme.spacing(5),
+    height: theme.spacing(5),
+  },
 }));
 
 function MenuLateral({ abrirmenu, handleCerrarMenu }) {
+  //obtener logo  el restaurante
+  const logoRestaurante = useSelector(
+    (state) => state.restaurante.imagenes.logo
+  );
   const classes = useStyles();
 
   const [logedo, setLogeado] = useState(true);
 
-  const toggleDrawer = () => event => {
+  const toggleDrawer = () => (event) => {
     if (
       event &&
       event.type === "keydown" &&
@@ -48,18 +58,28 @@ function MenuLateral({ abrirmenu, handleCerrarMenu }) {
         onClose={toggleDrawer()}
         onOpen={toggleDrawer()}
         classes={{
-          paper: classes.drawerPaper
+          paper: classes.drawerPaper,
         }}
       >
         <div className={classes.drawerHeader}>
-          <div>Logo</div>
+          <div>
+            {logoRestaurante ? (
+              <Avatar
+                alt="Logo del restaurante"
+                src={logoRestaurante}
+                className={classes.large}
+              />
+            ) : (
+              <Avatar className={classes.large}>Logo</Avatar>
+            )}
+          </div>
           <IconButton onClick={() => handleCerrarMenu()}>
             <CloseTwoTone />
           </IconButton>
         </div>
         <Divider />
-        {logedo ? <MenuLateralLogeado /> : <MenuLateralNoLogeado />}        
-      </SwipeableDrawer>      
+        {logedo ? <MenuLateralLogeado handleCerrarMenu={handleCerrarMenu}/> : <MenuLateralNoLogeado />}
+      </SwipeableDrawer>
     </div>
   );
 }

@@ -29,7 +29,7 @@ const MesasContainer = () => {
     { title: "nombre", field: "nombre" },
     { title: "descripcion", field: "descripcion" },
     {
-      title: "Avatar",
+      title: "Mostrar QR",
       field: "img",
       render: rowData => (
         <Button
@@ -44,7 +44,8 @@ const MesasContainer = () => {
           Mostrar QR
         </Button>
       ),
-      filtering: false
+      filtering: false,
+      sorting: false
     }
   ];
   const data = [

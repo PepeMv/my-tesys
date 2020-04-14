@@ -8,6 +8,7 @@ import {
   IconButton
 } from "@material-ui/core";
 import AddBoxTwoToneIcon from "@material-ui/icons/AddBoxTwoTone";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -47,12 +48,12 @@ const Producto = ({
   tipo,
   pequenio
 }) => {
+  const imagen = useSelector( (state)=> state.productos.imagenes.find( img => img.id === producto.id).url); 
   const classes = useStyles();
   const abriryPasarProducto = producto => {    
     setProductoSelecionado({producto, cantidad: parseInt(1), preciototal: parseFloat(producto.precio)});
     handleOpen();
-  };
-
+  };  
 
 let valorenLg="";
   if (pequenio){
@@ -65,7 +66,7 @@ let valorenLg="";
       <Grid container spacing={2} >
         {/* foto */}
         <Grid item xs={12} sm={3} lg={valorenLg} >
-          <img className={classes.img} alt="complex" src={`${producto.img}`} />
+          <img className={classes.img} alt="complex" src={imagen} />
         </Grid>
         <Grid item xs={12} sm={9} lg={valorenLg}>
           <Grid item container spacing={1} >

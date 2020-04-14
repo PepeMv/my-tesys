@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppFrame from "../../layout/AppFrame";
 import uuid from "react-uuid";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {
   makeStyles,
   Grid,
@@ -21,6 +22,14 @@ import ListaProductos from "./ListaProductos";
 import ListaPedido from "./ListaPedido";
 import MostrarProducto from "./MostrarProducto";
 import MostrarQrReader from "./MostrarQrReader";
+import {obtenerRestauranteAction} from './../../../actions/restauranteActions';
+import {obtenerCategoriasAction} from './../../../actions/categoriasActions';
+import {obtenerProductosAction} from './../../../actions/productosActions';
+
+//redux
+import { useDispatch, useSelector } from 'react-redux';
+import { Skeleton } from "@material-ui/lab";
+import MostrarLocationPicker from "./MostrarLocationPicker";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -82,32 +91,61 @@ const useStyles = makeStyles(theme => ({
   gridList: {
     width: "90%",
     height: "80%"
+  },
+  imagenes:{
+    objectFit: 'fill',
+    margin: "auto",
+    padding:theme.spacing(2),
   }
 }));
 
 const Home = () => {
+  
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    //consultar la api 
+    const cargarRestaurante = () => dispatch( obtenerRestauranteAction() );
+    const cargarCategorias = () => dispatch( obtenerCategoriasAction() );
+    const cargarProductos = () => dispatch( obtenerProductosAction() );
+    
+    cargarRestaurante();
+    cargarCategorias();
+    cargarProductos();
+  },[]);
+
+  //obtener logo  el restaurante
+  const {img1, img2, img3, img4} = useSelector((state) => state.restaurante.imagenes);  
+ 
   const classes = useStyles();
+  //estate para habilia¡tar el boton de locationPicker
   const [domicilio, setDomicilio] = useState(true);
+  //statede Ubicacion
   const [ubicacion, setUbicacion] = useState("Domicilio: Tu ubicación");
+  //state de mesa
   const [mesaescaneada, setMesaEscaneada] = useState("Leer QR de una Mesa");
   const [idcategoriaselecionada, setIdCategoriaSeleccionada] = useState({
     id: "",
     nombre: ""
   });
   const [listapedidos, setListaPedidos] = useState([]);
+  //abrir producto
   const [open, setOpen] = useState(false);
+  //abrir qr
   const [abrirqr, setAbrirQr] = useState(false);
+  //abrir lication
+  const[abrirlocation, setAbrirLocation] = useState(false);
 
   const [tipomostrarproducto, setTipoMostrarProducto] = useState();
   const [productoseleccionado, setProductoSelecionado] = useState({
     cantidad: "",
     preciototal: "",
     producto: {
-      aplica_iva: "",
-      categoria: "",
+      aplicaiva: "",
+      idCategoria: "",
       descripcion: "",
       id: "",
-      img: "",
+      imagen: "",
       nombre: "",
       precio: ""
     }
@@ -128,34 +166,33 @@ const Home = () => {
   const handleCerrarQr = () =>{
     setAbrirQr(false);
   }
+
+  const handleOpenLocation = () =>{
+    setAbrirLocation(true);
+  }
+
+  const handleCerrarLocation = () =>{
+    setAbrirLocation(false);
+  }
+
+  let wImagenes = "";
+  if (useMediaQuery(theme => theme.breakpoints.down("sm"))) {
+    wImagenes = 4;
+  } else {
+    wImagenes = 2;
+  }
   const tileData = [
     {
-      img:
-        "https://images.unsplash.com/photo-1465310477141-6fb93167a273?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
-      title: "Image",
-      author: "author",
-      cols: 3
+      img:img1,
     },
     {
-      img:
-        "https://images.unsplash.com/photo-1465310477141-6fb93167a273?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
-      title: "Image",
-      author: "author",
-      cols: 1
+      img:img2,
     },
     {
-      img:
-        "https://images.unsplash.com/photo-1465310477141-6fb93167a273?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
-      title: "Image",
-      author: "author",
-      cols: 1
+      img:img3,
     },
     {
-      img:
-        "https://images.unsplash.com/photo-1465310477141-6fb93167a273?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80",
-      title: "Image",
-      author: "author",
-      cols: 3
+      img:img4,
     }
   ];
 
@@ -199,6 +236,7 @@ const Home = () => {
                       color="primary"
                       fullWidth
                       startIcon={<LocationOnTwoToneIcon />}
+                      onClick={()=>handleOpenLocation()}
                     >
                       <Typography variant="h5">
                         <Box fontWeight="fontWeightBold" m={1}>
@@ -212,17 +250,17 @@ const Home = () => {
             </Grid>
           </Paper>
         </Grid>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <Paper className={classes.imagenesPostEncabezado}>
             <GridList cellHeight={160} className={classes.gridList} cols={4}>
-              {tileData.map(tile => (
-                <GridListTile key={uuid()} cols={tile.cols || 1}>
-                  <img src={tile.img} alt={tile.title} className="p-2" />
+              {img1? (tileData.map(tile => (
+                <GridListTile key={uuid()} cols={wImagenes || 1}>
+                  <img src={tile.img} alt={'Imagen de presentacion'} className={classes.imagenes} />
                 </GridListTile>
-              ))}
+              ))): ( ( <Skeleton variant="rect" aniimation='weave' width={200} height={100} />))}
             </GridList>
           </Paper>
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} md={4} lg={3}>
           <Paper>
             <ListaMenu
@@ -255,20 +293,34 @@ const Home = () => {
             />
           </Paper>
         </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.imagenesPostEncabezado}>
+            <GridList cellHeight={160} className={classes.gridList} cols={4}>
+              {img1? (tileData.map(tile => (
+                <GridListTile key={uuid()} cols={wImagenes || 1}>
+                  <img src={tile.img} alt={'Imagen de presentacion'} className={classes.imagenes} />
+                </GridListTile>
+              ))): ( ( <Skeleton variant="rect" aniimation='weave' width={200} height={100} />))}
+            </GridList>
+          </Paper>
+        </Grid>
       </Grid>
-      <MostrarProducto
-        producto={productoseleccionado.producto}
-        cantidad={productoseleccionado.cantidad}
-        preciototal={productoseleccionado.preciototal}
-        setProductoSelecionado={setProductoSelecionado}
-        open={open}
-        handleClose={handleClose}
-        listapedidos={listapedidos}
-        setListaPedidos={setListaPedidos}
-        tipomostrarproducto={tipomostrarproducto}
-        setTipoMostrarProducto={setTipoMostrarProducto}
-      />
+      {
+        open ? (<MostrarProducto
+          producto={productoseleccionado.producto}
+          cantidad={productoseleccionado.cantidad}
+          preciototal={productoseleccionado.preciototal}
+          setProductoSelecionado={setProductoSelecionado}
+          open={open}
+          handleClose={handleClose}
+          listapedidos={listapedidos}
+          setListaPedidos={setListaPedidos}
+          tipomostrarproducto={tipomostrarproducto}
+          setTipoMostrarProducto={setTipoMostrarProducto}
+        />) : (null)
+      }
       <MostrarQrReader abrirqr={abrirqr} handleCerrarQr={handleCerrarQr} />
+      <MostrarLocationPicker abrirlocation={abrirlocation} handleCerrarLocation={handleCerrarLocation} />
     </div>
   );
 

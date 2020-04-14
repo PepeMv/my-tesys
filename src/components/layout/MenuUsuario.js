@@ -13,11 +13,11 @@ import AssignmentTwoToneIcon from '@material-ui/icons/AssignmentTwoTone';
 import StoreMallDirectoryTwoToneIcon from '@material-ui/icons/StoreMallDirectoryTwoTone';
 import {  useHistory } from 'react-router-dom';
 
-function MenuUsuario() {
+function MenuUsuario({handleCerrarMenu}) {
   const history = useHistory();
     return (
         <List>
-          <ListItem button key={uuid()} onClick={()=>history.push('/restaurante')} >
+          <ListItem button key={uuid()} onClick={()=>(history.push('/restaurante'), handleCerrarMenu())} >
             <ListItemIcon>
               <StoreMallDirectoryTwoToneIcon />
             </ListItemIcon>
@@ -44,7 +44,7 @@ function MenuUsuario() {
             />
           </ListItem>
           <Divider />          
-          <ListItem button key={uuid()} onClick={()=>history.push('/categorias')}>
+          <ListItem button key={uuid()} onClick={()=>(history.push('/categorias'), handleCerrarMenu())}>
             <ListItemIcon>
               <BallotTwoToneIcon />
             </ListItemIcon>
@@ -53,7 +53,7 @@ function MenuUsuario() {
             />
           </ListItem>
           <Divider />
-          <ListItem button key={uuid()}  onClick={()=>history.push('/productos')} >
+          <ListItem button key={uuid()}  onClick={()=>(history.push('/productos'), handleCerrarMenu())} >
             <ListItemIcon>
               <FastfoodTwoToneIcon />
             </ListItemIcon>
@@ -64,7 +64,7 @@ function MenuUsuario() {
             />
           </ListItem>
           <Divider />         
-          <ListItem button key={uuid()} onClick={()=>history.push('/mesas')}>
+          <ListItem button key={uuid()} onClick={()=>(history.push('/mesas'), handleCerrarMenu())}>
             <ListItemIcon>
               <HowToVoteTwoToneIcon />
             </ListItemIcon>
@@ -73,7 +73,7 @@ function MenuUsuario() {
             />
           </ListItem>
           <Divider />
-          <ListItem button key={uuid()} onClick={()=>history.push('/usuarios')}>
+          <ListItem button key={uuid()} onClick={()=>(history.push('/usuarios'), handleCerrarMenu())}>
             <ListItemIcon>
               <SupervisorAccountTwoToneIcon />
             </ListItemIcon>

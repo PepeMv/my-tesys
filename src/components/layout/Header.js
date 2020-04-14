@@ -9,23 +9,38 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Hidden from "@material-ui/core/Hidden";
 import MenuLateral from "./MenuLateral";
 import AvatarPersonalizado from "./AvatarPersonalizado";
-import { Menu, MenuItem } from "@material-ui/core";
-import {Link} from 'react-router-dom';
+import { Menu, MenuItem, Avatar, Box, Badge } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import RestaurantSharpIcon from "@material-ui/icons/RestaurantSharp";
+import { Skeleton } from "@material-ui/lab";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(0.5),
   },
   title: {
-    flexGrow: 1
+    flexGrow: 1,
   },
-  
+  large: {
+    width: theme.spacing(5),
+    height: theme.spacing(5),
+  },
 }));
 
 function Header() {
+  //obtener nombre el restaurante
+  const nombreRestaurante = useSelector(
+    (state) => state.restaurante.restauranteInfo.nombre
+  );
+  //obtener logo  el restaurante
+  const logoRestaurante = useSelector(
+    (state) => state.restaurante.imagenes.logo
+  );
+
   const [abrirmenu, setAbrirMenu] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
@@ -41,12 +56,17 @@ function Header() {
     setAbrirMenu(false);
   };
 
-  const handleProfileMenuOpen = event => {
+  const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const defaultProps = {
+    color: "secondary",
+    children: <RestaurantSharpIcon fontSize="large" />,
   };
 
   const menuId = "primary-search-account-menu";
@@ -61,19 +81,17 @@ function Header() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>
-        {" "}
-        <Typography variant="h6">Mi Perfil</Typography>{" "}
+        <Typography variant="h6">Mi Perfil</Typography>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
-        {" "}
-        <Typography variant="h6">Cerrar Sesión</Typography>{" "}
+        <Typography variant="h6">Cerrar Sesión</Typography>
       </MenuItem>
     </Menu>
   );
 
   return (
     <div className={classes.root}>
-      <AppBar position="sticky">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             edge="start"
@@ -84,12 +102,20 @@ function Header() {
           >
             <MenuIcon fontSize="large" />
           </IconButton>
+          {logoRestaurante ? (
+            <Box m={1}>
+              <Avatar
+                alt="Logo del restaurante"
+                src={logoRestaurante}
+                className={classes.large}
+              />
+            </Box>
+          ) :  ( <Skeleton variant="circle" aniimation='weave' width={40} height={40} />)}
           <Typography variant="h5" className={classes.title}>
-            <Link to={'/'} >
-            RE - TomaOs
-            </Link>            
-          </Typography>         
-
+            <Link to={"/"}>
+              {nombreRestaurante ? nombreRestaurante : ( <Skeleton variant="text" aniimation='weave' width={100} height={40} />)}
+            </Link>
+          </Typography>
           {logedo === true ? (
             <IconButton
               edge="end"
@@ -115,6 +141,9 @@ function Header() {
               </Button>
             </Hidden>
           )}
+          <Box>
+            <Badge badgeContent={0} {...defaultProps} showZero />
+          </Box>
         </Toolbar>
       </AppBar>
       {renderMenuPerfil}

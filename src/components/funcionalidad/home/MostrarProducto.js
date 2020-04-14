@@ -15,6 +15,7 @@ import Rating from "@material-ui/lab/Rating";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(theme => ({
   img: {
@@ -95,12 +96,15 @@ const MostrarProducto = ({
   tipomostrarproducto,
   setTipoMostrarProducto
 }) => {
+  
   const classes = useStyles();
   const [value, setValue] = useState(4);
   const [cantidadAqui, setCantidadAqui] = useState();
   const [preciototalAqui, setPrecioTotalAqui] = useState();
   const [disabledMenos, setDisabledMenos] = useState();
   const [disabledMas, setDisabledMas] = useState();
+  
+  const imagen = useSelector( (state)=> state.productos.imagenes.find( img => img.id === producto.id).url); 
 
   useEffect(() => {
     const revisarBotonesModificadoresCabtidad = () => {
@@ -115,10 +119,9 @@ const MostrarProducto = ({
         setDisabledMenos(true);
         setDisabledMas(false);
       }
-    };
-
+    };    
     revisarBotonesModificadoresCabtidad();
-  }, []);
+  }, []);  
 
   const revisarBotonesModificadoresCabtidad = valor => {
     if (valor === 1) {
@@ -241,7 +244,7 @@ const MostrarProducto = ({
               <img
                 className={classes.img}
                 alt="complex"
-                src={`${producto.img}`}
+                src={imagen}
               />
             </Grid>
             <Grid item xs={12} className={classes.contenedorContent}>

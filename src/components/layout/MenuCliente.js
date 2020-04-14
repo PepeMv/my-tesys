@@ -6,7 +6,7 @@ import ExitToAppTwoToneIcon from "@material-ui/icons/ExitToAppTwoTone";
 import ContactsTwoToneIcon from "@material-ui/icons/ContactsTwoTone";
 import StorageTwoToneIcon from '@material-ui/icons/StorageTwoTone';
 
-function MenuCliente() {
+function MenuCliente({handleCerrarMenu}) {
     return (
         <List>
           <ListItem button key={uuid()}>

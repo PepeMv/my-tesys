@@ -55,7 +55,7 @@ const MostrarQrReader = ({ abrirqr, handleCerrarQr }) => {
   const classes = useStyles();
   return (
     <Dialog
-      maxWidth="xs"
+     
       open={abrirqr}
       scroll={"paper"}
       className={classes.contenedor}
@@ -66,7 +66,10 @@ const MostrarQrReader = ({ abrirqr, handleCerrarQr }) => {
         </Box>
       </DialogTitle>
       <DialogContent dividers={true}>
-        <ReaderQr />
+      <div id="mapid">
+      <ReaderQr />
+        </div>
+        
       </DialogContent>
       <DialogActions>
         <Box m={1}>

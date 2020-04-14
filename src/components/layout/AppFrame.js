@@ -30,7 +30,7 @@ function AppFrame({ titulo, body }) {
             <Grid item xs={12}>
               {titulo ? (
                 <Typography variant="h3" className={classes.paper}>
-                  <Box fontWeight="fontWeightBold">{titulo}</Box>
+                  <Box fontWeight="fontWeightBold" mt={12}>{titulo}</Box>
                 </Typography>
               ) : null}
             </Grid>
