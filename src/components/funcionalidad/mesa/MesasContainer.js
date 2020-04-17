@@ -3,8 +3,12 @@ import AppFrame from "../../layout/AppFrame";
 import { Grid, Button } from "@material-ui/core";
 import Tabla from "../../layout/Tabla";
 import MostrarQr from "./MostrarQr";
+import { useSelector } from "react-redux";
+import Spinner from "../../layout/Spinner";
 
 const MesasContainer = () => {
+  const loading = useSelector((state) => state.mesas.loading);
+  const data = useSelector((state) => state.mesas.listadoMesas);
   const [open, setOpen] = useState(false);
   const [qrseleccionado, setQrSelecionado] = useState({
     nombre: "",
@@ -24,13 +28,13 @@ const MesasContainer = () => {
   };
 
   const columns = [
-    { title: "qr", field: "qr" },
-    { title: "id", field: "id" },
-    { title: "nombre", field: "nombre" },
-    { title: "descripcion", field: "descripcion" },
+    /* { title: "qr", field: "qr" }, */
+    /* { title: "id", field: "id" }, */
+    { title: "Nombre", field: "nombre" },
+    { title: "Descripcion", field: "descripcion" },
     {
       title: "Mostrar QR",
-      field: "img",
+      field: "qr",
       render: rowData => (
         <Button
           variant="contained"
@@ -48,29 +52,10 @@ const MesasContainer = () => {
       sorting: false
     }
   ];
-  const data = [
-    {
-      id: "1",
-      nombre: "Mesa 1",
-      qr: "hola mundo",
-      descripcion: "mesa primera"
-    },
-    {
-      id: "2",
-      nombre: "Mesa 2",
-      qr: "hola mundo2",
-      descripcion: "mesa segunda"
-    },
-    {
-      id: "3",
-      nombre: "Mesa 3",
-      qr: "hola mundo3",
-      descripcion: "mesa tercera"
-    }
-  ];
 
   const renderBody = () => (
     <Fragment>
+      <Spinner active={loading} />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Tabla

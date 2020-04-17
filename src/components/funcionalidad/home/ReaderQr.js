@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import QrReader from "react-qr-reader";
 import { useRef } from "react";
 import { Button, Typography, makeStyles, Grid } from "@material-ui/core";
+import {useSelector} from 'react-redux';
 
 const useStyles = makeStyles(theme => ({  
   divContenedor: {
@@ -11,14 +12,22 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ReaderQr = () => {
+const ReaderQr = ({setMesaEscaneada, setTipoPedido, setUbicacionHome}) => {
   const classes = useStyles();
   const [resultado, setResultado] = useState("No se registro QR!");
   const componentRef = useRef(null);
-
+  const mesas = useSelector( (state) => state.mesas.listadoMesas );
   const handleScan = data => {
     if (data) {
-      setResultado(data);
+      const mesaEscaneada = mesas.find( mesa => mesa.qr === data);
+      setMesaEscaneada(mesaEscaneada);
+      setResultado(mesaEscaneada.nombre);
+      setTipoPedido("MESA");
+      setUbicacionHome({
+        nombre: "Domicilio: Tu ubicación",
+        lat: "",
+        long: ""
+      });
     }
   };
   const handleError = err => {

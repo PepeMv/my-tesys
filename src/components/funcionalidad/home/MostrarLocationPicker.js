@@ -54,7 +54,7 @@ const DialogTitle = withStyles(styles)((props) => {
   );
 });
 
-const MostrarLocationPicker = ({ abrirlocation, handleCerrarLocation }) => {
+const MostrarLocationPicker = ({ abrirlocation, handleCerrarLocation, setUbicacionHome, setTipoPedido, setMesaEscaneada }) => {
   /* type Position = { lat: number, lng: number } */
 
   const mark = useRef(null);
@@ -89,25 +89,37 @@ const MostrarLocationPicker = ({ abrirlocation, handleCerrarLocation }) => {
   }
   async function updatePosition () {
     const marker = mark.current;
-    if (marker != null) {
+    if (marker != null) {      
       //console.log(marker.leafletElement.getLatLng());      
-      try {
         const nombre = await obtenerLabel(marker.leafletElement.getLatLng().lat, marker.leafletElement.getLatLng().lng);
-        setUbicacion({
-          ...ubicacion,
-          direccion: nombre,
-          posicion: marker.leafletElement.getLatLng(),
-        });
-      } catch (error) {}
+         try {
+          setUbicacion({
+            ...ubicacion,
+            direccion: nombre,
+            posicion: marker.leafletElement.getLatLng(),
+          });
+          setUbicacionHome({nombre: nombre, lat:marker.leafletElement.getLatLng().lat, long: marker.leafletElement.getLatLng().lng});
+          setTipoPedido("DOMICILIO");
+          setMesaEscaneada({
+            nombre: "Leer QR de una mesa!"
+          });
+         } catch (error) {}
+       
+      
     }
   };
 
   const updateporBuscador = (resultados) =>{
-    //console.log(resultados);
+    //console.log(resultados);    
     setUbicacion({
       ...ubicacion,
       posicion: {lat: resultados.y, lng:resultados.x},
-      direccion: resultados.label
+      direccion: resultados.label,      
+    });
+    setUbicacionHome({nombre: resultados.label, lat:resultados.y, long: resultados.x});
+    setTipoPedido("DOMICILIO");
+    setMesaEscaneada({
+      nombre: "Leer QR de una mesa!"
     });
   }
   const provider =  OpenStreetMapProvider();
@@ -151,7 +163,7 @@ const MostrarLocationPicker = ({ abrirlocation, handleCerrarLocation }) => {
                 <span onClick={() => toggleDraggable()}></span>
               </Popup>
             </Marker>
-            <GeoSearchControlElement provider={provider} showMarker= {false} showPopup={false} popupFormat={({ query, result }) => (result.label, updateporBuscador(result))} 
+            <GeoSearchControlElement provider={provider} showMarker= {false} showPopup={false} popupFormat={({ query, result }) => ( updateporBuscador(result))} 
                   maxMarkers={1}  retainZoomLevel= {false}  animateZoom= {true} autoClose= {true}  
                   searchLabel={'Direccion: Ej, Ambato, Solano'} keepResult= {true} />
           </Map>

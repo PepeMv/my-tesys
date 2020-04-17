@@ -9,7 +9,9 @@ import {
   ELIMINAR_PRODUCTO_EXITO,
   ELIMINAR_PRODUCTO_ERROR,
   OBTENER_PRODUCTO_EDITAR,
+  COMENZAR_PRODUCTO_EDITAR,
   EDITAR_PRODUCTO_EXITO,
+  EDITAR_PRODUCTO_ERROR
 } from "./../types";
 
 const initialState = {
@@ -23,6 +25,7 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case COMENZAR_PRODUCTO_EDITAR:
     case COMENZAR_DESCARGA_PRODUCTOS:
     case AGREGAR_PRODUCTO:
       return {
@@ -37,6 +40,7 @@ export default function (state = initialState, action) {
         listadoProductos: [...state.listadoProductos, action.payload.producto],
         imagenes: [...state.imagenes, action.payload.imagen],
       };
+    case EDITAR_PRODUCTO_ERROR:
     case ELIMINAR_PRODUCTO_ERROR:
     case DESCARGAR_PRODUCTOS_ERROR:
     case AGREGAR_PRODUCTO_ERROR:
@@ -72,7 +76,7 @@ export default function (state = initialState, action) {
       case OBTENER_PRODUCTO_EDITAR:
         return {
           ...state,
-          productoEditar: action.payload
+          productoEditar: action.payload,
         };
      case EDITAR_PRODUCTO_EXITO:
        return {

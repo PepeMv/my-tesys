@@ -7,15 +7,14 @@ import {
   Button,
   TextField,
   Dialog,
-  DialogTitle,
   DialogContent,
-  DialogActions
+  DialogActions,
+  withStyles,
+  IconButton
 } from "@material-ui/core";
+import MuiDialogTitle from "@material-ui/core/DialogTitle";
+import CloseIcon from "@material-ui/icons/Close";
 import ReactToPrint from "react-to-print";
-
-
-
-
 
 const MostrarQr = ({ handleClose, open, qr }) => {
   // Configuración del modal de material-ui  
@@ -24,6 +23,37 @@ const MostrarQr = ({ handleClose, open, qr }) => {
     setSize(e.target.value);
   };
  
+  const styles = theme => ({
+    root: {
+      margin: 0,
+      padding: theme.spacing(2)
+    },
+    closeButton: {
+      position: "absolute",
+      right: theme.spacing(1),
+      top: theme.spacing(1),
+      color: theme.palette.grey[500]
+    }
+  });
+
+  const DialogTitle = withStyles(styles)(props => {
+    const { children, classes, onClose, ...other } = props;
+    return (
+      <MuiDialogTitle disableTypography className={classes.root} {...other}>
+        <Typography variant="h4">{children}</Typography>
+        {onClose ? (
+          <IconButton
+            aria-label="close"
+            className={classes.closeButton}
+            onClick={onClose}
+          >
+            <CloseIcon />
+          </IconButton>
+        ) : null}
+      </MuiDialogTitle>
+    );
+  });
+
   const componentRef = useRef(null);
   return (
     <Dialog
@@ -33,7 +63,7 @@ const MostrarQr = ({ handleClose, open, qr }) => {
       aria-labelledby="scroll-dialog-title"
       aria-describedby="scroll-dialog-description"
     >
-      <DialogTitle id="scroll-dialog-title">{qr.nombre} </DialogTitle>
+      <DialogTitle onClose={handleClose}>{qr.nombre} </DialogTitle>
       <DialogContent dividers={true} ref={componentRef}>
         <QrcodeGenerator
           valor={qr.qr}

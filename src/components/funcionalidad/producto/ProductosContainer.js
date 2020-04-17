@@ -4,6 +4,7 @@ import { Grid, Box  } from "@material-ui/core";
 import Tabla from "../../layout/Tabla";
 import { useSelector } from "react-redux";
 import { useState } from "react";
+import Spinner from "../../layout/Spinner";
 
 /* lookup: { cliente: 'Cliente', usuario: 'Usuario' } */
 
@@ -11,8 +12,7 @@ function ProductosContainer() {
 
   const [look, setLook] = useState({});
 
-  
-
+  const loading = useSelector((state) => state.productos.loading);
   const data = useSelector((state) => state.productos.listadoProductos );
   const imagenes = useSelector((state) => state.productos.imagenes );
   const categorias = useSelector((state) => state.categorias.listadoCategorias);
@@ -45,6 +45,7 @@ function ProductosContainer() {
 
   const renderBody = () => (
     <Fragment>
+      <Spinner active={loading} />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Tabla titulo="productos" columnas={columns} datos={data} activable={true} ancho='90%'/>

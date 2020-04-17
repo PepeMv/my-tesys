@@ -9,24 +9,22 @@ import {
   makeStyles,
   Paper,
   Box,
-  IconButton
+  IconButton,
 } from "@material-ui/core";
 import uuid from "react-uuid";
-import DeleteOutline from "@material-ui/icons/DeleteOutline";
-import Edit from "@material-ui/icons/Edit";
 import { Formulario } from "../../layout/Formulario";
 import { Alert } from "@material-ui/lab";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
     textAlign: "center",
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
   },
   contenedorTituloSubtotal: {
     /* textAlign:'right' */
-    textAlign: "left"
-  }
+    textAlign: "left",
+  },
 }));
 
 const DatosFacturacionContainer = () => {
@@ -38,12 +36,12 @@ const DatosFacturacionContainer = () => {
     {
       title: "tipo_ducumento",
       field: "tipo_ducumento",
-      lookup: { cedula: "Cedula", ruc: "R.U.C", pasaporte: "Pasaporte" }
+      lookup: { cedula: "Cedula", ruc: "R.U.C", pasaporte: "Pasaporte" },
     },
     { title: "cedula", field: "cedula", type: "numeric" },
     { title: "email", field: "email" },
     { title: "direccion", field: "direccion" },
-    { title: "id_cliente", field: "id_cliente" }
+    { title: "id_cliente", field: "id_cliente" },
   ];
   const data = [
     {
@@ -53,7 +51,7 @@ const DatosFacturacionContainer = () => {
       tipo_ducumento: "cedula",
       cedula: "1804569364",
       email: "pepemv1997@gmail.com",
-      direccion: "patate"
+      direccion: "patate",
     },
     {
       id: 1,
@@ -62,7 +60,7 @@ const DatosFacturacionContainer = () => {
       tipo_ducumento: "cedula",
       cedula: "1804569364",
       email: "pepemv1997@gmail.com",
-      direccion: "patate"
+      direccion: "patate",
     },
     {
       id: 1,
@@ -71,8 +69,8 @@ const DatosFacturacionContainer = () => {
       tipo_ducumento: "cedula",
       cedula: "1804569364",
       email: "pepemv1997@gmail.com",
-      direccion: "patate"
-    }
+      direccion: "patate",
+    },
   ];
   const history = useHistory();
   const renderBody = () => (
@@ -91,9 +89,9 @@ const DatosFacturacionContainer = () => {
         </Grid>
         <Grid item xs={12}>
           {data.length !== 0 ? (
-            data.map(item => (
+            data.map((item) => (
               <div key={uuid()}>
-                <Paper className={classes.paper}  variant="outlined">
+                <Paper className={classes.paper} variant="outlined">
                   <Grid container spacing={2}>
                     <Grid
                       item
@@ -102,7 +100,7 @@ const DatosFacturacionContainer = () => {
                     >
                       <Box fontWeight="fontWeightBold" m={1}>
                         <Typography variant="h4">
-                          {item.nombre} {item.apellido}{" "}
+                          {item.nombre} {item.apellido}
                         </Typography>
                       </Box>
                       <Box fontWeight="" ml={1}>
@@ -111,14 +109,6 @@ const DatosFacturacionContainer = () => {
                       <Box fontWeight="" ml={1}>
                         <Typography variant="h5">{item.direccion}</Typography>
                       </Box>
-                    </Grid>
-                    <Grid item xs={2}>
-                      <IconButton>
-                        <Edit fontSize="large" color="secondary" />
-                      </IconButton>
-                      <IconButton>
-                        <DeleteOutline fontSize="large" color="inherit" />
-                      </IconButton>
                     </Grid>
                   </Grid>
                 </Paper>

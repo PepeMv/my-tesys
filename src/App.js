@@ -5,6 +5,7 @@ import Restaurante from "./components/funcionalidad/restaurante/Restaurante";
 import ProductosContainer from "./components/funcionalidad/producto/ProductosContainer";
 import CategoriaContainer from "./components/funcionalidad/categoria/CategoriaContainer";
 import NuevaCategoria from "./components/funcionalidad/categoria/NuevaCategoria";
+import EditarMesa from "./components/funcionalidad/mesa/EditarMesa";
 import MesasContainer from "./components/funcionalidad/mesa/MesasContainer";
 import MesaNueva from "./components/funcionalidad/mesa/MesaNueva";
 import ProductoNuevo from "./components/funcionalidad/producto/ProductoNuevo";
@@ -19,6 +20,7 @@ import EditarCategoria from "./components/funcionalidad/categoria/EditarCategori
 import { Provider } from "react-redux";
 import store from "./store";
 import EditarProducto from "./components/funcionalidad/producto/EditarProducto";
+import ConfirmarCompra from "./components/funcionalidad/compra/ConfirmarCompra";
 
 
 function App() {
@@ -41,6 +43,7 @@ function App() {
           {/* mesas */}
           <Route exact path="/mesas" component={MesasContainer} />
           <Route exact path="/mesas/nuevo" component={MesaNueva} />
+          <Route exact path="/mesas/edit/:id" component={EditarMesa} />
           {/* usuarios */}
           <Route exact path="/usuarios" component={UsuariosContainer} />
           <Route exact path="/usuarios/nuevo" component={UsuarioNuevo} />
@@ -48,6 +51,8 @@ function App() {
           <Route exact path="/datosFacturacion" component={DatosFacturacionContainer} />
           <Route exact path="/datosFacturacion/nuevo" component={DatosDeFacturacion}/>
 
+          {/* confirmar compra */}
+          <Route exact path="/confirmarCompra" component={ConfirmarCompra}/>
           {/* //priuebas */}
           {/* <Route exact path="/aa" component={LocationPicker}/> */}
         </Switch>

@@ -15,8 +15,12 @@ import {
 import {
   eliminarProductoAction,
   obtenerProductoEditarAction,
-  editarProductoAction
+  editarProductoAction,
 } from "./../../actions/productosActions";
+import {
+  eliminarMesaAction,
+  obtenerMesaEditarAction,
+} from "./../../actions/mesasActions";
 import Swal from "sweetalert2";
 
 const useStyles = makeStyles((theme) => ({
@@ -54,7 +58,7 @@ function Tabla({ titulo, columnas, datos, activable, ancho }) {
           //console.log('acepte');
         }
       });
-    }else if(titulo==="productos"){
+    } else if (titulo === "productos") {
       Swal.fire({
         title: "Desea eliminar permanentemente?",
         text: `Se eliminara ${nombre}!`,
@@ -67,6 +71,22 @@ function Tabla({ titulo, columnas, datos, activable, ancho }) {
       }).then((result) => {
         if (result.value) {
           dispatch(eliminarProductoAction(id));
+          //console.log('acepte');
+        }
+      });
+    } else if (titulo === "mesas") {
+      Swal.fire({
+        title: "Desea eliminar permanentemente?",
+        text: `Se eliminara ${nombre}!`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonText: "Cancelar",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, eliminar!",
+      }).then((result) => {
+        if (result.value) {
+          dispatch(eliminarMesaAction(id));
           //console.log('acepte');
         }
       });
@@ -84,10 +104,11 @@ function Tabla({ titulo, columnas, datos, activable, ancho }) {
   const funcionEditar = (dataRow) => {
     if (titulo === "categorias") {
       dispatch(obtenerCategoriaEditarAction(dataRow));
-    }else if(titulo==="productos"){
-     dispatch(obtenerProductoEditarAction(dataRow));
+    } else if (titulo === "productos") {
+      dispatch(obtenerProductoEditarAction(dataRow));
+    } else if (titulo === "mesas") {
+      dispatch(obtenerMesaEditarAction(dataRow));
     }
-
     history.push(`/${titulo}/edit/${dataRow.id}`);
   };
 
@@ -143,7 +164,18 @@ function Tabla({ titulo, columnas, datos, activable, ancho }) {
               />
             ),
             tooltip: "Activar o Desactivar producto",
-            onClick: () => dispatch(editarProductoAction({id: rowData.id, nombre: rowData.nombre, precio: rowData.precio, idCategoria: rowData.idCategoria, aplicaiva: rowData.aplicaiva, descripcion: rowData.descripcion, activo: abriroCerrar(rowData.activo)})),
+            onClick: () =>
+              dispatch(
+                editarProductoAction({
+                  id: rowData.id,
+                  nombre: rowData.nombre,
+                  precio: rowData.precio,
+                  idCategoria: rowData.idCategoria,
+                  aplicaiva: rowData.aplicaiva,
+                  descripcion: rowData.descripcion,
+                  activo: abriroCerrar(rowData.activo),
+                })
+              ),
             hidden: !activable,
           }),
           (rowData) => ({
@@ -183,8 +215,8 @@ function Tabla({ titulo, columnas, datos, activable, ancho }) {
           filtering: true,
           exportButton: true,
           sorting: true,
-          pageSizeOptions: [10,20,30],
-          pageSize: 10
+          pageSizeOptions: [10, 20, 30],
+          pageSize: 10,
         }}
         icons={{}}
       />

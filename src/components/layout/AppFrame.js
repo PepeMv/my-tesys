@@ -24,7 +24,7 @@ function AppFrame({ titulo, body }) {
       <Container maxWidth="xl">
         <Typography
           component="div"
-          style={{ backgroundColor: "#cfe8fc", height: "100%" }}
+          style={{ backgroundColor: "#cdcdcd", height: "100%" }}
         >
           <Grid container spacing={3}>
             <Grid item xs={12}>

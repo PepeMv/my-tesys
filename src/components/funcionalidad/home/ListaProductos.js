@@ -12,6 +12,7 @@ import {
 import uuid from "react-uuid";
 import Producto from "./Producto";
 import { useSelector } from "react-redux";
+import { Skeleton, Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,11 +45,12 @@ const ListaProductos = ({
   handleOpen,
   setProductoSelecionado,
 }) => {
+  const loading = useSelector((state) => state.productos.loading);
   const classes = useStyles();
   const categoriaDefault = useSelector(
     (state) => state.categorias.listadoCategorias[0]
   );
-  
+
   const productosFiltradosxId = useSelector((state) =>
     state.productos.listadoProductos.filter(
       (producto) =>
@@ -86,7 +88,7 @@ const ListaProductos = ({
             <ListItemText
               primary={
                 <Typography variant="h5">
-                  { idcategoriaselecionada.nombre}
+                  {idcategoriaselecionada.nombre}
                 </Typography>
               }
             />
@@ -96,22 +98,93 @@ const ListaProductos = ({
       ) : null}
 
       {/* aqui van los productos */}
-      {productosFiltradosxId
-        ? productosFiltradosxId.map((producto) => (
-            <ListItem key={uuid()}>
-              <ListItemText
-                primary={
-                  <Producto
-                    producto={producto}
-                    setProductoSelecionado={setProductoSelecionado}
-                    handleOpen={handleOpen}
-                    tipo="add"
-                  />
-                }
-              />
-            </ListItem>
-          ))
-        : null}
+      {loading ? (
+        <div>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="100px"
+            />
+          </Box>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="100px"
+            />
+          </Box>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="100px"
+            />
+          </Box>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="100px"
+            />
+          </Box>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="100px"
+            />
+          </Box>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="100px"
+            />
+          </Box>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="100px"
+            />
+          </Box>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="100px"
+            />
+          </Box>
+        </div>
+      ) : productosFiltradosxId.length !== 0 ? (
+        productosFiltradosxId.map((producto) => (
+          <ListItem key={uuid()}>
+            <ListItemText
+              primary={
+                <Producto
+                  producto={producto}
+                  setProductoSelecionado={setProductoSelecionado}
+                  handleOpen={handleOpen}
+                  tipo="add"
+                />
+              }
+            />
+          </ListItem>
+        ))
+      ) : (<Box m={2}>
+        <Alert severity="warning">
+          <Typography variant="h6">No hay productos activos!</Typography>
+        </Alert>
+      </Box>)}
     </List>
   );
 };

@@ -48,6 +48,7 @@ function Restaurante() {
     img4: "",
     iva: "",
     estado: "",
+    costoEnvio: ""
   });
 
   //states para mostrar la imagen temporal subida
@@ -69,7 +70,7 @@ function Restaurante() {
     setUrlImg4(restauranteState.imagenes.img4);
   }, [restauranteState]);
 
-  const { nombre, logo, img1, img2, img3, img4, iva, estado } = restaurante;
+  const { nombre, logo, img1, img2, img3, img4, iva, estado, costoEnvio } = restaurante;
   const actualizarRestaurante = (e) => {
     setRestaurante({
       ...restaurante,
@@ -110,6 +111,10 @@ function Restaurante() {
     error: false,
     texto: "*",
   });
+  const [errorCostoEnvio, setErrorCostoEnvio] = useState({
+    error: false,
+    texto: "*",
+  });
   const submitEdiatrRestaurante = () => {
     if (nombre.trim() === "") {
       setErrorNombre({
@@ -121,12 +126,21 @@ function Restaurante() {
         error: true,
         texto: "El iva es obligatorio",
       });
+    } else if( costoEnvio.toString().trim() === "" ){
+      setErrorCostoEnvio({
+          error: true,
+          texto: "El costo es obligatorio",
+        });
     } else {
       setErrorNombre({
         error: false,
         texto: "*",
       });
       setErrorIva({
+        error: false,
+        texto: "*",
+      });
+      setErrorCostoEnvio({
         error: false,
         texto: "*",
       });
@@ -302,8 +316,7 @@ function Restaurante() {
           <Grid item xs={12}>
             <Paper elevation={2} className={classes.paper}>
               <Typography variant="h5" align="left">
-                {" "}
-                Imagen 4{" "}
+                Imagen 4
               </Typography>
               <Grid
                 container
@@ -334,7 +347,7 @@ function Restaurante() {
             </Paper>
           </Grid>
           {/* columna final */}
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4}>
             <TextField
               helperText={erroriva.texto}
               error={erroriva.error}
@@ -356,7 +369,29 @@ function Restaurante() {
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={4} >
+            <TextField
+              helperText={errorCostoEnvio.texto}
+              error={errorCostoEnvio.error}
+              id="costoEnvio"
+              name="costoEnvio"
+              value={costoEnvio}
+              onChange={actualizarRestaurante}
+              label={<Typography variant="h4"> Costo de Envio </Typography>}
+              style={{ margin: 10 }}
+              type="number"
+              placeholder="Ej. 2.50"
+              InputProps={{
+                classes: {
+                  input: classes.resize,
+                },
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={4}>
             <TextField
               select
               id="estado"

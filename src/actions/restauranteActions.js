@@ -53,6 +53,7 @@ export function editarRestauranteAction(restaurante) {
     formData.append("img4", restaurante.img4);
     formData.append("iva", restaurante.iva);
     formData.append("estado", restaurante.estado);
+    formData.append("costoEnvio", restaurante.costoEnvio);
     try {
       const respuesta = await clienteAxios.post(
         `/restaurante/update/${restaurante.id}`,

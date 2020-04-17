@@ -20,14 +20,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const  ProductoPedido = ({ producto, cantidad, preciototal, setListaPedidos, listapedidos, setProductoSelecionado, handleOpen, setTipoMostrarProducto }) => {
+const  ProductoPedido = ({ producto, cantidad, preciototal, setListaPedidos, listapedidos, setProductoSelecionado, handleOpen, setTipoMostrarProducto, productoEditable, pequenio }) => {
   const classes = useStyles();
-  let pequenio = "";
-  if (useMediaQuery(theme => theme.breakpoints.up("lg"))) {
-    pequenio = true;
-  } else {
-    pequenio = false;
-  }
+  
   const actualizarProductoPedido = (producto, cantidad, preciototal) =>{
     setProductoSelecionado({producto, cantidad: cantidad, preciototal: preciototal});
     setTipoMostrarProducto('actualizar');
@@ -58,7 +53,7 @@ const  ProductoPedido = ({ producto, cantidad, preciototal, setListaPedidos, lis
               <Box fontWeight="fontWeightBold">$ {preciototal}</Box>
             </Typography>
         </Grid>
-        <Grid item xs={1} container direction='column' className={classes.contenedorBotonQuitar}>
+        { productoEditable ? (<Grid item xs={1} container direction='column' className={classes.contenedorBotonQuitar}>
         <Grid item xs={6} >
           <IconButton onClick={()=>actualizarProductoPedido( producto, cantidad, preciototal)}>
             <Edit fontSize='large' color='secondary'/>
@@ -69,7 +64,7 @@ const  ProductoPedido = ({ producto, cantidad, preciototal, setListaPedidos, lis
             <DeleteOutline fontSize='large' color='inherit'/>
           </IconButton>
         </Grid>
-        </Grid>
+        </Grid>): (null)}
       </Grid>
     </div>
   );

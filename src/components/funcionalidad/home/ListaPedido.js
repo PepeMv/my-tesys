@@ -7,13 +7,18 @@ import {
   Box,
   Button,
   Divider,
-  Grid
+  Grid,
+  useMediaQuery
 } from "@material-ui/core";
-import DeleteOutline from "@material-ui/icons/DeleteOutline";
+//import DeleteOutline from "@material-ui/icons/DeleteOutline";
 import SendSharpIcon from "@material-ui/icons/SendSharp";
-import ProductoPedido from "./ProductoPedido";
+import {  useHistory } from 'react-router-dom';
 import uuid from "react-uuid";
 import { Alert } from "@material-ui/lab";
+import {  useDispatch } from 'react-redux';
+import ProductoPedido from "./ProductoPedido";
+import {obtenerNumeroItemsPedidoAction} from './../../../actions/pedidosActions';
+import {alerta} from './../../layout/AlertaCRUD';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,7 +47,10 @@ const useStyles = makeStyles(theme => ({
   },
   contenedorPreciosTotalesl: {
     textAlign: "right"
-  }
+  },
+  lista: {
+    width: "100%",
+  },
 }));
 
 const ListaPedido = ({
@@ -50,29 +58,51 @@ const ListaPedido = ({
   setListaPedidos,
   setProductoSelecionado,
   handleOpen,
-  setTipoMostrarProducto
+  setTipoMostrarProducto,
+  tipopedido,
+  productoEditable,
+  lugar
 }) => {
+  
+  const history = useHistory();
+  const distpach = useDispatch();
   const classes = useStyles();
-
   const [subtotal, setSubtotal] = useState(0);
   const [extras, setExtras] = useState(0);
   const [total, setTotal] = useState(0);
-
-  const borrarPedido = () => {
-    setListaPedidos([]);
-  };
+  const logeado = true;
 
   useEffect(() => {
     const calcularValores = () => {
       var suma = 0;
       listapedidos.map(p => (suma += p.preciototal));
-      setSubtotal(suma);
+      setSubtotal(suma.toFixed(2));
       //setear extras de algo con un state global
-      setTotal(suma + extras);
+      const total = suma+extras;
+
+      setTotal(total.toFixed(2));
+      distpach(obtenerNumeroItemsPedidoAction(listapedidos.length));
     };
     calcularValores();
   }, [listapedidos]);
 
+  const confirmarOrdenRedireccion = () =>{
+    if(!logeado){
+      alerta('Para proceder debes estar logeado','error');
+    } else if (tipopedido === ""){
+      alerta('Elije un metodo de entrega','error');
+    }else if(listapedidos.length === 0) {
+      alerta('Debes elejir uno o mas productos','error');
+    } else {
+      history.push('/confirmarCompra', {listapedidos, subtotal, total, tipopedido, lugar});
+    }
+  }
+  let pequenio = "";
+  if (useMediaQuery(theme => theme.breakpoints.up("lg"))) {
+    pequenio = true;
+  } else {
+    pequenio = false;
+  }
   return (
     <List
       component="nav"
@@ -90,23 +120,21 @@ const ListaPedido = ({
             </Box>
           </Typography>
 
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<DeleteOutline />}
-            onClick={() => borrarPedido()}
-          >
-            <Typography variant="h6">
-              <Box fontWeight="fontWeightBold">Borrar pedido</Box>
-            </Typography>
-          </Button>
+          <Typography variant="h5">
+            <Box fontWeight="fontWeightBold" m={1}>
+               {tipopedido ? `A ${tipopedido}` : "Elije ubicacion o qr de una mesa!"}
+            </Box>
+          </Typography>        
         </ListSubheader>
       }
+      className={classes.lista}
     >
       {listapedidos.length !== 0 ? (
         listapedidos.map(producto => (
           <div key={uuid()}>
             <ProductoPedido
+            pequenio={pequenio}
+            productoEditable={productoEditable}
               producto={producto.producto}
               cantidad={producto.cantidad}
               preciototal={producto.preciototal}
@@ -133,14 +161,14 @@ const ListaPedido = ({
         <Grid container spacing={2} className={classes.contenedorTabla}>
           <Grid item xs={6} className={classes.contenedorTituloSubtotal}>
             <Typography variant="h5">
-              <Box fontWeight="fontWeightBold" m={2} mt={10}>
+              <Box fontWeight="fontWeightBold" m={2} mt={3}>
                 Subtotal:
               </Box>
             </Typography>
           </Grid>
           <Grid item xs={6} className={classes.contenedorPreciosTotalesl}>
             <Typography variant="h5">
-              <Box fontWeight="fontWeightBold" m={2} mt={10} mr={8}>
+              <Box fontWeight="fontWeightBold" m={2} mt={3} mr={8}>
                 ${subtotal}
               </Box>
             </Typography>
@@ -181,13 +209,13 @@ const ListaPedido = ({
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Box fontWeight="fontWeightBold" m={4}>
+            <Box fontWeight="fontWeightBold" m={2}>
               <Button
                 fullWidth
                 variant="contained"
                 color="secondary"
                 startIcon={<SendSharpIcon />}
-                /* onClick={() => borrarPedido()} */
+                onClick={() => confirmarOrdenRedireccion()}
               >
                 <Typography variant="h6">Ordenar Ahora</Typography>
               </Button>

@@ -51,7 +51,7 @@ const DialogTitle = withStyles(styles)(props => {
   );
 });
 
-const MostrarQrReader = ({ abrirqr, handleCerrarQr }) => {
+const MostrarQrReader = ({ abrirqr, handleCerrarQr, setMesaEscaneada, setTipoPedido, setUbicacionHome }) => {
   const classes = useStyles();
   return (
     <Dialog
@@ -67,7 +67,7 @@ const MostrarQrReader = ({ abrirqr, handleCerrarQr }) => {
       </DialogTitle>
       <DialogContent dividers={true}>
       <div id="mapid">
-      <ReaderQr />
+      <ReaderQr setMesaEscaneada={setMesaEscaneada} setTipoPedido={setTipoPedido} setUbicacionHome={setUbicacionHome} />
         </div>
         
       </DialogContent>

@@ -52,6 +52,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
+        error: null,
         listadoCategorias: action.payload,
       };
     case OBTENER_CATEGORIA_ELIMINAR:
@@ -68,7 +69,7 @@ export default function (state = initialState, action) {
         ),
         categoriaEliminar: null,
         loading: false,
-        error: null
+        error: null,
       };
     case OBTENER_CATEGORIA_EDITAR:
       return {

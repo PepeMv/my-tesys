@@ -41,6 +41,8 @@ function Header() {
     (state) => state.restaurante.imagenes.logo
   );
 
+  const numeroItemsPedido = useSelector( (state) => state.pedidos.numeroItems);
+
   const [abrirmenu, setAbrirMenu] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
@@ -142,7 +144,7 @@ function Header() {
             </Hidden>
           )}
           <Box>
-            <Badge badgeContent={0} {...defaultProps} showZero />
+            <Badge badgeContent={numeroItemsPedido} {...defaultProps} showZero />
           </Box>
         </Toolbar>
       </AppBar>

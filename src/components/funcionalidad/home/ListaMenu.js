@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import uuid from "react-uuid";
-import { useDispatch, useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import {
   List,
   ListSubheader,
@@ -18,7 +18,7 @@ import KeyboardArrowRightSharpIcon from "@material-ui/icons/KeyboardArrowRightSh
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import ListaProductos from "./ListaProductos";
-import { obtenerCategoriasAction } from "../../../actions/categoriasActions";
+//import { obtenerCategoriasAction } from "../../../actions/categoriasActions";
 import { Alert, Skeleton } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(4),
   },
   encabezadoMenu: {
-    backgroundColor: "#1976D2",
+    backgroundColor: "#1976D2",    
     padding: theme.spacing(1.5),
     color: "#D1D1D1",
   },
@@ -46,6 +46,7 @@ const ListaMenu = ({
   handleOpen,
   setProductoSelecionado,
 }) => {
+  const loading = useSelector((state) => state.categorias.loading);
   const cate = useSelector((state) =>
     state.categorias.listadoCategorias.filter(
       (categoria) => categoria.activo !== 0
@@ -58,13 +59,9 @@ const ListaMenu = ({
     nombre: "",
   });
 
-  useEffect(() => {
+  useEffect(() => {}, []);
 
-  }, []);
-
-
-  const [settings, setSettings] = useState([   
-  ]);
+  const [settings, setSettings] = useState([]);
 
   const cambiarIdCategoriaSelecionada = (id, nombre) => {
     setIdCategoriaSeleccionada({
@@ -127,7 +124,50 @@ const ListaMenu = ({
       }
       className={classes.root}
     >
-      {cate.length !== 0 ? (
+      {loading ? (
+        <div>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="100px"
+            />
+          </Box>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="100px"
+            />
+          </Box>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="100px"
+            />
+          </Box>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="100px"
+            />
+          </Box>
+          <Box m={1}>
+            <Skeleton
+              variant="text"
+              aniimation="weave"
+              width="100%"
+              height="100px"
+            />
+          </Box>
+        </div>
+      ) : cate.length !== 0 ? (
         cate.map((categoria) => (
           <div key={uuid()}>
             {settings.find((item) => item.id === categoria.id) === undefined
@@ -182,48 +222,11 @@ const ListaMenu = ({
           </div>
         ))
       ) : (
-        <div>
-          <Box m={1}>
-            <Skeleton
-              variant="text"
-              aniimation="weave"
-              width="100%"
-              height="130px"
-            />
-          </Box>
-          <Box m={1}>
-            <Skeleton
-              variant="text"
-              aniimation="weave"
-              width="100%"
-              height="130px"
-            />
-          </Box>
-          <Box m={1}>
-            <Skeleton
-              variant="text"
-              aniimation="weave"
-              width="100%"
-              height="130px"
-            />
-          </Box>
-          <Box m={1}>
-            <Skeleton
-              variant="text"
-              aniimation="weave"
-              width="100%"
-              height="130px"
-            />
-          </Box>
-          <Box m={1}>
-            <Skeleton
-              variant="text"
-              aniimation="weave"
-              width="100%"
-              height="130px"
-            />
-          </Box>
-        </div>
+        <Box m={2}>
+          <Alert severity="warning">
+            <Typography variant="h6">No hay categorias activas!</Typography>
+          </Alert>
+        </Box>
       )}
     </List>
   );

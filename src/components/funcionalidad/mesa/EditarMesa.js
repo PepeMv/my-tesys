@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppFrame from "../../layout/AppFrame";
 import { Formulario } from "../../layout/Formulario";
 import {useDispatch, useSelector} from 'react-redux';
@@ -10,7 +10,7 @@ import {
   makeStyles,
   Button,
 } from "@material-ui/core";
-import {insertarMesaAction} from './../../../actions/mesasActions';
+import {editarMesaAction} from './../../../actions/mesasActions';
 import Spinner from "../../layout/Spinner";
 
 
@@ -20,13 +20,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MesaNueva = () => {
+const EditarMesa = () => {
+
   const loading = useSelector((state) => state.mesas.loading);
+  const mesaEditar = useSelector(
+    (state) => state.mesas.mesaEditar
+  );
+  useEffect(() => {
+    setMesa(mesaEditar);
+  }, [])
   const history = useHistory();
   const distpach = useDispatch();
   const classes = useStyles();
   const [mesa, setMesa] = useState({
-    id: "",
     nombre: "",
     descripcion: "",
   });
@@ -45,7 +51,7 @@ const MesaNueva = () => {
     });
   };
   const { nombre, descripcion } = mesa;
-  const enviarIngresarMesa = () =>{
+  const enviarEditarMesa = () =>{
     if(nombre.trim()===""){
       setNombreError({
         error: true,
@@ -66,7 +72,7 @@ const MesaNueva = () => {
         texto: "*"
       });
       //distpach
-      distpach(insertarMesaAction(mesa));
+      distpach(editarMesaAction(mesa));
       //go back 
       history.goBack();
     }
@@ -120,7 +126,7 @@ const MesaNueva = () => {
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Button variant="contained" color="primary" fullWidth onClick={()=>enviarIngresarMesa()} >
+          <Button variant="contained" color="primary" fullWidth onClick={()=>enviarEditarMesa()} >
             <Typography variant="h5"> Guardar </Typography>
           </Button>
         </Grid>
@@ -133,7 +139,7 @@ const MesaNueva = () => {
     </Formulario>
   );
 
-  return <AppFrame titulo="Nueva Mesa" body={renderBody()} />;
+  return <AppFrame titulo="Editar Mesa" body={renderBody()} />;
 };
 
-export default MesaNueva;
+export default EditarMesa;

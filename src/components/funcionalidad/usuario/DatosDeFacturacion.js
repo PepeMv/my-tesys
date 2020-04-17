@@ -3,7 +3,7 @@ import AppFrame from "../../layout/AppFrame";
 import { Formulario } from "../../layout/Formulario";
 import { Grid, TextField, Typography, makeStyles, MenuItem, Button } from "@material-ui/core";
 import uuid from "react-uuid";
-
+import { useHistory } from "react-router-dom";
 const useStyles = makeStyles(theme => ({
    
     resize: {
@@ -44,7 +44,8 @@ const DatosDeFacturacion = () => {
         //console.log(producto);
       };
 
-    const classes = useStyles();
+      const history = useHistory();
+  const classes = useStyles();
   const renderBody = () => (
     <Formulario>
       <Grid container spacing={3}>
@@ -198,7 +199,7 @@ const DatosDeFacturacion = () => {
           </Button>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Button variant="outlined" color="primary" fullWidth>
+          <Button variant="outlined" color="primary" fullWidth onClick={()=> history.goBack() } >
             <Typography variant="h5"> Cancelar </Typography>
           </Button>
         </Grid>

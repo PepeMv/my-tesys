@@ -25,7 +25,7 @@ import MostrarQrReader from "./MostrarQrReader";
 import {obtenerRestauranteAction} from './../../../actions/restauranteActions';
 import {obtenerCategoriasAction} from './../../../actions/categoriasActions';
 import {obtenerProductosAction} from './../../../actions/productosActions';
-
+import {obtenerMesasAction} from './../../../actions/mesasActions';
 //redux
 import { useDispatch, useSelector } from 'react-redux';
 import { Skeleton } from "@material-ui/lab";
@@ -100,7 +100,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Home = () => {
-  
+  const classes = useStyles();
   const dispatch = useDispatch();
 
   useEffect(()=>{
@@ -108,22 +108,33 @@ const Home = () => {
     const cargarRestaurante = () => dispatch( obtenerRestauranteAction() );
     const cargarCategorias = () => dispatch( obtenerCategoriasAction() );
     const cargarProductos = () => dispatch( obtenerProductosAction() );
-    
+    const cargarMesas = () => dispatch( obtenerMesasAction() );
+
     cargarRestaurante();
     cargarCategorias();
     cargarProductos();
+    cargarMesas();
   },[]);
 
   //obtener logo  el restaurante
   const {img1, img2, img3, img4} = useSelector((state) => state.restaurante.imagenes);  
  
-  const classes = useStyles();
+  
   //estate para habilia¡tar el boton de locationPicker
   const [domicilio, setDomicilio] = useState(true);
-  //statede Ubicacion
-  const [ubicacion, setUbicacion] = useState("Domicilio: Tu ubicación");
+  //state para definir tipo de pedido MESA O DOMICILIO
+  const [tipopedido, setTipoPedido]= useState("");
   //state de mesa
-  const [mesaescaneada, setMesaEscaneada] = useState("Leer QR de una Mesa");
+  const [mesaescaneada, setMesaEscaneada] = useState({
+    nombre: "Leer QR de una mesa!"
+  });
+  //statede Ubicacion
+  const [ubicacion, setUbicacionHome] = useState({
+    nombre: "Domicilio: Tu ubicación",
+    lat: "",
+    long: ""
+  });
+  
   const [idcategoriaselecionada, setIdCategoriaSeleccionada] = useState({
     id: "",
     nombre: ""
@@ -198,6 +209,7 @@ const Home = () => {
 
   const renderBody = () => (
     <div className={classes.paper}>
+      <Paper>      
       <Grid container spacing={0}>
         <Grid item xs={12}>
           <Paper className={classes.encabezado}>
@@ -222,7 +234,7 @@ const Home = () => {
                   >
                     <Typography variant="h5">
                       <Box fontWeight="fontWeightBold" m={1}>
-                        {mesaescaneada}
+                        {mesaescaneada.nombre}
                       </Box>
                     </Typography>
                   </Button>
@@ -240,7 +252,7 @@ const Home = () => {
                     >
                       <Typography variant="h5">
                         <Box fontWeight="fontWeightBold" m={1}>
-                          {ubicacion}
+                          {ubicacion.nombre}
                         </Box>
                       </Typography>
                     </Button>
@@ -249,18 +261,7 @@ const Home = () => {
               </Grid>
             </Grid>
           </Paper>
-        </Grid>
-        {/* <Grid item xs={12}>
-          <Paper className={classes.imagenesPostEncabezado}>
-            <GridList cellHeight={160} className={classes.gridList} cols={4}>
-              {img1? (tileData.map(tile => (
-                <GridListTile key={uuid()} cols={wImagenes || 1}>
-                  <img src={tile.img} alt={'Imagen de presentacion'} className={classes.imagenes} />
-                </GridListTile>
-              ))): ( ( <Skeleton variant="rect" aniimation='weave' width={200} height={100} />))}
-            </GridList>
-          </Paper>
-        </Grid> */}
+        </Grid>       
         <Grid item xs={12} md={4} lg={3}>
           <Paper>
             <ListaMenu
@@ -290,6 +291,9 @@ const Home = () => {
               setProductoSelecionado={setProductoSelecionado}
               handleOpen={handleOpen}
               setTipoMostrarProducto={setTipoMostrarProducto}
+              tipopedido={tipopedido}
+              productoEditable={true}
+              lugar={ tipopedido ==="DOMICILIO" ? ubicacion : (tipopedido==="MESA" ? mesaescaneada: "" ) }
             />
           </Paper>
         </Grid>
@@ -319,8 +323,9 @@ const Home = () => {
           setTipoMostrarProducto={setTipoMostrarProducto}
         />) : (null)
       }
-      <MostrarQrReader abrirqr={abrirqr} handleCerrarQr={handleCerrarQr} />
-      <MostrarLocationPicker abrirlocation={abrirlocation} handleCerrarLocation={handleCerrarLocation} />
+      <MostrarQrReader abrirqr={abrirqr} handleCerrarQr={handleCerrarQr} setMesaEscaneada={setMesaEscaneada} setTipoPedido={setTipoPedido} setUbicacionHome={setUbicacionHome} />
+      <MostrarLocationPicker abrirlocation={abrirlocation} handleCerrarLocation={handleCerrarLocation} setUbicacionHome={setUbicacionHome} setTipoPedido={setTipoPedido} setMesaEscaneada={setMesaEscaneada} />
+      </Paper>
     </div>
   );
 
