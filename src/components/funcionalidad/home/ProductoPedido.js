@@ -50,7 +50,7 @@ const  ProductoPedido = ({ producto, cantidad, preciototal, setListaPedidos, lis
         </Grid>
         <Grid item xs={1} className={classes.contenedorCantidad}>
         <Typography variant="h5">
-              <Box fontWeight="fontWeightBold">$ {preciototal}</Box>
+              <Box fontWeight="fontWeightBold">$ { parseFloat(preciototal).toFixed(2) }</Box>
             </Typography>
         </Grid>
         { productoEditable ? (<Grid item xs={1} container direction='column' className={classes.contenedorBotonQuitar}>

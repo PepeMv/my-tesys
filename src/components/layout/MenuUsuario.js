@@ -57,7 +57,7 @@ function MenuUsuario({ handleCerrarMenu }) {
           <AdjustSharpIcon />
         </ListItemIcon>
         <ListItemText
-          primary={<Typography variant="h6"> Pedidos a preparar </Typography>}
+          primary={<Typography variant="h6"> Pedidos a Preparar </Typography>}
         />
       </ListItem>
       <Divider />
@@ -73,7 +73,7 @@ function MenuUsuario({ handleCerrarMenu }) {
           <RoomServiceSharpIcon />
         </ListItemIcon>
         <ListItemText
-          primary={<Typography variant="h6">Pedidos a entregar</Typography>}
+          primary={<Typography variant="h6">Pedidos a Entregar</Typography>}
         />
       </ListItem>
       <Divider />

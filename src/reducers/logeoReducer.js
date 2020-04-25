@@ -50,6 +50,7 @@ export default function (state = initialState, action) {
         ...state,
         token: null,
         mensaje: action.payload,
+        cargando: false,
       };
     case OBTENER_USUARIO:
       return {

@@ -1,7 +1,7 @@
 import { 
   OBTENER_NUMERO_ITEMS_PEDIDO, 
   COMENZAR_AGREGAR_PEDIDO, 
-  //AGREGAR_PEDIDO_EXITO,
+  AGREGAR_PEDIDO_EXITO,
   AGREGAR_PEDIDO_ERROR,
   COMENZAR_DESCARGA_PEDIDOS_PREPARAR,
   DESCARGA_PEDIDOS_PREPARAR_EXITO,
@@ -18,8 +18,11 @@ import {
   EDITAR_PEDIDO_EXITO,
   EDITAR_PEDIDO_ERROR,
   AGREGAR_PEDIDO_ENTREGAR_LIVE,
-  AGREGAR_DETALLE_ENTREGAR_LIVE
-
+  AGREGAR_DETALLE_ENTREGAR_LIVE,
+  QUITAR_PEDIDO_PREPARAR_LIVE,
+  QUITAR_DETALLE_PREPARAR_LIVE,
+  QUITAR_PEDIDO_ENTREGAR_LIVE,
+  QUITAR_DETALLE_ENTREGAR_LIVE
 } from "./../types";
 import clienteAxios from "../config/axios";
 import { alerta, alertaConfirmacion } from "./../components/layout/AlertaCRUD";
@@ -68,7 +71,7 @@ export function insertarPedidoAction (total, subtotal, tipoPedido, usuario, dato
       const respuesta = await clienteAxios.post("/pedidos", formData);
     //console.log(respuesta);
     if (respuesta.data.HttpResponse.statusText === "success") {
-      //dispatch(agregarPedidoExito(respuesta.data));
+      dispatch(agregarPedidoExito(respuesta.data));
       //console.log(respuesta.data.categoria);
       dispatch( agregarPedidoStateAction(respuesta.data.pedido) );
       respuesta.data.detalles.forEach(item => {
@@ -102,10 +105,10 @@ const empezarInsertarPedido = () =>({
   payload: true
 });
 //agregar pedido exito 
-/* const agregarPedidoExito = (data) => ({
+const agregarPedidoExito = (data) => ({
   type: AGREGAR_PEDIDO_EXITO,
   payload: data
-}); */
+});
 
 //agregar pedido error
 const agregarPedidoError = () =>({
@@ -251,7 +254,7 @@ export function cambiarEstadoPedidoAPreparadoAction(id){
       alerta("Algo salio mal, revise su red!", "error");
     }
   }
-}
+};
 //conebnzar editar pedido
 const comenzarEditarPedido = () => ({
   type: COMENZAR_EDITAR_PEDIDO,
@@ -287,23 +290,100 @@ const agregarDetalleEntregaryQuitarDetallePreparar = (item) => ({
   payload: item
 });
 ////////////////////////////////////
-//anadir pedido en vivo 
-/* export function agregarPedidoyDetallePrepararLiveAction (pedido, detalle){
-  //console.log(pedido);
+
+//cambiar pedido a cancelado
+export function cambiarEstadoPedidoCanceladoAction (id){
   return async (dispatch) => {
-    dispatch( agregarPedidoyDetalleLive( pedido));
-    detalle.forEach(item => {
-      dispatch( agregarDetalleLive(item) );
-    });
+    dispatch(comenzarEditarPedido());
+
+    try {
+      const respuesta = await clienteAxios.put(`/actulizarPedido/${id}?estado=cancelado`,);
+
+      if (respuesta.data.HttpResponse.statusText === "success") {
+        dispatch(editarPedidoExito());
+        alerta(
+          respuesta.data.HttpResponse.message,
+          respuesta.data.HttpResponse.statusText
+        );
+      } else {
+        dispatch(editarPedidoError());
+        alerta(
+          respuesta.data.HttpResponse.message,
+          respuesta.data.HttpResponse.statusText
+        );
+      }
+      //return respuesta.data.HttpResponse.statusText;
+    } catch (error) {
+      dispatch(editarPedidoError());
+      alerta("Algo salio mal, revise su red!", "error");
+    }
   }
 };
 
-const agregarPedidoyDetalleLive = (pedido) => ({
-  type: AGREGAR_PEDIDO_LIVE,
+//////////////////////
+export function quitarPedidoDePrepararAction(pedido, detalles){
+  return async (dispatch) => {
+    dispatch( quitarPedidoDePreparar( pedido));
+    detalles.forEach(item => {
+      dispatch( quitarDetalleDePreparar(item) );
+    });
+  }
+};
+//AGREGAR
+const quitarPedidoDePreparar = (pedido) => ({
+  type: QUITAR_PEDIDO_PREPARAR_LIVE,
   payload: pedido
 });
-//add detalle
-const agregarDetalleLive = (item) => ({
-  type: AGREGAR_DETALLE_LIVE,
+
+const quitarDetalleDePreparar = (item) => ({
+  type: QUITAR_DETALLE_PREPARAR_LIVE,
   payload: item
-}); */
+});
+
+//cambiar pedido a entregado
+export function cambiarEstadoPedidoEntregadoAction (id){
+  return async (dispatch) => {
+    dispatch(comenzarEditarPedido());
+
+    try {
+      const respuesta = await clienteAxios.put(`/actulizarPedido/${id}?estado=entregado`,);
+
+      if (respuesta.data.HttpResponse.statusText === "success") {
+        dispatch(editarPedidoExito());
+        alerta(
+          respuesta.data.HttpResponse.message,
+          respuesta.data.HttpResponse.statusText
+        );
+      } else {
+        dispatch(editarPedidoError());
+        alerta(
+          respuesta.data.HttpResponse.message,
+          respuesta.data.HttpResponse.statusText
+        );
+      }
+      //return respuesta.data.HttpResponse.statusText;
+    } catch (error) {
+      dispatch(editarPedidoError());
+      alerta("Algo salio mal, revise su red!", "error");
+    }
+  }
+};
+//funcion live para quitar de pedidos entregar
+export function quitarPedidoDeEntregarAction(pedido, detalles){
+  return async (dispatch) => {
+    dispatch( quitarPedidoDeEntregar( pedido));
+    detalles.forEach(item => {
+      dispatch( quitarDetalleDeEntregar(item) );
+    });
+  }
+};
+//QUITAR  
+const quitarPedidoDeEntregar = (pedido) => ({
+  type: QUITAR_PEDIDO_ENTREGAR_LIVE,
+  payload: pedido
+});
+
+const quitarDetalleDeEntregar = (item) => ({
+  type: QUITAR_DETALLE_ENTREGAR_LIVE,
+  payload: item
+});

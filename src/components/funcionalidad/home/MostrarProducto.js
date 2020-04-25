@@ -63,6 +63,9 @@ const styles = theme => ({
     right: theme.spacing(1),
     top: theme.spacing(1),
     color: theme.palette.grey[500]
+  },
+  img:{
+    height:'350px'
   }
 });
 
@@ -121,7 +124,7 @@ const MostrarProducto = ({
       }
     };    
     revisarBotonesModificadoresCabtidad();
-  }, []);  
+  }, [cantidad]);  
 
   const revisarBotonesModificadoresCabtidad = valor => {
     if (valor === 1) {
@@ -242,7 +245,7 @@ const MostrarProducto = ({
           <Grid container spacing={2}>
             <Grid item xs={12} className={classes.contenedorContent}>
               <img
-                className={classes.img}
+                className="img-fluid"
                 alt="complex"
                 src={imagen}
               />

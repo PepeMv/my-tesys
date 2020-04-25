@@ -77,6 +77,7 @@ const MostrarOrdenesLive = () => {
     const traerPedidosPreparar = () =>
       dispatch(obtenerPedidosParaPrepararAction());
     traerPedidosPreparar();
+    //eslint-disable-next-line
   }, []);
 
   const loading = useSelector((state) => state.pedidos.loading);

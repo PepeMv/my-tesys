@@ -15,7 +15,7 @@ import uuid from "react-uuid";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import DeleteIcon from "@material-ui/icons/Delete";
-import RoomServiceSharpIcon from '@material-ui/icons/RoomServiceSharp';
+import RoomServiceSharpIcon from "@material-ui/icons/RoomServiceSharp";
 
 import moment from "moment";
 import "moment/locale/es";
@@ -23,7 +23,12 @@ import { Box, Divider, Button } from "@material-ui/core";
 import Modal from "./../../layout/Modal";
 import Factura from "./Factura";
 import { useDispatch } from "react-redux";
-import { cambiarEstadoPedidoAPreparadoAction } from "../../../actions/pedidosActions";
+import {
+  cambiarEstadoPedidoAPreparadoAction,
+  cambiarEstadoPedidoCanceladoAction,
+  cambiarEstadoPedidoEntregadoAction,
+} from "../../../actions/pedidosActions";
+import Swal from "sweetalert2";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,8 +73,58 @@ const CardOrden = ({ pedido, detalle, editable }) => {
   const renderContenido = () => (
     <Factura pedidoTemporal={pedido} detalleTemporal={detalle} />
   );
-  async function enviarPedidoPreparado () {
-    await dispatch( cambiarEstadoPedidoAPreparadoAction(pedido.id) );
+  async function enviarPedidoPreparado() {
+    Swal.fire({
+      title: "Desea marcar el pedido como PREPARADO?",
+      text: `Se emitira para su entrega!`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonText: "Cancelar",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, enviar!",
+    }).then((result) => {
+      if (result.value) {
+        dispatch(cambiarEstadoPedidoAPreparadoAction(pedido.id));
+        //console.log('acepte');
+      }
+    });
+  }
+
+  const enviarPedidoCancelar = () => {
+    Swal.fire({
+      title: "Desea marcar el pedido como CANCELADO?",
+      text: `Se omitira su preparacion y entrega!`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonText: "Cancelar",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, cancelar!",
+    }).then((result) => {
+      if (result.value) {
+        dispatch(cambiarEstadoPedidoCanceladoAction(pedido.id));
+        //console.log('acepte');
+      }
+    });
+  };
+
+  const enviarPedidoEntregado = () => {
+    Swal.fire({
+      title: "Desea marcar el pedido como ENTREGADO?",
+      text: `Se notificara de la entrega!`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonText: "Cancelar",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, entregar!",
+    }).then((result) => {
+      if (result.value) {
+        dispatch(cambiarEstadoPedidoEntregadoAction(pedido.id));
+        //console.log('acepte');
+      }
+    });
   };
 
   return (
@@ -104,30 +159,27 @@ const CardOrden = ({ pedido, detalle, editable }) => {
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          {/*  {entregable ? (
-            <IconButton onClick={() => enviarPedidoPreparado()}>
-              <CheckCircleOutlineIcon color="primary" fontSize="large" />
-            </IconButton>
-          ) : null} */}
           {editable === "preparar" ? (
             <div>
               <IconButton onClick={() => enviarPedidoPreparado()}>
                 <CheckCircleOutlineIcon color="primary" fontSize="large" />
               </IconButton>
-              <IconButton>
+              <IconButton onClick={() => enviarPedidoCancelar()}>
                 <DeleteIcon color="secondary" fontSize="large" />
               </IconButton>
             </div>
           ) : editable === "ver" ? (
             <div>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.boton}
-                onClick={() => handleOpen()}
-              >
-                <Typography> DETALLES </Typography>
-              </Button>
+              {pedido.estado !== "cancelado" ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.boton}
+                  onClick={() => handleOpen()}
+                >
+                  <Typography> DETALLES </Typography>
+                </Button>
+              ) : null}
               {pedido.estado === "pedido" ? (
                 <Button
                   variant="outlined"
@@ -152,13 +204,21 @@ const CardOrden = ({ pedido, detalle, editable }) => {
                 >
                   <Typography> {pedido.estado.toUpperCase()} </Typography>
                 </Button>
+              ) : pedido.estado === "cancelado" ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.boton}
+                >
+                  <Typography> {pedido.estado.toUpperCase()} </Typography>
+                </Button>
               ) : null}
             </div>
-          ) : (
-            <IconButton >
+          ) : editable === "entregar" ? (
+            <IconButton onClick={() => enviarPedidoEntregado()}>
               <RoomServiceSharpIcon color="primary" fontSize="large" />
             </IconButton>
-          )}
+          ) : null}
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,

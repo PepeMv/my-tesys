@@ -19,6 +19,10 @@ import {
   EDITAR_PEDIDO_ERROR,
   AGREGAR_PEDIDO_ENTREGAR_LIVE,
   AGREGAR_DETALLE_ENTREGAR_LIVE,
+  QUITAR_PEDIDO_PREPARAR_LIVE,
+  QUITAR_DETALLE_PREPARAR_LIVE,
+  QUITAR_PEDIDO_ENTREGAR_LIVE,
+  QUITAR_DETALLE_ENTREGAR_LIVE,
 } from "../types";
 
 //cada reducer tiene su propio state
@@ -55,7 +59,7 @@ export default function (state = initialState, action) {
         ...state,
         loading: false,
         error: null,
-        pedidosGenerales: [...state.pedidosGenerales, action.payload.pedido],
+        //pedidosGenerales: [...state.pedidosGenerales, action.payload.pedido],
       };
     case EDITAR_PEDIDO_ERROR:
     case DESCARGA_PEDIDOS_ENTREGAR_ERROR:
@@ -125,6 +129,34 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: false,
+      };
+    case QUITAR_PEDIDO_PREPARAR_LIVE:
+      return {
+        ...state,
+        pedidosParaPreparar: state.pedidosParaPreparar.filter(
+          (pedido) => pedido.id !== action.payload.id
+        ),
+      };
+    case QUITAR_DETALLE_PREPARAR_LIVE:
+      return {
+        ...state,
+        detallesParaPreparar: state.detallesParaPreparar.filter(
+          (detalle) => detalle.id !== action.payload.id
+        ),
+      };
+    case QUITAR_PEDIDO_ENTREGAR_LIVE:
+      return {
+        ...state,
+        pedidosParaEntregar: state.pedidosParaEntregar.filter(
+          (pedido) => pedido.id !== action.payload.id
+        ),
+      };
+    case QUITAR_DETALLE_ENTREGAR_LIVE:
+      return {
+        ...state,
+        detallesParaEntregar: state.detallesParaEntregar.filter(
+          (detalle) => detalle.id !== action.payload.id
+        ),
       };
     default:
       return state;

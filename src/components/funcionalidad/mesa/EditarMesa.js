@@ -28,6 +28,7 @@ const EditarMesa = () => {
   );
   useEffect(() => {
     setMesa(mesaEditar);
+    //eslint-disable-next-line
   }, [])
   const history = useHistory();
   const distpach = useDispatch();

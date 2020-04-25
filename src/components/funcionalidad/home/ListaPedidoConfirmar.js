@@ -57,6 +57,7 @@ const ListaPedidoConfirmar = ({
   const [totalgeneral, setTotalgeneral] = useState(0);
   useEffect(() => {
     obtenerTotalGeneral(tipopedido);
+    //eslint-disable-next-line
   }, []);
 
   const obtenerTotalGeneral = (tipoDePedido) => {

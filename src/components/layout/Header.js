@@ -61,6 +61,7 @@ function Header() {
     //console.log(p.sub);
     //me trato de logear si ya estoy logeado
     dispatch(getUsuarioAutenticado());
+    //eslint-disable-next-line
   }, []);
 
   //obtener nombre el restaurante

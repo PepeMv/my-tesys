@@ -85,6 +85,7 @@ const ListaPedido = ({
       distpach(obtenerNumeroItemsPedidoAction(listapedidos.length));
     };
     calcularValores();
+    //eslint-disable-next-line
   }, [listapedidos]);
 
   const confirmarOrdenRedireccion = () =>{

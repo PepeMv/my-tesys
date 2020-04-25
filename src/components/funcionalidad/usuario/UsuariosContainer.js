@@ -15,6 +15,7 @@ const UsuariosContainer = () => {
   useEffect(() => {
     const cargarUsuarios = () => dispatch(obtenerUsuariosAction());
     cargarUsuarios();
+    //eslint-disable-next-line
   }, []);
 
     const columns = [           

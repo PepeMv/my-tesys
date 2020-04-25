@@ -4,6 +4,8 @@ import echo from "./../../config/sockets";
 import {
   agregarPedidoyDetallePrepararLiveAction,
   agregarPedidoEntregaryQuitarPedidoPrepararAction,
+  quitarPedidoDePrepararAction,
+  quitarPedidoDeEntregarAction,
 } from "../../actions/pedidosActions";
 const Listener = () => {
   const dispatch = useDispatch();
@@ -35,6 +37,31 @@ const Listener = () => {
       );
     }
   };
+
+  echo
+    .channel("pedidoCancelado")
+    .listen("PedidoCancelado", (ev) =>
+      borrarPedidoCancelado(ev.pedido, ev.detalles)
+    );
+
+  const borrarPedidoCancelado = (pedido, detalle) => {
+    if (pedido !== null && detalle !== null) {
+      dispatch(quitarPedidoDePrepararAction(pedido, detalle));
+    }
+  };
+
+  echo
+    .channel("pedidoEntregado")
+    .listen("PedidoEntregado", (ev) =>
+      borrarPedidoEntregado(ev.pedido, ev.detalles)
+    );
+
+  const borrarPedidoEntregado = (pedido, detalle) => {
+    if (pedido !== null && detalle !== null) {
+      dispatch(quitarPedidoDeEntregarAction(pedido, detalle));
+    }
+  };
+
   return <div></div>;
 };
 

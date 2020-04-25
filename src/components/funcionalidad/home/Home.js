@@ -105,6 +105,7 @@ const Home = () => {
   );
 
   //estate para habilia¡tar el boton de locationPicker
+  //eslint-disable-next-line
   const [domicilio, setDomicilio] = useState(true);
   //state para definir tipo de pedido MESA O DOMICILIO
   const [tipopedido, setTipoPedido] = useState("");

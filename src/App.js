@@ -15,7 +15,7 @@ import Home from "./components/funcionalidad/home/Home";
 import DatosDeFacturacion from "./components/funcionalidad/usuario/DatosDeFacturacion";
 import DatosFacturacionContainer from "./components/funcionalidad/usuario/DatosFacturacionContainer";
 import EditarCategoria from "./components/funcionalidad/categoria/EditarCategoria";
-
+import RutaPrivada from './components/rutas/RutaPrivada';
 //Redux
 import { Provider } from "react-redux";
 import store from "./store";
@@ -46,36 +46,37 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           {/* productos */}
-          <Route exact path="/productos" component={ProductosContainer} />
-          <Route exact path="/productos/nuevo" component={ProductoNuevo} />
-          <Route exact path="/productos/edit/:id" component={EditarProducto} />
+          <RutaPrivada exact path="/productos" component={ProductosContainer} />
+          <RutaPrivada exact path="/productos/nuevo" component={ProductoNuevo} />
+          <RutaPrivada exact path="/productos/edit/:id" component={EditarProducto} />
           {/* Restaurante */}
-          <Route exact path="/restaurante" component={Restaurante} />
+          <RutaPrivada exact path="/restaurante" component={Restaurante} />
           {/* categorias */}
-          <Route exact path="/categorias" component={CategoriaContainer} />
-          <Route exact path="/categorias/nuevo" component={NuevaCategoria} />
-          <Route exact path="/categorias/edit/:id" component={EditarCategoria} />
+          <RutaPrivada exact path="/categorias" component={CategoriaContainer} />
+          <RutaPrivada exact path="/categorias/nuevo" component={NuevaCategoria} />
+          <RutaPrivada exact path="/categorias/edit/:id" component={EditarCategoria} />
           {/* mesas */}
-          <Route exact path="/mesas" component={MesasContainer} />
-          <Route exact path="/mesas/nuevo" component={MesaNueva} />
-          <Route exact path="/mesas/edit/:id" component={EditarMesa} />
+          <RutaPrivada exact path="/mesas" component={MesasContainer} />
+          <RutaPrivada exact path="/mesas/nuevo" component={MesaNueva} />
+          <RutaPrivada exact path="/mesas/edit/:id" component={EditarMesa} />
           {/* usuarios */}
-          <Route exact path="/usuarios" component={UsuariosContainer} />
-          <Route exact path="/usuarios/nuevo" component={UsuarioNuevo} />
-          <Route exact path="/usuarios/edit/:od" component={EditarUsuario} />
+          <RutaPrivada exact path="/usuarios" component={UsuariosContainer} />
+          <RutaPrivada exact path="/usuarios/nuevo" component={UsuarioNuevo} />
+          <RutaPrivada exact path="/usuarios/edit/:od" component={EditarUsuario} />
           {/* datos factiracion */}
-          <Route exact path="/datosFacturacion" component={DatosFacturacionContainer} />
-          <Route exact path="/datosFacturacion/nuevo" component={DatosDeFacturacion}/>
-          <Route exact path="/miPerfil" component={MiPerfil}/>
-          <Route exact path="/misPedidos" component={MisPedidos}/>
-          <Route exact path="/pedidos/buscarPedidos" component={OrdenesContainer}/>
+          <RutaPrivada exact path="/datosFacturacion" component={DatosFacturacionContainer} />
+          <RutaPrivada exact path="/datosFacturacion/nuevo" component={DatosDeFacturacion}/>
+          
+          <RutaPrivada exact path="/miPerfil" component={MiPerfil}/>
+          <RutaPrivada exact path="/misPedidos" component={MisPedidos}/>
+          <RutaPrivada exact path="/pedidos/buscarPedidos" component={OrdenesContainer}/>
 
           {/* confirmar compra */}
-          <Route exact path="/confirmarCompra" component={ConfirmarCompra}/>
+          <RutaPrivada exact path="/confirmarCompra" component={ConfirmarCompra}/>
 
           {/* Ver pedidos para preparar */}
-          <Route exact path="/pedidos/pedidosPreparar" component={MostrarOrdenesLive}/>
-          <Route exact path="/pedidos/pedidosEntregar" component={MostrarOrdenesEntregar}/>
+          <RutaPrivada exact path="/pedidos/pedidosPreparar" component={MostrarOrdenesLive}/>
+          <RutaPrivada exact path="/pedidos/pedidosEntregar" component={MostrarOrdenesEntregar}/>
           {/* //priuebas */}
           {/* <Route exact path="/aa" component={LocationPicker}/> */}
 

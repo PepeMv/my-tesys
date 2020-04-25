@@ -35,6 +35,7 @@ const OrdenesContainer = () => {
   useEffect(() => {
     const cargarPedidos = () => dispatch(obtenerTodosLosPedidosAction());
     cargarPedidos();
+    //eslint-disable-next-line
   }, []);
 
   const columns = [
@@ -47,9 +48,9 @@ const OrdenesContainer = () => {
         pedido: "Pedido",
         preparado: "Preparado",
         entregado: "Entregado",
+        cancelado: "Cancelado"
       },
     },
-    //{ title: "Entrega", field: "entregarPedido" },
     { title: "Cliente", field: "nombreCliente" },
     { title: "Nº doc.", field: "numeroDocumento" },
     {
