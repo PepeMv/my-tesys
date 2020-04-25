@@ -22,6 +22,7 @@ import {
   obtenerMesaEditarAction,
 } from "./../../actions/mesasActions";
 import Swal from "sweetalert2";
+import { obtenerUsuarioEditarAction } from "../../actions/usuarioActions";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -108,6 +109,8 @@ function Tabla({ titulo, columnas, datos, activable, ancho }) {
       dispatch(obtenerProductoEditarAction(dataRow));
     } else if (titulo === "mesas") {
       dispatch(obtenerMesaEditarAction(dataRow));
+    }else if (titulo === "usuarios"){
+      dispatch( obtenerUsuarioEditarAction(dataRow) );
     }
     history.push(`/${titulo}/edit/${dataRow.id}`);
   };
@@ -182,12 +185,15 @@ function Tabla({ titulo, columnas, datos, activable, ancho }) {
             icon: () => <Edit fontSize="large" />,
             tooltip: "Editar",
             onClick: () => funcionEditar(rowData),
+            hidden: (titulo==='pedidos')
           }),
           (rowData) => ({
             icon: () => <DeleteOutline fontSize="large" />,
             tooltip: "Eliminar",
             onClick: (event, rowData) =>
               funcionEliminar(rowData.id, rowData.nombre),
+              /* hidden:  (titulo ==="usuarios"), */
+              hidden: true
           }),
           {
             icon: () => <AddIcon fontSize="large" color="primary" />,

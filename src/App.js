@@ -21,13 +21,28 @@ import { Provider } from "react-redux";
 import store from "./store";
 import EditarProducto from "./components/funcionalidad/producto/EditarProducto";
 import ConfirmarCompra from "./components/funcionalidad/compra/ConfirmarCompra";
+import MostrarOrdenesLive from "./components/funcionalidad/ordenes/MostrarOrdenesLive";
+import Listener from "./components/layout/Listener";
+import EditarUsuario from "./components/funcionalidad/usuario/EditarUsuario";
+import tokenAuth from './config/tokenAuth';
+import MiPerfil from "./components/funcionalidad/usuario/MiPerfil";
+import MisPedidos from "./components/funcionalidad/usuario/MisPedidos";
+import OrdenesContainer from "./components/funcionalidad/ordenes/OrdenesContainer";
+import MostrarOrdenesEntregar from "./components/funcionalidad/ordenes/MostrarOrdenesEntregar";
+//
+//tratar de logear si tengo un token
+const token = localStorage.getItem('reTomasToken');
+if(token){
+  tokenAuth(token);
+}
 
 
-function App() {
+function App() {  
   return (
     <Router>
       <Provider store={store}>
         <Header />
+        <Listener />
         <Switch>
           <Route exact path="/" component={Home} />
           {/* productos */}
@@ -47,14 +62,23 @@ function App() {
           {/* usuarios */}
           <Route exact path="/usuarios" component={UsuariosContainer} />
           <Route exact path="/usuarios/nuevo" component={UsuarioNuevo} />
+          <Route exact path="/usuarios/edit/:od" component={EditarUsuario} />
           {/* datos factiracion */}
           <Route exact path="/datosFacturacion" component={DatosFacturacionContainer} />
           <Route exact path="/datosFacturacion/nuevo" component={DatosDeFacturacion}/>
+          <Route exact path="/miPerfil" component={MiPerfil}/>
+          <Route exact path="/misPedidos" component={MisPedidos}/>
+          <Route exact path="/pedidos/buscarPedidos" component={OrdenesContainer}/>
 
           {/* confirmar compra */}
           <Route exact path="/confirmarCompra" component={ConfirmarCompra}/>
+
+          {/* Ver pedidos para preparar */}
+          <Route exact path="/pedidos/pedidosPreparar" component={MostrarOrdenesLive}/>
+          <Route exact path="/pedidos/pedidosEntregar" component={MostrarOrdenesEntregar}/>
           {/* //priuebas */}
           {/* <Route exact path="/aa" component={LocationPicker}/> */}
+
         </Switch>
       </Provider>
     </Router>

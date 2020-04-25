@@ -44,6 +44,7 @@ export function insertarMesaAction(mesa) {
           respuesta.data.HttpResponse.statusText
         );
       }
+      return respuesta.data.HttpResponse.statusText;
     } catch (error) {
       dispatch(agregarMesaError());
       alerta("Algo salio mal, revise su red!", "error");

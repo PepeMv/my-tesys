@@ -69,7 +69,9 @@ const useStyles = makeStyles((theme) => ({
 
 const ConfirmarCompra = () => {
   const distpach = useDispatch();
-  const datosFacturacion = [
+  const datosFacturacion = useSelector( (state) => state.logeo.datosFacturacion);
+  const usuario = useSelector( (state) => state.logeo.usuarioInfo );
+  /* const datosFacturacion = [
     {
       id: "1",
       tipoDocumento: "cedula",
@@ -90,7 +92,7 @@ const ConfirmarCompra = () => {
     },
   ];
 
-  const usuario = { id: '2', nombre: 'David Mesias', numeroDocumento:'1804569364'};
+  const usuario = { id: '2', nombre: 'David Mesias', numeroDocumento:'1804569364'}; */
 
   const loading = useSelector((state) => state.pedidos.loading);
   const iva = useSelector( (state) => state.restaurante.restauranteInfo.iva );
@@ -116,8 +118,9 @@ const ConfirmarCompra = () => {
 
  
 
-  const guardarPedido = () =>{
-    if(distpach( insertarPedidoAction( total, subtotal, tipopedido, usuario, datodeFacturacion, listapedidos, extra, lugar, iva ) )){
+  async function guardarPedido () {
+    const respuesta = await distpach( insertarPedidoAction( total, subtotal, tipopedido, usuario, datodeFacturacion, listapedidos, extra, lugar, iva ) );
+    if(respuesta === "success"){
       history.push("/");
     }
   }
@@ -272,7 +275,7 @@ const ConfirmarCompra = () => {
         open={abriropcionesdatos}
         handleClose={handleCloseOpcionesDatos}
         titulo="Tus datos de Facturación"
-        contenido={ <MostrarDatosFacturacion data={datosFacturacion} setSelectDatoFacturacion={setSelectDatoFacturacion}/> }
+        contenido={ <MostrarDatosFacturacion data={datosFacturacion} setSelectDatoFacturacion={setSelectDatoFacturacion} handleClose={handleCloseOpcionesDatos}/> }
       />
     </div>
   );

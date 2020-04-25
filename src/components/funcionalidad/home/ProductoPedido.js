@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, IconButton, makeStyles, Typography, Box, useMediaQuery } from "@material-ui/core";
+import { Grid, IconButton, makeStyles, Typography, Box } from "@material-ui/core";
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 import Edit from "@material-ui/icons/Edit";
 import Producto from "./Producto";

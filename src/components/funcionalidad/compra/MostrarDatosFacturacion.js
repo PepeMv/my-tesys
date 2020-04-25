@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MostrarDatosFacturacion = ({ data, setSelectDatoFacturacion }) => {
+const MostrarDatosFacturacion = ({ data, setSelectDatoFacturacion, handleClose }) => {
   const classes = useStyles();
   const history = useHistory();
   return (
@@ -55,7 +55,7 @@ const MostrarDatosFacturacion = ({ data, setSelectDatoFacturacion }) => {
                       </Box>
                     </Grid>
                     <Grid item xs={2}>
-                      <IconButton onClick={()=> setSelectDatoFacturacion(item)} >
+                      <IconButton onClick={()=> {setSelectDatoFacturacion(item); handleClose();}} >
                         <AssignmentTurnedInTwoToneIcon
                           fontSize="large"
                           color="secondary"

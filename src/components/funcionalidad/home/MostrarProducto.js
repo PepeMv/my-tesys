@@ -98,7 +98,7 @@ const MostrarProducto = ({
 }) => {
   
   const classes = useStyles();
-  const [value, setValue] = useState(4);
+  const value = 4;
   const [cantidadAqui, setCantidadAqui] = useState();
   const [preciototalAqui, setPrecioTotalAqui] = useState();
   const [disabledMenos, setDisabledMenos] = useState();

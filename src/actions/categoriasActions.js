@@ -11,7 +11,7 @@ import {
   OBTENER_CATEGORIA_EDITAR,
   COMENZAR_CATEGORIA_EDITAR,
   EDITAR_CATEGORIA_EXITO,
-  EDITAR_CATEGORIA_ERROR,  
+  EDITAR_CATEGORIA_ERROR,
 } from "./../types";
 import { alerta } from "./../components/layout/AlertaCRUD";
 import clienteAxios from "./../config/axios";
@@ -28,7 +28,7 @@ export function insertarCategoriaAction(categoria) {
       //console.log(respuesta);
       if (respuesta.data.HttpResponse.statusText === "success") {
         dispatch(agregarCategoriaExito(respuesta.data.categoria));
-        //console.log(respuesta.data.categoria);        
+        //console.log(respuesta.data.categoria);
         alerta(
           respuesta.data.HttpResponse.message,
           respuesta.data.HttpResponse.statusText
@@ -40,6 +40,7 @@ export function insertarCategoriaAction(categoria) {
           respuesta.data.HttpResponse.statusText
         );
       }
+      return respuesta.data.HttpResponse.statusText;
     } catch (error) {
       dispatch(agregarCategoriaError());
       alerta("Algo salio mal, revise su red!", "error");
@@ -67,121 +68,136 @@ const agregarCategoriaError = () => ({
 //obetener categorias
 export function obtenerCategoriasAction() {
   return async (dispatch) => {
-      dispatch( comienzaDescargaCategorias());
+    dispatch(comienzaDescargaCategorias());
 
-      try {
-        const respuesta = await clienteAxios.get("/categorias");
-        //console.log(respuesta.data);
-        dispatch( descargaCategoriasExito( respuesta.data.categorias) );
-      } catch (error) {
-          dispatch( descargaCategoriasError());
-      }
+    try {
+      const respuesta = await clienteAxios.get("/categorias");
+      //console.log(respuesta.data);
+      dispatch(descargaCategoriasExito(respuesta.data.categorias));
+    } catch (error) {
+      dispatch(descargaCategoriasError());
+    }
   };
 }
 
 //comenzar descarga categorias
-const comienzaDescargaCategorias = () =>({
-    type: COMENZAR_DESCARGA_CATEGORIAS,
-    payload: true
+const comienzaDescargaCategorias = () => ({
+  type: COMENZAR_DESCARGA_CATEGORIAS,
+  payload: true,
 });
-//descargaCaterorias exito 
+//descargaCaterorias exito
 const descargaCategoriasExito = (categorias) => ({
-    type: DESCARGAR_CATEGORIAS_EXITO,
-    payload: categorias
+  type: DESCARGAR_CATEGORIAS_EXITO,
+  payload: categorias,
 });
 //decargaCategoriasError
-const descargaCategoriasError = () =>({
-    type: DESCARGAR_CATEGORIAS_ERROR,
-    payload: true
+const descargaCategoriasError = () => ({
+  type: DESCARGAR_CATEGORIAS_ERROR,
+  payload: true,
 });
 
-//Eliminar categoria 
-export function eliminarCategoriaAction (id){
-    return async (dispatch) => {
-        dispatch( obtenerCategoriaEliminar(id) );
+//Eliminar categoria
+export function eliminarCategoriaAction(id) {
+  return async (dispatch) => {
+    dispatch(obtenerCategoriaEliminar(id));
 
-        try {
-            const respuesta = await clienteAxios.delete(`/categorias/${id}`);
-            //console.log(respuesta);
-            if(respuesta.data.HttpResponse.statusText==='success'){
-              dispatch( eliminarCategoriaExito(id) );
-              alerta(respuesta.data.HttpResponse.message,respuesta.data.HttpResponse.statusText);
-            }else{
-              dispatch( eliminarCategoriaError());
-              alerta(respuesta.data.HttpResponse.message,respuesta.data.HttpResponse.statusText);
-            }
-        } catch (error) {
-          dispatch( eliminarCategoriaError());
-          alerta('Algo salio mal, revise su red!','error');
-        }
-    };
-} 
+    try {
+      const respuesta = await clienteAxios.delete(`/categorias/${id}`);
+      //console.log(respuesta);
+      if (respuesta.data.HttpResponse.statusText === "success") {
+        dispatch(eliminarCategoriaExito(id));
+        alerta(
+          respuesta.data.HttpResponse.message,
+          respuesta.data.HttpResponse.statusText
+        );
+      } else {
+        dispatch(eliminarCategoriaError());
+        alerta(
+          respuesta.data.HttpResponse.message,
+          respuesta.data.HttpResponse.statusText
+        );
+      }
+    } catch (error) {
+      dispatch(eliminarCategoriaError());
+      alerta("Algo salio mal, revise su red!", "error");
+    }
+  };
+}
 
 //obtener categoria
-const obtenerCategoriaEliminar = (id) =>({
-    type: OBTENER_CATEGORIA_ELIMINAR,
-    payload: id
+const obtenerCategoriaEliminar = (id) => ({
+  type: OBTENER_CATEGORIA_ELIMINAR,
+  payload: id,
 });
-//eliminar categoria exito 
+//eliminar categoria exito
 const eliminarCategoriaExito = () => ({
   type: ELIMINAR_CATEGORIA_EXITO,
-
 });
 //eliminar Error
 const eliminarCategoriaError = () => ({
   type: ELIMINAR_CATEGORIA_ERROR,
-  payload: true
+  payload: true,
 });
 
 //Obtenerla categoria a edita
-export function obtenerCategoriaEditarAction ( categoria ){
+export function obtenerCategoriaEditarAction(categoria) {
   return (dispatch) => {
-    dispatch( obtenerCategoriaEditar( categoria ));
+    dispatch(obtenerCategoriaEditar(categoria));
   };
 }
-//obetenr producto
-const obtenerCategoriaEditar = ( categoria ) => ({
+//obetenr categoria
+const obtenerCategoriaEditar = (categoria) => ({
   type: OBTENER_CATEGORIA_EDITAR,
-  payload: categoria
+  payload: categoria,
 });
 
-export function editarCategoriaAction ( categoria){
+export function editarCategoriaAction(categoria) {
   return async (dispatch) => {
-    dispatch( comenzarEditarCategoria());
+    dispatch(comenzarEditarCategoria());
     let formData = new FormData();
     formData.append("nombre", categoria.nombre);
     formData.append("activo", categoria.activo);
 
     try {
-      const respuesta = await clienteAxios.put(`/categorias/${categoria.id}`, categoria);
-      if (respuesta.data.HttpResponse.statusText === "success") {        
-        dispatch( editarCategoriaExito(respuesta.data.categoria) );
-        alerta(respuesta.data.HttpResponse.message,respuesta.data.HttpResponse.statusText);        
-      } else {        
-        dispatch( editarCategoriaError() );
-        alerta(respuesta.data.HttpResponse.message,respuesta.data.HttpResponse.statusText);
+      const respuesta = await clienteAxios.put(
+        `/categorias/${categoria.id}`,
+        categoria
+      );
+      if (respuesta.data.HttpResponse.statusText === "success") {
+        dispatch(editarCategoriaExito(respuesta.data.categoria));
+        alerta(
+          respuesta.data.HttpResponse.message,
+          respuesta.data.HttpResponse.statusText
+        );
+      } else {
+        dispatch(editarCategoriaError());
+        alerta(
+          respuesta.data.HttpResponse.message,
+          respuesta.data.HttpResponse.statusText
+        );
       }
+      //return respuesta.data.HttpResponse.statusText;
     } catch (error) {
-      dispatch( editarCategoriaError() );
-        alerta('Algo salio mal, revise su red!','error');
-    }    
+      dispatch(editarCategoriaError());
+      alerta("Algo salio mal, revise su red!", "error");
+    }
   };
 }
 
 //comenzar editar
 const comenzarEditarCategoria = () => ({
   type: COMENZAR_CATEGORIA_EDITAR,
-  payload: true
+  payload: true,
 });
 
 //ediatr exito
-const editarCategoriaExito = ( categoria ) =>({
+const editarCategoriaExito = (categoria) => ({
   type: EDITAR_CATEGORIA_EXITO,
-  payload: categoria
+  payload: categoria,
 });
 
 //ediatr categoria error
-const editarCategoriaError = () =>({
+const editarCategoriaError = () => ({
   type: EDITAR_CATEGORIA_ERROR,
-  payload: true
+  payload: true,
 });

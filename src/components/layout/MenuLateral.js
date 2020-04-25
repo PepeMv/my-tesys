@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import Divider from "@material-ui/core/Divider";
 import { makeStyles } from "@material-ui/core/styles";
@@ -31,14 +31,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function MenuLateral({ abrirmenu, handleCerrarMenu }) {
+function MenuLateral({ abrirmenu, handleCerrarMenu, logedo, handleOpenRegistrar, handleOpenLogin }) {
   //obtener logo  el restaurante
   const logoRestaurante = useSelector(
     (state) => state.restaurante.imagenes.logo
   );
   const classes = useStyles();
-
-  const [logedo, setLogeado] = useState(true);
 
   const toggleDrawer = () => (event) => {
     if (
@@ -78,7 +76,7 @@ function MenuLateral({ abrirmenu, handleCerrarMenu }) {
           </IconButton>
         </div>
         <Divider />
-        {logedo ? <MenuLateralLogeado handleCerrarMenu={handleCerrarMenu}/> : <MenuLateralNoLogeado />}
+        {logedo ? <MenuLateralLogeado handleCerrarMenu={handleCerrarMenu}/> : <MenuLateralNoLogeado handleOpenRegistrar={handleOpenRegistrar} handleOpenLogin={handleOpenLogin} />}
       </SwipeableDrawer>
     </div>
   );

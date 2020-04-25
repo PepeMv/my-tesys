@@ -5,13 +5,15 @@ import AppFrame from "../../layout/AppFrame";
 
 import { useDispatch, useSelector } from "react-redux";
 //redux
-import { editarCategoriaAction } from "./../../../actions/categoriasActions";
+import {
+  editarCategoriaAction,
+} from "./../../../actions/categoriasActions";
 import Spinner from "../../layout/Spinner";
 
 const renderBody = (data, columns, loading) => (
   <div>
-    <Spinner active={loading} />
     <Fragment>
+      <Spinner active={loading} />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Tabla
@@ -62,7 +64,7 @@ const CategoriaContainer = () => {
         />
       ),
       filtering: false,
-      sorting: false
+      sorting: false,
     },
   ];
 

@@ -48,6 +48,7 @@ export function insertarProductoAction(producto) {
           respuesta.data.HttpResponse.statusText
         );
       }
+      return respuesta.data.HttpResponse.statusText;
     } catch (error) {
       console.log(error);
       dispatch(agregarProductoError());

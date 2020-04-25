@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { createMuiTheme, MuiThemeProvider, responsiveFontSizes} from '@material-ui/core/styles';
 import tema from './components/temaUI/temapp1.json';
 
+
 let theme = createMuiTheme(tema);
 theme = responsiveFontSizes(theme);
 

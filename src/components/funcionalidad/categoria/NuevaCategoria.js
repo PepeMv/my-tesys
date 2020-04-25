@@ -42,7 +42,7 @@ const NuevaCategoria = () => {
     });
   };
 
-  const enviarCategoriaInsert = () => {
+  async function enviarCategoriaInsert () {
     if (nombre.trim() === "") {
       setErrorNombre({
         error: true,
@@ -53,8 +53,10 @@ const NuevaCategoria = () => {
         error: false,
         texto: "*",
       });
-      distpach(insertarCategoriaAction(categoria));
-      history.goBack();
+      const respuesta = await distpach(insertarCategoriaAction(categoria));
+      if(respuesta==="success"){
+        history.goBack();
+      }
     }
   };
 

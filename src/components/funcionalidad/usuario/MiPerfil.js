@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AppFrame from "../../layout/AppFrame";
 import { Formulario } from "../../layout/Formulario";
 import {
@@ -16,10 +16,9 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import uuid from "react-uuid";
 import { useHistory } from "react-router-dom";
-import { alerta } from "../../layout/AlertaCRUD";
 import { useDispatch, useSelector } from "react-redux";
-import { registrarUsuarioAction } from "../../../actions/usuarioActions";
 import Spinner from "../../layout/Spinner";
+import { editarUsuarioLogeadoAction } from "../../../actions/logeoActions";
 
 const useStyles = makeStyles((theme) => ({
   resize: {
@@ -27,9 +26,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UsuarioNuevo = () => {
-  const dispatch = useDispatch();
+const MiPerfil = () => {
   const loading = useSelector((state) => state.usuario.loading);
+  const usuarioEditar = useSelector((state) => state.logeo.usuarioInfo);
+  const dispatch = useDispatch();
   const history = useHistory();
   const [usuario, setUsuario] = useState({
     id: "",
@@ -43,6 +43,9 @@ const UsuarioNuevo = () => {
     direccion: "",
     tipoUsuario: "",
   });
+  useEffect(() => {
+    setUsuario(usuarioEditar);
+  }, [usuarioEditar]);
 
   const {
     //id,
@@ -54,7 +57,6 @@ const UsuarioNuevo = () => {
     password,
     telefono,
     direccion,
-    tipoUsuario,
   } = usuario;
 
   const [errornombre, setErrorNombre] = useState({
@@ -95,10 +97,6 @@ const UsuarioNuevo = () => {
     error: false,
     texto: "*",
   });
-  const [errortipoUsuario, setErrorTipoUsuario] = useState({
-    error: false,
-    texto: "*",
-  });
   const actualizarUsuario = (e) => {
     setUsuario({
       ...usuario,
@@ -106,97 +104,84 @@ const UsuarioNuevo = () => {
     });
     //console.log(producto);
   };
-  async function enviarRegistrarUsuario (){
-    if(tipoDocumento.toString().trim() === ""){
+  async function enviarActualizarUsuario() {
+    if (tipoDocumento.toString().trim() === "") {
       setErrortipoDocumento({
         error: true,
-        texto: "Selecione un tipo de documento!"
+        texto: "Selecione un tipo de documento!",
       });
-    } else if (numeroDocumento.trim() === "" || numeroDocumento.length < 10 ){
+    } else if (numeroDocumento.trim() === "" || numeroDocumento.length < 10) {
       setErrornumeroDocumento({
         error: true,
-        texto: "Ingrese un numero de docuemnto correcto!"
+        texto: "Ingrese un numero de docuemnto correcto!",
       });
-    } else if (nombre.trim() === ""){
+    } else if (nombre.trim() === "") {
       setErrorNombre({
         error: true,
-        texto: "Ingrese su nombre!"
+        texto: "Ingrese su nombre!",
       });
-    }else if (apellido.trim() === ""){
+    } else if (apellido.trim() === "") {
       setErrorApellido({
         error: true,
-        texto: "Ingrese su apellido"
+        texto: "Ingrese su apellido",
       });
-    }else if (email.trim()===""){
+    } else if (email.trim() === "") {
       setErrorEmail({
         error: true,
-        texto: "Ingrese su email!"
+        texto: "Ingrese su email!",
       });
-    }else if (password.trim() === "" || password.length <6 ){
-      alerta("La contraseña debe ser minimo de 6 caracteres", "error");
-      setErrorPassword({
-        error: true,
-        texto: "Ingrese una contraseña"
-      });
-    }else if (direccion.trim()===""){
+    } else if (direccion.trim() === "") {
       setErrorDireccion({
         error: true,
-        texto: "Ingrese su direccion de referencia!"
+        texto: "Ingrese su direccion de referencia!",
       });
-    }else if (telefono.trim()==="" || telefono.length <8){
+    } else if (telefono.trim() === "" || telefono.length < 8) {
       setErrorTelefono({
         error: true,
-        texto: "Ingrese su numero de telefono"
+        texto: "Ingrese su numero de telefono",
       });
-    }else if(tipoUsuario.trim()=== ""){
-      setErrorTipoUsuario({
-        error: true,
-        texto: "Elija un tipo de usuario"
-      });
-    }else{
+    } else {
       setErrortipoDocumento({
         error: false,
-        texto: "*"
+        texto: "*",
       });
       setErrornumeroDocumento({
         error: false,
-        texto: "*"
+        texto: "*",
       });
       setErrorNombre({
         error: false,
-        texto: "*"
+        texto: "*",
       });
       setErrorApellido({
         error: false,
-        texto: "*"
+        texto: "*",
       });
       setErrorEmail({
         error: false,
-        texto: "*"
+        texto: "*",
       });
       setErrorPassword({
         error: false,
-        texto: "*"
+        texto: "*",
       });
       setErrorDireccion({
         error: false,
-        texto: "*"
+        texto: "*",
       });
       setErrorTelefono({
         error: false,
-        texto: "*"
-      });
-      setErrorTipoUsuario({
-        error: false,
-        texto: "*"
-      });
-       //distpach
-       const result = await dispatch(registrarUsuarioAction(usuario));
-       //console.log(result);
-       if(result === "success"){
-         history.goBack();
-       }
-       
+        texto: "*",
+      });     
+      //distpach
+      if (password === "Cambia aqui solo para actualizar tu pasword!") {
+        setUsuario({
+          ...usuario,
+          [password]: null,
+        });
+      }
+      dispatch(editarUsuarioLogeadoAction(usuario));
+      //history.goBack();
     }
   }
 
@@ -212,6 +197,7 @@ const UsuarioNuevo = () => {
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
+            disabled
             select
             error={errortipoDocumento.error}
             helperText={errortipoDocumento.texto}
@@ -245,6 +231,7 @@ const UsuarioNuevo = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            disabled
             error={errornumeroDocumento.error}
             helperText={errornumeroDocumento.texto}
             id="numeroDocumento"
@@ -315,6 +302,7 @@ const UsuarioNuevo = () => {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            disabled
             error={erroremail.error}
             helperText={erroremail.texto}
             id="email"
@@ -353,7 +341,7 @@ const UsuarioNuevo = () => {
             name="password"
             style={{ margin: 3 }}
             type={showPassword ? "text" : "password"}
-            value={password}
+            value={ password ? password :"Cambia aqui solo para actualizar tu pasword!"}
             onChange={actualizarUsuario}
             endAdornment={
               <InputAdornment position="end">
@@ -368,7 +356,7 @@ const UsuarioNuevo = () => {
             }
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <TextField
             error={errordireccion.error}
             helperText={errordireccion.texto}
@@ -413,44 +401,24 @@ const UsuarioNuevo = () => {
               shrink: true,
             }}
           />
-        </Grid>
+        </Grid>        
         <Grid item xs={12} sm={6}>
-          <TextField
-            error={errortipoUsuario.error}
-            helperText={errortipoUsuario.texto}
-            select
-            id="tipoUsuario"
-            name="tipoUsuario"
-            value={tipoUsuario}
-            onChange={actualizarUsuario}
-            label={<Typography variant="h4"> Tipo Usuario </Typography>}
-            style={{ margin: 3 }}
+          <Button
+            variant="contained"
+            color="primary"
             fullWidth
-            margin="normal"
-            InputProps={{
-              classes: {
-                input: classes.resize,
-              },
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
+            onClick={() => enviarActualizarUsuario()}
           >
-            <MenuItem key={uuid()} value="usuario">
-              Usuario
-            </MenuItem>
-            <MenuItem key={uuid()} value="cliente">
-              Cliente
-            </MenuItem>
-          </TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Button variant="contained" color="primary" fullWidth onClick={()=> enviarRegistrarUsuario() } >
             <Typography variant="h5"> Guardar </Typography>
           </Button>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Button variant="outlined" color="primary" fullWidth onClick={() => history.goBack()} >
+          <Button
+            variant="outlined"
+            color="primary"
+            fullWidth
+            onClick={() => history.goBack()}
+          >
             <Typography variant="h5"> Cancelar </Typography>
           </Button>
         </Grid>
@@ -458,7 +426,7 @@ const UsuarioNuevo = () => {
     </Formulario>
   );
 
-  return <AppFrame titulo="Nuevo Usuario" body={renderBody()} />;
+  return <AppFrame titulo="Mi Perfil" body={renderBody()} />;
 };
 
-export default UsuarioNuevo;
+export default MiPerfil;

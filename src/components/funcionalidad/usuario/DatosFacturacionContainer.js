@@ -9,11 +9,12 @@ import {
   makeStyles,
   Paper,
   Box,
-  IconButton,
+  //IconButton,
 } from "@material-ui/core";
 import uuid from "react-uuid";
 import { Formulario } from "../../layout/Formulario";
 import { Alert } from "@material-ui/lab";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -29,49 +30,8 @@ const useStyles = makeStyles((theme) => ({
 
 const DatosFacturacionContainer = () => {
   const classes = useStyles();
-  const columns = [
-    { title: "id", field: "id" },
-    { title: "nombre", field: "nombre" },
-    { title: "apellido", field: "apellido" },
-    {
-      title: "tipo_ducumento",
-      field: "tipo_ducumento",
-      lookup: { cedula: "Cedula", ruc: "R.U.C", pasaporte: "Pasaporte" },
-    },
-    { title: "cedula", field: "cedula", type: "numeric" },
-    { title: "email", field: "email" },
-    { title: "direccion", field: "direccion" },
-    { title: "id_cliente", field: "id_cliente" },
-  ];
-  const data = [
-    {
-      id: 1,
-      nombre: "Juan Jose",
-      apellido: "Mesias",
-      tipo_ducumento: "cedula",
-      cedula: "1804569364",
-      email: "pepemv1997@gmail.com",
-      direccion: "patate",
-    },
-    {
-      id: 1,
-      nombre: "Juan Jose",
-      apellido: "Mesias",
-      tipo_ducumento: "cedula",
-      cedula: "1804569364",
-      email: "pepemv1997@gmail.com",
-      direccion: "patate",
-    },
-    {
-      id: 1,
-      nombre: "Juan Jose",
-      apellido: "Mesias",
-      tipo_ducumento: "cedula",
-      cedula: "1804569364",
-      email: "pepemv1997@gmail.com",
-      direccion: "patate",
-    },
-  ];
+  const data = useSelector( (state) => state.logeo.datosFacturacion );
+  
   const history = useHistory();
   const renderBody = () => (
     <Formulario>
@@ -104,7 +64,7 @@ const DatosFacturacionContainer = () => {
                         </Typography>
                       </Box>
                       <Box fontWeight="" ml={1}>
-                        <Typography variant="h5">{item.cedula}</Typography>
+                        <Typography variant="h5">{item.numeroDocumento}</Typography>
                       </Box>
                       <Box fontWeight="" ml={1}>
                         <Typography variant="h5">{item.direccion}</Typography>

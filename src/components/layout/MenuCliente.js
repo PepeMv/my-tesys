@@ -5,11 +5,16 @@ import RestaurantTwoToneIcon from "@material-ui/icons/RestaurantTwoTone";
 import ExitToAppTwoToneIcon from "@material-ui/icons/ExitToAppTwoTone";
 import ContactsTwoToneIcon from "@material-ui/icons/ContactsTwoTone";
 import StorageTwoToneIcon from '@material-ui/icons/StorageTwoTone';
+import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { cerrarSesionAction } from '../../actions/logeoActions';
 
 function MenuCliente({handleCerrarMenu}) {
+  const dispatch = useDispatch();
+  const history = useHistory();
     return (
         <List>
-          <ListItem button key={uuid()}>
+          <ListItem button key={uuid()} onClick={()=>{history.push('/miPerfil'); handleCerrarMenu();}} >
             <ListItemIcon>
               <ContactsTwoToneIcon />
             </ListItemIcon>
@@ -18,16 +23,16 @@ function MenuCliente({handleCerrarMenu}) {
             />
           </ListItem>
           <Divider />
-          <ListItem button key={uuid()}>
+          <ListItem button key={uuid()} onClick={()=>{history.push('/datosFacturacion'); handleCerrarMenu();}} >
             <ListItemIcon>
               <StorageTwoToneIcon />
-            </ListItemIcon>
+            </ListItemIcon >
             <ListItemText
               primary={<Typography variant="h6">Mis Datos de Facturación</Typography>}
             />
           </ListItem>
           <Divider />
-          <ListItem button key={uuid()}>
+          <ListItem button key={uuid()} onClick={()=>{history.push('/misPedidos'); handleCerrarMenu();}} >
             <ListItemIcon>
               <RestaurantTwoToneIcon />
             </ListItemIcon>
@@ -36,7 +41,7 @@ function MenuCliente({handleCerrarMenu}) {
             />
           </ListItem>
           <Divider />         
-          <ListItem button key={uuid()}>
+          <ListItem button key={uuid()} onClick={()=> {dispatch(cerrarSesionAction()); history.push('/'); handleCerrarMenu();}}>
             <ListItemIcon>
               <ExitToAppTwoToneIcon />
             </ListItemIcon>

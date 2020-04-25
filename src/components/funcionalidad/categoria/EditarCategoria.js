@@ -51,7 +51,7 @@ const EditarCategoria = () => {
     });
   };
 
-  const enviarEditarCategoria = () => {
+  async function enviarEditarCategoria () {
     if (nombre.trim() === "") {
       setErrorNombre({
         error: true,
@@ -63,7 +63,8 @@ const EditarCategoria = () => {
         texto: "*",
       });
       distpach(editarCategoriaAction(categoria));
-      history.goBack();
+        history.goBack();
+      
     }
   };
 

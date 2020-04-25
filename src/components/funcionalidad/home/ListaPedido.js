@@ -15,10 +15,10 @@ import SendSharpIcon from "@material-ui/icons/SendSharp";
 import {  useHistory } from 'react-router-dom';
 import uuid from "react-uuid";
 import { Alert } from "@material-ui/lab";
-import {  useDispatch } from 'react-redux';
+import {  useDispatch, useSelector } from 'react-redux';
 import ProductoPedido from "./ProductoPedido";
 import {obtenerNumeroItemsPedidoAction} from './../../../actions/pedidosActions';
-import {alerta} from './../../layout/AlertaCRUD';
+import {alertaConfirmacion} from './../../layout/AlertaCRUD';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -68,9 +68,10 @@ const ListaPedido = ({
   const distpach = useDispatch();
   const classes = useStyles();
   const [subtotal, setSubtotal] = useState(0);
-  const [extras, setExtras] = useState(0);
+  //const [extras, setExtras] = useState(0);
   const [total, setTotal] = useState(0);
-  const logeado = true;
+  const logeado = useSelector((state) => state.logeo.autenticado);
+  const rol = useSelector( (state) => state.logeo.usuarioInfo );
 
   useEffect(() => {
     const calcularValores = () => {
@@ -78,7 +79,7 @@ const ListaPedido = ({
       listapedidos.map(p => (suma += p.preciototal));
       setSubtotal(suma.toFixed(2));
       //setear extras de algo con un state global
-      const total = suma+extras;
+      const total = suma+0;
 
       setTotal(total.toFixed(2));
       distpach(obtenerNumeroItemsPedidoAction(listapedidos.length));
@@ -87,15 +88,20 @@ const ListaPedido = ({
   }, [listapedidos]);
 
   const confirmarOrdenRedireccion = () =>{
-    if(!logeado){
-      alerta('Para proceder debes estar logeado','error');
-    } else if (tipopedido === ""){
-      alerta('Elije un metodo de entrega','error');
-    }else if(listapedidos.length === 0) {
-      alerta('Debes elejir uno o mas productos','error');
-    } else {
-      history.push('/confirmarCompra', {listapedidos, subtotal, total, tipopedido, lugar});
+    if(rol.tipoUsuario==="cliente") {
+      if(!logeado){
+        alertaConfirmacion('Error','Para proceder debes inciar sesión','error');
+      } else if (tipopedido === ""){
+        alertaConfirmacion('Error','Elije un metodo de entrega','error');
+      }else if(listapedidos.length === 0) {
+        alertaConfirmacion('Error','Debes elejir uno o mas productos','error');
+      } else {
+        history.push('/confirmarCompra', {listapedidos, subtotal, total, tipopedido, lugar});
+      }
+    }else{
+      alertaConfirmacion('Error','Para hacer pedidos debe ser cliente','error');
     }
+    
   }
   let pequenio = "";
   if (useMediaQuery(theme => theme.breakpoints.up("lg"))) {

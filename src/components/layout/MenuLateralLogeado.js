@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import AvatarPersonalizado from "./AvatarPersonalizado";
 import {
   Divider,
@@ -8,6 +8,7 @@ import { Alert } from "@material-ui/lab";
 import Typography from "@material-ui/core/Typography";
 import MenuUsuario from "./MenuUsuario";
 import MenuCliente from "./MenuCliente";
+import { useSelector } from "react-redux";
 
 
 const useStyles = makeStyles(theme => ({
@@ -18,15 +19,18 @@ const useStyles = makeStyles(theme => ({
 
 function MenuLateralLogeado({handleCerrarMenu}) {
   const classes = useStyles();
-  const [tipousuario, setTipoUsuario] = useState('usuario');
+  //const [tipousuario, setTipoUsuario] = useState('usuario');
+  const tipousuario = useSelector( (state) => state.logeo.usuarioInfo.tipoUsuario );
+  const nombreInicial = useSelector( (state) => state.logeo.usuarioInfo.nombre );
+  const apellidoInicial = useSelector( (state) => state.logeo.usuarioInfo.apellido );
   return (
     <Fragment >
       <div >
-      <AvatarPersonalizado nombreAvatar="Pp" size="large" />
+      <AvatarPersonalizado nombreAvatar={nombreInicial.charAt(0).toUpperCase() + apellidoInicial.charAt(0).toUpperCase()} size="large" />
       </div>
       <div>
         <Alert icon={false} severity="success" className={classes.itemMenu}>
-          <Typography variant="h6"> Hola, Pp </Typography>
+          <Typography variant="h6"> Hola, {nombreInicial} {apellidoInicial} </Typography>
         </Alert>
         <Divider />        
       </div>

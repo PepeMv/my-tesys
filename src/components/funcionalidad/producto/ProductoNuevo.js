@@ -93,7 +93,7 @@ function ProductoNuevo() {
     texto: "*",
   });
 
-  const submitInsertarProducto = () => {
+  async function submitInsertarProducto  () {
     if (nombre.trim() === "") {
       setErrorNombre({
         error: true,
@@ -134,8 +134,10 @@ function ProductoNuevo() {
         texto: "*",
       });
       //distpach
-      dispatch(insertarProductoAction(producto));
-      history.goBack();
+      const resultado = await dispatch(insertarProductoAction(producto));
+      if(resultado==="success"){
+        history.goBack();
+      }
     }    
   };
 

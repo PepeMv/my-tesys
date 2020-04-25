@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(4),
   },
   encabezadoMenu: {
-    backgroundColor: "#1976D2",    
+    backgroundColor: "#1976D2",
     padding: theme.spacing(1.5),
     color: "#D1D1D1",
   },
@@ -105,13 +105,13 @@ const ListaMenu = ({
 
   return (
     <List
+    color="primary"
       component="nav"
       aria-labelledby="nested-list-subheader"
       subheader={
         <ListSubheader
           component="div"
           id="encabezado-menu"
-          color="primary"
           className={classes.encabezadoMenu}
         >
           <Typography variant="h4">

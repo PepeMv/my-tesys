@@ -1,16 +1,16 @@
 import React, { Fragment, useEffect } from "react";
 import AppFrame from "../../layout/AppFrame";
-import { Grid, Box  } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import Tabla from "../../layout/Tabla";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import Spinner from "../../layout/Spinner";
 
-/* lookup: { cliente: 'Cliente', usuario: 'Usuario' } */
 
 function ProductosContainer() {
 
   const [look, setLook] = useState({});
+  //const dispatch = useDispatch();
 
   const loading = useSelector((state) => state.productos.loading);
   const data = useSelector((state) => state.productos.listadoProductos );
@@ -18,6 +18,7 @@ function ProductosContainer() {
   const categorias = useSelector((state) => state.categorias.listadoCategorias);
 
   useEffect(() => {
+   
     const lookUpCategorias = (categorias) =>{
       let obj = {};
       categorias.forEach(element => {
@@ -27,7 +28,9 @@ function ProductosContainer() {
     };
     const preLook = lookUpCategorias(categorias);
     setLook(preLook);
-  }, [])
+    
+  }, [categorias])
+
   const columns = [    
     { title: 'Avatar', render: rowData => <img alt='avatar' src={imagenes.find( img => img.id ===rowData.id).url} style={{width: 50, borderRadius: '30%'}}/> , filtering: false, sorting: false},
     /* { title: "id", field: "id" }, */
@@ -37,11 +40,6 @@ function ProductosContainer() {
     /* { title: "aplica_iva", field: "aplica_iva" }, */
     { title: "Categoria", field: 'idCategoria', lookup: look },
   ];
-  /* const data = [
-    { img:'http://avatars.design/wp-content/uploads/2016/09/avatar_collection_grid-3.jpg', id: '1', nombre:'pp', precio:'45', descripcion:'kjahksjfhsf',  aplica_iva:'si', categoria:'Bebidas' },
-    { img:'http://avatars.design/wp-content/uploads/2016/09/avatar_collection_grid-3.jpg', id: '1', nombre:'pp', precio:'45', descripcion:'kjahksjfhsf',  aplica_iva:'si', categoria:'Bebidas' },
-    { img:'http://avatars.design/wp-content/uploads/2016/09/avatar_collection_grid-3.jpg', id: '1', nombre:'pp', precio:'45', descripcion:'kjahksjfhsf',  aplica_iva:'si', categoria:'Bebidas' },   
-  ]; */
 
   const renderBody = () => (
     <Fragment>

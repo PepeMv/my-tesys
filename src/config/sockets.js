@@ -1,0 +1,22 @@
+import Pusher from "pusher-js";
+import Echo from "laravel-echo";
+
+
+window.Pusher = Pusher;
+export default window.Echo = new Echo({
+  broadcaster: "pusher",
+  key: "ASDASD2121",
+  wsHost: "127.0.0.1",
+  wsPort: 6001,
+  disableStats: true,
+});
+//escuchar pedidos nuevos
+
+//agregar al state los pedidos que vienen por sockets
+/* const agregarPedidoDetalleLive = ($pedido, $detalle) => {
+  if($pedido !== null && $detalle !== null){
+    dispatch( agregarPedidoyDetallePrepararLiveAction($pedido, $detalle) );
+  }    
+} */
+
+

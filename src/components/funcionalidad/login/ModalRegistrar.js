@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import AppFrame from "../../layout/AppFrame";
-import { Formulario } from "../../layout/Formulario";
+import React, { Fragment, useState } from "react";
+import Modal from "./../../layout/Modal";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import {
   Grid,
   TextField,
   Typography,
+  MenuItem,
   makeStyles,
   Input,
-  InputAdornment,
   IconButton,
-  MenuItem,
+  InputAdornment,
   Button,
+  Box,
 } from "@material-ui/core";
-import Visibility from "@material-ui/icons/Visibility";
-import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import uuid from "react-uuid";
-import { useHistory } from "react-router-dom";
-import { alerta } from "../../layout/AlertaCRUD";
+//import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { registrarUsuarioAction } from "../../../actions/usuarioActions";
-import Spinner from "../../layout/Spinner";
+import { alerta } from "../../layout/AlertaCRUD";
+import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   resize: {
@@ -27,10 +27,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UsuarioNuevo = () => {
+const ModalRegistrar = ({ openRegistrar, handelCloseRegistrar }) => {
   const dispatch = useDispatch();
-  const loading = useSelector((state) => state.usuario.loading);
-  const history = useHistory();
+  //const history = useHistory();
+  const error = useSelector((state) => state.usuario.error);
+  const classes = useStyles();
+  const [showPassword, setShowPassword] = useState(false);
   const [usuario, setUsuario] = useState({
     id: "",
     nombre: "",
@@ -41,7 +43,7 @@ const UsuarioNuevo = () => {
     password: "",
     telefono: "",
     direccion: "",
-    tipoUsuario: "",
+    tipoUsuario: "cliente",
   });
 
   const {
@@ -54,9 +56,15 @@ const UsuarioNuevo = () => {
     password,
     telefono,
     direccion,
-    tipoUsuario,
   } = usuario;
-
+  const [errortipoDocumento, setErrortipoDocumento] = useState({
+    error: false,
+    texto: "*",
+  });
+  const [errornumeroDocumento, setErrornumeroDocumento] = useState({
+    error: false,
+    texto: "*",
+  });
   const [errornombre, setErrorNombre] = useState({
     error: false,
     texto: "*",
@@ -66,17 +74,6 @@ const UsuarioNuevo = () => {
     error: false,
     texto: "*",
   });
-
-  const [errortipoDocumento, setErrortipoDocumento] = useState({
-    error: false,
-    texto: "*",
-  });
-
-  const [errornumeroDocumento, setErrornumeroDocumento] = useState({
-    error: false,
-    texto: "*",
-  });
-
   const [erroremail, setErrorEmail] = useState({
     error: false,
     texto: "*",
@@ -95,10 +92,6 @@ const UsuarioNuevo = () => {
     error: false,
     texto: "*",
   });
-  const [errortipoUsuario, setErrorTipoUsuario] = useState({
-    error: false,
-    texto: "*",
-  });
   const actualizarUsuario = (e) => {
     setUsuario({
       ...usuario,
@@ -106,111 +99,110 @@ const UsuarioNuevo = () => {
     });
     //console.log(producto);
   };
-  async function enviarRegistrarUsuario (){
-    if(tipoDocumento.toString().trim() === ""){
-      setErrortipoDocumento({
-        error: true,
-        texto: "Selecione un tipo de documento!"
-      });
-    } else if (numeroDocumento.trim() === "" || numeroDocumento.length < 10 ){
-      setErrornumeroDocumento({
-        error: true,
-        texto: "Ingrese un numero de docuemnto correcto!"
-      });
-    } else if (nombre.trim() === ""){
-      setErrorNombre({
-        error: true,
-        texto: "Ingrese su nombre!"
-      });
-    }else if (apellido.trim() === ""){
-      setErrorApellido({
-        error: true,
-        texto: "Ingrese su apellido"
-      });
-    }else if (email.trim()===""){
-      setErrorEmail({
-        error: true,
-        texto: "Ingrese su email!"
-      });
-    }else if (password.trim() === "" || password.length <6 ){
-      alerta("La contraseña debe ser minimo de 6 caracteres", "error");
-      setErrorPassword({
-        error: true,
-        texto: "Ingrese una contraseña"
-      });
-    }else if (direccion.trim()===""){
-      setErrorDireccion({
-        error: true,
-        texto: "Ingrese su direccion de referencia!"
-      });
-    }else if (telefono.trim()==="" || telefono.length <8){
-      setErrorTelefono({
-        error: true,
-        texto: "Ingrese su numero de telefono"
-      });
-    }else if(tipoUsuario.trim()=== ""){
-      setErrorTipoUsuario({
-        error: true,
-        texto: "Elija un tipo de usuario"
-      });
-    }else{
-      setErrortipoDocumento({
-        error: false,
-        texto: "*"
-      });
-      setErrornumeroDocumento({
-        error: false,
-        texto: "*"
-      });
-      setErrorNombre({
-        error: false,
-        texto: "*"
-      });
-      setErrorApellido({
-        error: false,
-        texto: "*"
-      });
-      setErrorEmail({
-        error: false,
-        texto: "*"
-      });
-      setErrorPassword({
-        error: false,
-        texto: "*"
-      });
-      setErrorDireccion({
-        error: false,
-        texto: "*"
-      });
-      setErrorTelefono({
-        error: false,
-        texto: "*"
-      });
-      setErrorTipoUsuario({
-        error: false,
-        texto: "*"
-      });
-       //distpach
-       const result = await dispatch(registrarUsuarioAction(usuario));
-       //console.log(result);
-       if(result === "success"){
-         history.goBack();
-       }
-       
-    }
-  }
-
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
 
-  const classes = useStyles();
-  const [showPassword, setShowPassword] = useState(false);
-  const renderBody = () => (
-    <Formulario>
-      <Spinner active={loading} />
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
+  async function enviarRegistrarUsuario() {
+    if (tipoDocumento.toString().trim() === "") {
+      setErrortipoDocumento({
+        error: true,
+        texto: "Selecione un tipo de documento!",
+      });
+    } else if (numeroDocumento.trim() === "" || numeroDocumento.length < 10) {
+      setErrornumeroDocumento({
+        error: true,
+        texto: "Ingrese un numero de docuemnto correcto!",
+      });
+    } else if (nombre.trim() === "") {
+      setErrorNombre({
+        error: true,
+        texto: "Ingrese su nombre!",
+      });
+    } else if (apellido.trim() === "") {
+      setErrorApellido({
+        error: true,
+        texto: "Ingrese su apellido",
+      });
+    } else if (email.trim() === "") {
+      setErrorEmail({
+        error: true,
+        texto: "Ingrese su email!",
+      });
+    } else if (password.trim() === "" || password.length < 6) {
+      alerta("La contraseña debe ser minimo de 6 caracteres", "error");
+      setErrorPassword({
+        error: true,
+        texto: "Ingrese una contraseña",
+      });
+    } else if (direccion.trim() === "") {
+      setErrorDireccion({
+        error: true,
+        texto: "Ingrese su direccion de referencia!",
+      });
+    } else if (telefono.trim() === "" || telefono.length < 8) {
+      setErrorTelefono({
+        error: true,
+        texto: "Ingrese su numero de telefono",
+      });
+    } else {
+      setErrortipoDocumento({
+        error: false,
+        texto: "*",
+      });
+      setErrornumeroDocumento({
+        error: false,
+        texto: "*",
+      });
+      setErrorNombre({
+        error: false,
+        texto: "*",
+      });
+      setErrorApellido({
+        error: false,
+        texto: "*",
+      });
+      setErrorEmail({
+        error: false,
+        texto: "*",
+      });
+      setErrorPassword({
+        error: false,
+        texto: "*",
+      });
+      setErrorDireccion({
+        error: false,
+        texto: "*",
+      });
+      setErrorTelefono({
+        error: false,
+        texto: "*",
+      });
+      //distpach
+      const result = await dispatch(registrarUsuarioAction(usuario));
+      //console.log(result);
+      if (result === "success") {
+        setUsuario({
+          id: "",
+          nombre: "",
+          apellido: "",
+          tipoDocumento: "",
+          numeroDocumento: "",
+          email: "",
+          password: "",
+          telefono: "",
+          direccion: "",
+          tipoUsuario: "cliente",
+        });
+        handelCloseRegistrar();
+      }
+    }
+  }
+
+  const renderLogin = () => (
+    <Fragment>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
           <TextField
             select
             error={errortipoDocumento.error}
@@ -243,7 +235,7 @@ const UsuarioNuevo = () => {
             </MenuItem>
           </TextField>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12}>
           <TextField
             error={errornumeroDocumento.error}
             helperText={errornumeroDocumento.texto}
@@ -391,7 +383,7 @@ const UsuarioNuevo = () => {
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12}>
           <TextField
             error={errortelefono.error}
             helperText={errortelefono.texto}
@@ -414,51 +406,44 @@ const UsuarioNuevo = () => {
             }}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            error={errortipoUsuario.error}
-            helperText={errortipoUsuario.texto}
-            select
-            id="tipoUsuario"
-            name="tipoUsuario"
-            value={tipoUsuario}
-            onChange={actualizarUsuario}
-            label={<Typography variant="h4"> Tipo Usuario </Typography>}
-            style={{ margin: 3 }}
+        {error !== null && error !== false ? (
+          <Box m={1}>
+            <Alert severity="error">
+              <Typography variant="h6">{error}</Typography>
+            </Alert>
+          </Box>
+        ) : null}
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            color="primary"
             fullWidth
-            margin="normal"
-            InputProps={{
-              classes: {
-                input: classes.resize,
-              },
-            }}
-            InputLabelProps={{
-              shrink: true,
-            }}
+            onClick={() => enviarRegistrarUsuario()}
           >
-            <MenuItem key={uuid()} value="usuario">
-              Usuario
-            </MenuItem>
-            <MenuItem key={uuid()} value="cliente">
-              Cliente
-            </MenuItem>
-          </TextField>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Button variant="contained" color="primary" fullWidth onClick={()=> enviarRegistrarUsuario() } >
-            <Typography variant="h5"> Guardar </Typography>
+            <Typography variant="h5"> Crear cuenta </Typography>
           </Button>
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Button variant="outlined" color="primary" fullWidth onClick={() => history.goBack()} >
+        <Grid item xs={12}>
+          <Button
+            variant="outlined"
+            color="secondary"
+            fullWidth
+            onClick={() => handelCloseRegistrar()}
+          >
             <Typography variant="h5"> Cancelar </Typography>
           </Button>
         </Grid>
       </Grid>
-    </Formulario>
+    </Fragment>
   );
-
-  return <AppFrame titulo="Nuevo Usuario" body={renderBody()} />;
+  return (
+    <Modal
+      open={openRegistrar}
+      handleClose={handelCloseRegistrar}
+      titulo="Obtener una cuenta"
+      contenido={renderLogin()}
+    />
+  );
 };
 
-export default UsuarioNuevo;
+export default ModalRegistrar;

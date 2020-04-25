@@ -45,7 +45,7 @@ const MesaNueva = () => {
     });
   };
   const { nombre, descripcion } = mesa;
-  const enviarIngresarMesa = () =>{
+  async function enviarIngresarMesa () {
     if(nombre.trim()===""){
       setNombreError({
         error: true,
@@ -66,9 +66,11 @@ const MesaNueva = () => {
         texto: "*"
       });
       //distpach
-      distpach(insertarMesaAction(mesa));
+      const respuesta = await distpach(insertarMesaAction(mesa));
+      if(respuesta === "success"){
+        history.goBack();
+      }
       //go back 
-      history.goBack();
     }
   }
   const renderBody = () => (
