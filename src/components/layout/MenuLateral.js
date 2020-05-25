@@ -76,7 +76,7 @@ function MenuLateral({ abrirmenu, handleCerrarMenu, logedo, handleOpenRegistrar,
           </IconButton>
         </div>
         <Divider />
-        {logedo ? <MenuLateralLogeado handleCerrarMenu={handleCerrarMenu}/> : <MenuLateralNoLogeado handleOpenRegistrar={handleOpenRegistrar} handleOpenLogin={handleOpenLogin} />}
+        {logedo ? <MenuLateralLogeado handleCerrarMenu={handleCerrarMenu}/> : <MenuLateralNoLogeado handleOpenRegistrar={handleOpenRegistrar} handleOpenLogin={handleOpenLogin} handleCerrarMenu={handleCerrarMenu} />}
       </SwipeableDrawer>
     </div>
   );

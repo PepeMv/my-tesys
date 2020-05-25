@@ -6,9 +6,10 @@ window.Pusher = Pusher;
 export default window.Echo = new Echo({
   broadcaster: "pusher",
   key: "ASDASD2121",
-  wsHost: "127.0.0.1",
+  wsHost: "192.168.1.11",
   wsPort: 6001,
   disableStats: true,
+  //encrypted: true
 });
 //escuchar pedidos nuevos
 

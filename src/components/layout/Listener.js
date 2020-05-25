@@ -7,7 +7,21 @@ import {
   quitarPedidoDePrepararAction,
   quitarPedidoDeEntregarAction,
 } from "../../actions/pedidosActions";
+//import Push from "push.js";
 const Listener = () => {
+  //const usuario = useSelector( (state) => state.logeo.usuarioInfo );
+  //const restaurante = useSelector( (state) => state.restaurante.restauranteInfo );
+  /* const notificar = (pedido) =>{
+    if(usuario!==null){
+      if(usuario.id === pedido.idUsuario){
+        Push.create('Kris Pollo',{
+          body: `Su orden esta lista para ser entregada`
+        });
+      }
+    }
+    
+  } */
+
   const dispatch = useDispatch();
   echo
     .channel("pedidos")
@@ -24,19 +38,17 @@ const Listener = () => {
     }
   };
 
-  echo
-    .channel("pedidoPreparado")
-    .listen("PedidoPreparado", (ev) =>
-      agregarPedidoAEntregar(ev.pedido, ev.detalles)
-    );
+  echo.channel("pedidoPreparado").listen("PedidoPreparado", (ev) => {
+    agregarPedidoAEntregar(ev.pedido, ev.detalles);
+  });
 
-  const agregarPedidoAEntregar = (pedido, detalle) => {
+  async function agregarPedidoAEntregar(pedido, detalle) {
     if (pedido !== null && detalle !== null) {
       dispatch(
-        agregarPedidoEntregaryQuitarPedidoPrepararAction(pedido, detalle)
+        await agregarPedidoEntregaryQuitarPedidoPrepararAction(pedido, detalle)
       );
     }
-  };
+  }
 
   echo
     .channel("pedidoCancelado")

@@ -12,7 +12,7 @@ import {
   INSERTAR_DATOSFACTURACION_EXITO,
   INSERTAR_DATOSFACTURACION_ERROR,
   COMENZAR_USUARIO_EDITAR,
-  EDITAR_USUARIO_EXITO,
+  EDITAR_USUARIO_LOGEADO_EXITO,
   EDITAR_USUARIO_ERROR,
   COMENZAR_DESCARGA_PEDIDOS_USUARIO,
   DESCARGA_PEDIDOS_USUARIO_EXITO,
@@ -265,7 +265,7 @@ const comenzarEditarUsuario = () => ({
 });
 //ediatr usuario exito
 const editarUsuarioExito = (usuario) => ({
-  type: EDITAR_USUARIO_EXITO,
+  type: EDITAR_USUARIO_LOGEADO_EXITO,
   payload: usuario,
 });
 //editar usuario error

@@ -89,21 +89,23 @@ const ListaPedido = ({
   }, [listapedidos]);
 
   const confirmarOrdenRedireccion = () =>{
-    if(rol.tipoUsuario==="cliente") {
-      if(!logeado){
-        alertaConfirmacion('Error','Para proceder debes inciar sesión','error');
-      } else if (tipopedido === ""){
+
+    if(!logeado){
+      alertaConfirmacion('Error','Para proceder debes inciar sesión','error');
+    } else if (rol.tipoUsuario==="cliente") {
+      if (tipopedido === ""){
         alertaConfirmacion('Error','Elije un metodo de entrega','error');
       }else if(listapedidos.length === 0) {
         alertaConfirmacion('Error','Debes elejir uno o mas productos','error');
       } else {
         history.push('/confirmarCompra', {listapedidos, subtotal, total, tipopedido, lugar});
       }
-    }else{
+    } else {
       alertaConfirmacion('Error','Para hacer pedidos debe ser cliente','error');
     }
     
   }
+  
   let pequenio = "";
   if (useMediaQuery(theme => theme.breakpoints.up("lg"))) {
     pequenio = true;

@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import AvatarPersonalizado from "./AvatarPersonalizado";
 import { Divider } from "@material-ui/core";
 
-function MenuLateralNoLogeado({ handleOpenRegistrar, handleOpenLogin }) {
+function MenuLateralNoLogeado({ handleOpenRegistrar, handleOpenLogin, handleCerrarMenu }) {
   return (
     <Fragment>
       <AvatarPersonalizado size="large" />
@@ -14,10 +14,10 @@ function MenuLateralNoLogeado({ handleOpenRegistrar, handleOpenLogin }) {
         Inicia sesion o crea una nueva cuenta!
       </Alert>
       <Divider />
-      <Button color="primary" variant="outlined" style={{ margin: 10 }} onClick={()=>handleOpenLogin()} >
+      <Button color="primary" variant="outlined" style={{ margin: 10 }} onClick={()=>{handleOpenLogin();handleCerrarMenu()}} >
         <Typography variant="h6">Iniciar Sesión</Typography>
       </Button>
-      <Button color="secondary" variant="outlined" style={{ margin: 10 }} onClick={()=>handleOpenRegistrar()} >
+      <Button color="secondary" variant="outlined" style={{ margin: 10 }} onClick={()=>{handleOpenRegistrar(); handleCerrarMenu()}} >
         <Typography variant="h6">Registrarse</Typography>
       </Button>
     </Fragment>

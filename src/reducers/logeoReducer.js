@@ -12,7 +12,7 @@ import {
   INSERTAR_DATOSFACTURACION_EXITO,
   INSERTAR_DATOSFACTURACION_ERROR,
   COMENZAR_USUARIO_EDITAR,
-  EDITAR_USUARIO_EXITO,
+  EDITAR_USUARIO_LOGEADO_EXITO,
   EDITAR_USUARIO_ERROR,
   COMENZAR_DESCARGA_PEDIDOS_USUARIO,
   DESCARGA_PEDIDOS_USUARIO_EXITO,
@@ -114,7 +114,7 @@ export default function (state = initialState, action) {
         mensaje: null,
         datosFacturacion: [...state.datosFacturacion, action.payload],
       };
-    case EDITAR_USUARIO_EXITO:
+    case EDITAR_USUARIO_LOGEADO_EXITO:
       return {
         ...state,
         loading: false,

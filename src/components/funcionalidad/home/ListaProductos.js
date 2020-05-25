@@ -57,7 +57,8 @@ const ListaProductos = ({
         producto.idCategoria ===
           (idcategoriaselecionada.id !== ""
             ? idcategoriaselecionada.id
-            : categoriaDefault.id) && producto.activo === 1
+            // eslint-disable-next-line
+            : categoriaDefault.id) && (parseInt(producto.activo) === 1 )
     )
   );
 

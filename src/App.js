@@ -62,7 +62,7 @@ function App() {
           {/* usuarios */}
           <RutaPrivada exact path="/usuarios" component={UsuariosContainer} />
           <RutaPrivada exact path="/usuarios/nuevo" component={UsuarioNuevo} />
-          <RutaPrivada exact path="/usuarios/edit/:od" component={EditarUsuario} />
+          <RutaPrivada exact path="/usuarios/edit/:id" component={EditarUsuario} />
           {/* datos factiracion */}
           <RutaPrivada exact path="/datosFacturacion" component={DatosFacturacionContainer} />
           <RutaPrivada exact path="/datosFacturacion/nuevo" component={DatosDeFacturacion}/>

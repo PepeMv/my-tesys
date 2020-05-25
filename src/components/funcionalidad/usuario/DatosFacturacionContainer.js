@@ -15,6 +15,7 @@ import uuid from "react-uuid";
 import { Formulario } from "../../layout/Formulario";
 import { Alert } from "@material-ui/lab";
 import { useSelector } from "react-redux";
+import Spinner from "../../layout/Spinner";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -31,10 +32,11 @@ const useStyles = makeStyles((theme) => ({
 const DatosFacturacionContainer = () => {
   const classes = useStyles();
   const data = useSelector( (state) => state.logeo.datosFacturacion );
-  
+  const loading = useSelector((state) => state.logeo.loading);
   const history = useHistory();
   const renderBody = () => (
     <Formulario>
+      <Spinner active={loading} />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Button

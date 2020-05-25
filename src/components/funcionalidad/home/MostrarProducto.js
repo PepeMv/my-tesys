@@ -11,7 +11,7 @@ import {
   withStyles,
   ButtonGroup
 } from "@material-ui/core";
-import Rating from "@material-ui/lab/Rating";
+//import Rating from "@material-ui/lab/Rating";
 import MuiDialogTitle from "@material-ui/core/DialogTitle";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
@@ -101,7 +101,7 @@ const MostrarProducto = ({
 }) => {
   
   const classes = useStyles();
-  const value = 4;
+  //const value = 4;
   const [cantidadAqui, setCantidadAqui] = useState();
   const [preciototalAqui, setPrecioTotalAqui] = useState();
   const [disabledMenos, setDisabledMenos] = useState();
@@ -249,19 +249,7 @@ const MostrarProducto = ({
                 alt="complex"
                 src={imagen}
               />
-            </Grid>
-            <Grid item xs={12} className={classes.contenedorContent}>
-              <Box fontWeight="fontWeightBold" m={1}>
-                <Typography variant="h5">Calificación</Typography>
-                <Rating
-                  name="hover-feedback"
-                  value={value}
-                  precision={1}
-                  readOnly
-                  size="large"
-                />
-              </Box>
-            </Grid>
+            </Grid>            
             <Grid item xs={12} className={classes.contenedorInfo}>
               <Typography variant="h4">
                 <Box fontWeight="fontWeightBold" m={1}>

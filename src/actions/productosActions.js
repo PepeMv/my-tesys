@@ -36,7 +36,7 @@ export function insertarProductoAction(producto) {
       //console.log(respuesta);
       if (respuesta.data.HttpResponse.statusText === "success") {
         dispatch(agregarProductoExito(respuesta.data));
-        console.log(respuesta.data);        
+        //console.log(respuesta.data);        
         alerta(
           respuesta.data.HttpResponse.message,
           respuesta.data.HttpResponse.statusText

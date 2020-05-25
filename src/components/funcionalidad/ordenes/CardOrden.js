@@ -22,7 +22,7 @@ import "moment/locale/es";
 import { Box, Divider, Button } from "@material-ui/core";
 import Modal from "./../../layout/Modal";
 import Factura from "./Factura";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   cambiarEstadoPedidoAPreparadoAction,
   cambiarEstadoPedidoCanceladoAction,
@@ -56,6 +56,7 @@ const CardOrden = ({ pedido, detalle, editable }) => {
   const dispatch = useDispatch();
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const usuario = useSelector( (state) => state.logeo.usuarioInfo );
   //console.log(detalle);
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -157,6 +158,11 @@ const CardOrden = ({ pedido, detalle, editable }) => {
           <Typography variant="h5">
             <Box> Numero pedido: {pedido.numeroPedido} </Box>
           </Typography>
+          {
+            editable === "entregar" ? (<Typography variant="h5">
+            <Box> Contacto: {usuario.telefono} </Box>
+          </Typography>):null
+          }
         </CardContent>
         <CardActions disableSpacing>
           {editable === "preparar" ? (

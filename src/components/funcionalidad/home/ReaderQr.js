@@ -2,40 +2,45 @@ import React, { useState } from "react";
 import QrReader from "react-qr-reader";
 import { useRef } from "react";
 import { Button, Typography, makeStyles, Grid } from "@material-ui/core";
-import {useSelector} from 'react-redux';
+import { useSelector } from "react-redux";
+import { alerta } from "../../layout/AlertaCRUD";
 
-const useStyles = makeStyles(theme => ({  
+const useStyles = makeStyles((theme) => ({
   divContenedor: {
-    minWidth: "230px",    
-    marigin:'auto',
-    padding:'auto',
-  }
+    minWidth: "230px",
+    marigin: "auto",
+    padding: "auto",
+  },
 }));
 
-const ReaderQr = ({setMesaEscaneada, setTipoPedido, setUbicacionHome}) => {
+const ReaderQr = ({ setMesaEscaneada, setTipoPedido, setUbicacionHome }) => {
   const classes = useStyles();
   const [resultado, setResultado] = useState("No se registro QR!");
   const componentRef = useRef(null);
-  const mesas = useSelector( (state) => state.mesas.listadoMesas );
-  const handleScan = data => {
+  const mesas = useSelector((state) => state.mesas.listadoMesas);
+  const handleScan = (data) => {
     if (data) {
-      const mesaEscaneada = mesas.find( mesa => mesa.qr === data);
-      setMesaEscaneada(mesaEscaneada);
-      setResultado(mesaEscaneada.nombre);
-      setTipoPedido("MESA");
-      setUbicacionHome({
-        nombre: "Domicilio: Tu ubicación",
-        lat: "",
-        long: ""
-      });
+      const mesaEscaneada = mesas.find((mesa) => mesa.qr === data);
+      if (mesaEscaneada) {
+        setMesaEscaneada(mesaEscaneada);
+        setResultado(mesaEscaneada.nombre);
+        setTipoPedido("MESA");
+        setUbicacionHome({
+          nombre: "Domicilio: Tu ubicación",
+          lat: "",
+          long: "",
+        });
+      }else{
+        alerta('No se encontro la mesa', 'error');
+      }
     }
   };
-  const handleError = err => {
+  const handleError = (err) => {
     console.error(err);
   };
 
   return (
-    <Grid container spacing={1} className={classes.divContenedor} >
+    <Grid container spacing={1} className={classes.divContenedor}>
       <Grid item xs={12}>
         <QrReader
           ref={componentRef}
