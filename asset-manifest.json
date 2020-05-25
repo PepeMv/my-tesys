@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/my-tesys/static/css/main.ae32c838.chunk.css",
+    "main.js": "/my-tesys/static/js/main.a55dc8d4.chunk.js",
+    "main.js.map": "/my-tesys/static/js/main.a55dc8d4.chunk.js.map",
+    "runtime-main.js": "/my-tesys/static/js/runtime-main.43b70463.js",
+    "runtime-main.js.map": "/my-tesys/static/js/runtime-main.43b70463.js.map",
+    "static/js/2.2d4d20e2.chunk.js": "/my-tesys/static/js/2.2d4d20e2.chunk.js",
+    "static/js/2.2d4d20e2.chunk.js.map": "/my-tesys/static/js/2.2d4d20e2.chunk.js.map",
+    "index.html": "/my-tesys/index.html",
+    "precache-manifest.c1c46d81fa91275623ce220d569ca187.js": "/my-tesys/precache-manifest.c1c46d81fa91275623ce220d569ca187.js",
+    "service-worker.js": "/my-tesys/service-worker.js",
+    "static/css/main.ae32c838.chunk.css.map": "/my-tesys/static/css/main.ae32c838.chunk.css.map",
+    "static/js/2.2d4d20e2.chunk.js.LICENSE.txt": "/my-tesys/static/js/2.2d4d20e2.chunk.js.LICENSE.txt",
+    "static/media/EncabezadoBackground.jpg": "/my-tesys/static/media/EncabezadoBackground.b3dd894c.jpg",
+    "static/media/imagesBackgroun.jpg": "/my-tesys/static/media/imagesBackgroun.33cdd8e7.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.43b70463.js",
+    "static/js/2.2d4d20e2.chunk.js",
+    "static/css/main.ae32c838.chunk.css",
+    "static/js/main.a55dc8d4.chunk.js"
+  ]
+}
