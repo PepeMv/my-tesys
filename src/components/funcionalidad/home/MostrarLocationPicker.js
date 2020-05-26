@@ -147,10 +147,10 @@ const MostrarLocationPicker = ({ abrirlocation, handleCerrarLocation, setUbicaci
           >
             <Typography variant="h6">{ubicacion.direccion} </Typography>
           </Button>
-          <Map center={centrar} zoom={ubicacion.zoom}>            
+          <Map center={centrar} zoom={ubicacion.zoom}>
             <TileLayer
+              attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             />
             <Marker
               draggable={ubicacion.draggable}
