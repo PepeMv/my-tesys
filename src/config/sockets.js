@@ -9,7 +9,7 @@ export default window.Echo = new Echo({
   wsHost: "https://52.1.160.159",
   wsPort: 6001,
   disableStats: true,
-  //encrypted: true
+  encrypted: true
 });
 //escuchar pedidos nuevos
 
